@@ -1,9 +1,9 @@
 {
   "name": "ptsc-sports-day",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
-  "description": "PTSC M&C Sports Day 2026 - Full-stack sports event website (React + Vite frontend, Netlify Functions backend).",
+  "description": "QAQC Sport Tournament — Full-stack sports event website with admin panel, auth, and CRUD management.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,6 +12,9 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2"

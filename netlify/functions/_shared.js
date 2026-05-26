@@ -1,42 +1,75 @@
-/**
- * netlify/functions/_shared.js
- * ------------------------------------------------------------
- * Small helpers shared by every serverless function so each
- * function file stays tiny and easy to debug.
- * ------------------------------------------------------------
- */
+import { createClient } from '@supabase/supabase-js';
+import jwt from 'jsonwebtoken';
 
-const COMMON_HEADERS = {
+const CORS = {
   'Content-Type': 'application/json; charset=utf-8',
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  // Cache GET responses at the CDN edge for 60s to cut cold starts.
-  'Cache-Control': 'public, max-age=0, s-maxage=60',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
 };
 
-/** Build a JSON success response. */
-export function ok(data, statusCode = 200) {
+export function ok(data, statusCode = 200, cache = true) {
   return {
     statusCode,
-    headers: COMMON_HEADERS,
+    headers: cache
+      ? { ...CORS, 'Cache-Control': 'public, max-age=0, s-maxage=60' }
+      : { ...CORS, 'Cache-Control': 'no-store' },
     body: JSON.stringify({ success: true, data }),
   };
 }
 
-/** Build a JSON error response. */
 export function fail(message, statusCode = 400) {
   return {
     statusCode,
-    headers: COMMON_HEADERS,
+    headers: { ...CORS, 'Cache-Control': 'no-store' },
     body: JSON.stringify({ success: false, error: message }),
   };
 }
 
-/** Handle CORS preflight; returns a response or null if not a preflight. */
 export function handlePreflight(event) {
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 204, headers: COMMON_HEADERS, body: '' };
+    return { statusCode: 204, headers: CORS, body: '' };
   }
   return null;
+}
+
+export function getSupabase() {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key, { auth: { persistSession: false } });
+}
+
+export function getJwtSecret() {
+  return process.env.JWT_SECRET || process.env.AUTH_SECRET || 'dev-secret-change-me';
+}
+
+export function verifyToken(event) {
+  const auth =
+    event.headers?.authorization ||
+    event.headers?.Authorization ||
+    '';
+  if (!auth.startsWith('Bearer ')) return null;
+  try {
+    return jwt.verify(auth.slice(7), getJwtSecret());
+  } catch {
+    return null;
+  }
+}
+
+export function requireAuth(event, roles = []) {
+  const user = verifyToken(event);
+  if (!user) return { error: fail('Unauthorized', 401) };
+  if (roles.length > 0 && !roles.includes(user.role)) {
+    return { error: fail('Forbidden', 403) };
+  }
+  return { user };
+}
+
+export function parseBody(event) {
+  try {
+    return JSON.parse(event.body || '{}');
+  } catch {
+    return null;
+  }
 }

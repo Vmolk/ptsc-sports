@@ -1,40 +1,51 @@
-/**
- * POST /api/login  { username, password }
- * Demo authentication endpoint. Validates against env credentials and
- * returns a lightweight signed-ish token. For a real deployment, swap
- * this for proper auth (JWT + a user store).
- *
- * Env vars: ADMIN_USERNAME, ADMIN_PASSWORD, AUTH_SECRET
- */
-import { ok, fail, handlePreflight } from './_shared.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { ok, fail, handlePreflight, getSupabase, getJwtSecret, parseBody } from './_shared.js';
 
 export async function handler(event) {
   const pre = handlePreflight(event);
   if (pre) return pre;
   if (event.httpMethod !== 'POST') return fail('Method not allowed', 405);
 
-  let body;
-  try {
-    body = JSON.parse(event.body || '{}');
-  } catch {
-    return fail('Invalid JSON body', 400);
-  }
+  const body = parseBody(event);
+  if (!body) return fail('Invalid JSON body', 400);
 
   const { username, password } = body;
-  if (!username || !password) {
-    return fail('Vui lòng nhập tên đăng nhập và mật khẩu', 422);
+  if (!username || !password) return fail('Vui lòng nhập tên đăng nhập và mật khẩu', 422);
+
+  const supabase = getSupabase();
+
+  if (supabase) {
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('id, username, email, role, password_hash')
+      .eq('username', username)
+      .single();
+
+    if (error || !user) return fail('Tên đăng nhập hoặc mật khẩu không đúng', 401);
+
+    const valid = await bcrypt.compare(password, user.password_hash);
+    if (!valid) return fail('Tên đăng nhập hoặc mật khẩu không đúng', 401);
+
+    const token = jwt.sign(
+      { sub: user.id, username: user.username, role: user.role },
+      getJwtSecret(),
+      { expiresIn: '8h' }
+    );
+    return ok({ token, user: { id: user.id, username: user.username, email: user.email, role: user.role } }, 200, false);
   }
 
-  const validUser = process.env.ADMIN_USERNAME || 'admin';
-  const validPass = process.env.ADMIN_PASSWORD || 'ptsc2026';
-
-  if (username !== validUser || password !== validPass) {
+  // Fallback: env-var credentials (no DB configured)
+  const envUser = process.env.ADMIN_USERNAME || 'admin';
+  const envPass = process.env.ADMIN_PASSWORD || 'qaqc2026';
+  if (username !== envUser || password !== envPass) {
     return fail('Tên đăng nhập hoặc mật khẩu không đúng', 401);
   }
 
-  // Minimal opaque token. Do NOT use this scheme for sensitive systems.
-  const secret = process.env.AUTH_SECRET || 'dev-secret';
-  const token = Buffer.from(`${username}:${Date.now()}:${secret}`).toString('base64');
-
-  return ok({ token, user: { username, role: 'admin' } });
+  const token = jwt.sign(
+    { sub: 'env-admin', username, role: 'admin' },
+    getJwtSecret(),
+    { expiresIn: '8h' }
+  );
+  return ok({ token, user: { username, role: 'admin' } }, 200, false);
 }

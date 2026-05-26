@@ -1,36 +1,44 @@
 import { ok, fail, handlePreflight, getSupabase, requireAuth, parseBody } from './_shared.js';
-import { sports as staticSports } from '../../data/eventData.js';
+import { event as staticEvent } from '../../data/eventData.js';
 
 export async function handler(event) {
   const pre = handlePreflight(event);
   if (pre) return pre;
 
-  const { id, tournament_id } = event.queryStringParameters || {};
+  const { id } = event.queryStringParameters || {};
   const supabase = getSupabase();
 
   if (event.httpMethod === 'GET') {
-    if (!supabase) return ok(staticSports);
-    let q = supabase.from('sports').select('*').order('name');
-    if (tournament_id) q = q.eq('tournament_id', tournament_id);
-    const { data, error } = await q;
+    if (!supabase) {
+      return ok([{ id: 'default', name: staticEvent.name, organizer: staticEvent.organizer,
+        start_date: staticEvent.startDate, end_date: staticEvent.endDate,
+        status: 'upcoming', location: 'TBD' }]);
+    }
+    if (id) {
+      const { data, error } = await supabase.from('tournaments').select('*').eq('id', id).single();
+      if (error) return fail('Tournament not found', 404);
+      return ok(data);
+    }
+    const { data, error } = await supabase
+      .from('tournaments').select('*').order('start_date', { ascending: false });
     if (error) return fail(error.message, 500);
-    return ok(data.length > 0 ? data : staticSports);
+    return ok(data);
   }
 
   if (event.httpMethod === 'POST') {
-    const { error: authError } = requireAuth(event, ['admin', 'editor']);
+    const { error: authError, user } = requireAuth(event, ['admin', 'editor']);
     if (authError) return authError;
     if (!supabase) return fail('Database not configured', 503);
 
     const body = parseBody(event);
     if (!body) return fail('Invalid JSON', 400);
-    const { name, icon, teams_count, format, venue, tournament_id: tid } = body;
+    const { name, description, start_date, end_date, location, status, banner_url } = body;
     if (!name) return fail('Name is required', 422);
-    const sid = body.id || name.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
 
     const { data, error } = await supabase
-      .from('sports')
-      .insert({ id: sid, name, icon: icon || '🏆', teams_count: teams_count || 0, format, venue, tournament_id: tid })
+      .from('tournaments')
+      .insert({ name, description, start_date, end_date, location,
+        status: status || 'upcoming', banner_url, created_by: user.sub })
       .select().single();
     if (error) return fail(error.message, 500);
     return ok(data, 201, false);
@@ -44,10 +52,13 @@ export async function handler(event) {
 
     const body = parseBody(event);
     if (!body) return fail('Invalid JSON', 400);
-    const { name, icon, teams_count, format, venue } = body;
+    const { name, description, start_date, end_date, location, status, banner_url } = body;
 
     const { data, error } = await supabase
-      .from('sports').update({ name, icon, teams_count, format, venue }).eq('id', id).select().single();
+      .from('tournaments')
+      .update({ name, description, start_date, end_date, location, status, banner_url,
+        updated_at: new Date().toISOString() })
+      .eq('id', id).select().single();
     if (error) return fail(error.message, 500);
     return ok(data, 200, false);
   }
@@ -58,7 +69,7 @@ export async function handler(event) {
     if (!supabase) return fail('Database not configured', 503);
     if (!id) return fail('ID required', 422);
 
-    const { error } = await supabase.from('sports').delete().eq('id', id);
+    const { error } = await supabase.from('tournaments').delete().eq('id', id);
     if (error) return fail(error.message, 500);
     return ok({ deleted: true }, 200, false);
   }
