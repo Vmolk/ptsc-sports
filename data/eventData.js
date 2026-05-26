@@ -45,7 +45,7 @@ export const medals = [
   { teamId: 't3', gold: 3, silver: 2, bronze: 4 },
   { teamId: 't4', gold: 2, silver: 3, bronze: 5 },
   { teamId: 't5', gold: 1, silver: 2, bronze: 3 },
-  { teamId: 't6', gold: 2, silver: 1, bronze: 2 },
+  { teamId: 't6', gold: 2, silver: 1, bronze: 20 },
 ];
 
 export const schedule = [
