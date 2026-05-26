@@ -14,9 +14,8 @@ export default function Footer() {
     <footer className="footer">
       <div className="container footer-grid">
         <div>
-          <h3 className="footer-brand">PTSC M&amp;C <span>Sports Day 2026</span></h3>
+          <h3 className="footer-brand">QAQC <span>Sport Tournament</span></h3>
           <p className="footer-note">{t('organized_by')}</p>
-          <p className="footer-note">Kỷ niệm 25 năm thành lập (2001 – 2026)</p>
         </div>
 
         <nav className="footer-links" aria-label="Liên kết nhanh">
@@ -29,13 +28,13 @@ export default function Footer() {
 
         <div className="footer-meta">
           <p>📍 Vũng Tàu, Việt Nam</p>
-          <p>📅 18 – 19 / 04 / 2026</p>
+          <p>📅 01 / 07 / 2026</p>
         </div>
       </div>
 
       <div className="footer-bar">
         <div className="container">
-          © {year} PTSC M&amp;C Sports Day. Bản demo phục vụ trình diễn.
+          © {year} QAQC Sport Tournament.
         </div>
       </div>
     </footer>

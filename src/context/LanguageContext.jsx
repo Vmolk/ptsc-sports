@@ -25,7 +25,7 @@ const STRINGS = {
     stat_matches: 'Trận đấu',
     sports_title: 'Các môn thể thao',
     hero_cta: 'Xem lịch thi đấu',
-    organized_by: 'Tổ chức bởi PTSC M&C',
+    organized_by: 'Tổ chức bởi QAQC',
   },
   en: {
     nav_home: 'Home',
@@ -46,7 +46,7 @@ const STRINGS = {
     stat_matches: 'Matches',
     sports_title: 'Sports Disciplines',
     hero_cta: 'View schedule',
-    organized_by: 'Organized by PTSC M&C',
+    organized_by: 'Organized by QAQC',
   },
 };
 

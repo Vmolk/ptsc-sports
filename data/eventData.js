@@ -10,12 +10,11 @@
  */
 
 export const event = {
-  name: 'PTSC M&C Sports Day 2026',
-  organizer: 'PTSC M&C',
-  anniversary: 'Kỷ niệm 25 năm thành lập (2001 - 2026)',
+  name: 'QAQC SPORT TOURNAMENT',
+  organizer: 'QAQC',
   // Mirrors VITE_EVENT_DATE; the backend exposes it too for SSR-less clients.
-  startDate: '2026-04-18T08:00:00+07:00',
-  endDate: '2026-04-19T17:00:00+07:00',
+  startDate: '2026-07-01T08:00:00+07:00',
+  endDate: '2026-07-02T17:00:00+07:00',
   days: 2,
 };
 

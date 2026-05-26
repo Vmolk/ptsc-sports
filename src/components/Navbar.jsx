@@ -30,7 +30,7 @@ export default function Navbar() {
       <div className="container navbar-inner">
         <Link to="/" className="brand" onClick={close}>
           <span className="brand-mark" aria-hidden="true">🏆</span>
-          <span className="brand-text">PTSC M&amp;C <em>Sports Days</em></span>
+          <span className="brand-text">QAQC <em>Sport Tournament</em></span>
         </Link>
 
         <button

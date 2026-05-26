@@ -19,7 +19,7 @@ export default function Home() {
   const eventDate =
     stats?.event?.startDate ||
     import.meta.env.VITE_EVENT_DATE ||
-    '2026-04-18T08:00:00+07:00';
+    '2026-07-01T08:00:00+07:00';
 
   return (
     <>
@@ -28,8 +28,7 @@ export default function Home() {
         <div className="hero-overlay" />
         <div className="container hero-content reveal">
           <p className="hero-kicker">{t('organized_by')}</p>
-          <h1 className="hero-title">PTSC M&amp;C<br /><span>Sports Day 2026</span></h1>
-          <p className="hero-tag">Kỷ niệm 25 năm thành lập · 2001 – 2026</p>
+          <h1 className="hero-title">QAQC<br /><span>Sport Tournament</span></h1>
           <Countdown date={eventDate} />
           <Link to="/schedule" className="btn btn-primary hero-btn">
             {t('hero_cta')} →

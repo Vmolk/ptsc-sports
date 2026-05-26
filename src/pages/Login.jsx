@@ -35,7 +35,7 @@ export default function Login() {
       <div className="login-card card reveal">
         <span className="login-mark" aria-hidden="true">🏆</span>
         <h1 className="login-title">{t('login')}</h1>
-        <p className="login-sub">PTSC M&amp;C Sports Day 2026</p>
+        <p className="login-sub">QAQC Sport Tournament</p>
 
         {status.user ? (
           <div className="login-success">
