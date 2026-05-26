@@ -19,7 +19,7 @@ export const event = {
 };
 
 export const sports = [
-  { id: 'football',   name: 'Bóng đá',        icon: '⚽', teams: 8,  format: 'Loại trực tiếp', venue: 'Sân vận động A' },
+  { id: 'football',   name: 'Bóng đá',        icon: '⚽', teams: 6,  format: 'Loại trực tiếp', venue: 'Sân vận động A' },
   { id: 'badminton',  name: 'Cầu lông',       icon: '🏸', teams: 16, format: 'Vòng tròn + KO', venue: 'Nhà thi đấu B' },
   { id: 'tabletennis',name: 'Bóng bàn',       icon: '🏓', teams: 12, format: 'Vòng tròn + KO', venue: 'Nhà thi đấu B' },
   { id: 'tennis',     name: 'Quần vợt',       icon: '🎾', teams: 8,  format: 'Loại trực tiếp', venue: 'Sân Tennis C' },
@@ -30,12 +30,12 @@ export const sports = [
 ];
 
 export const teams = [
-  { id: 't1', name: 'Phòng Kỹ thuật',     short: 'KT',  color: '#e63946', members: 42 },
-  { id: 't2', name: 'Phòng Vận hành',     short: 'VH',  color: '#1d3557', members: 38 },
-  { id: 't3', name: 'Phòng Dự án',        short: 'DA',  color: '#2a9d8f', members: 35 },
-  { id: 't4', name: 'Phòng Tài chính',    short: 'TC',  color: '#e9c46a', members: 28 },
-  { id: 't5', name: 'Phòng Nhân sự',      short: 'NS',  color: '#f4a261', members: 24 },
-  { id: 't6', name: 'Phòng An toàn',      short: 'AT',  color: '#264653', members: 31 },
+  { id: 't1', name: 'Team Piping',     short: 'KT',  color: '#e63946', members: 42 },
+  { id: 't2', name: 'Team E&I',     short: 'VH',  color: '#1d3557', members: 38 },
+  { id: 't3', name: 'Team DIM',        short: 'DA',  color: '#2a9d8f', members: 35 },
+  { id: 't4', name: 'Team Hàn-NDT',    short: 'TC',  color: '#e9c46a', members: 28 },
+  { id: 't5', name: 'Team Liên quân Kết cấu- Sơn',      short: 'NS',  color: '#f4a261', members: 24 },
+  { id: 't6', name: 'Team Liên quân Tổng hợp-vật tư',      short: 'AT',  color: '#264653', members: 31 },
 ];
 
 // Leaderboard derives medal counts -> points (Gold 3, Silver 2, Bronze 1)
