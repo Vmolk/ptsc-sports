@@ -41,7 +41,7 @@ export const teams = [
 // Leaderboard derives medal counts -> points (Gold 3, Silver 2, Bronze 1)
 export const medals = [
   { teamId: 't1', gold: 10, silver: 3, bronze: 2 },
-  { teamId: 't2', gold: 4, silver: 5, bronze: 3 },
+  { teamId: 't2', gold: 15, silver: 5, bronze: 3 },
   { teamId: 't3', gold: 3, silver: 2, bronze: 4 },
   { teamId: 't4', gold: 2, silver: 3, bronze: 5 },
   { teamId: 't5', gold: 1, silver: 2, bronze: 3 },
