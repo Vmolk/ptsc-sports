@@ -1,9 +1,9 @@
 {
   "name": "ptsc-sports-day",
   "private": true,
-  "version": "2.0.0",
+  "version": "3.0.0",
   "type": "module",
-  "description": "QAQC Sport Tournament — Full-stack sports event website with admin panel, auth, and CRUD management.",
+  "description": "QAQC Sport Tournament — React + Vite frontend, Netlify Functions backend, Google Sheets data source.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,8 +12,6 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.45.4",
-    "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -29,7 +27,5 @@
     "eslint-plugin-react-refresh": "^0.4.11",
     "vite": "^5.4.6"
   },
-  "engines": {
-    "node": ">=18"
-  }
+  "engines": { "node": ">=18" }
 }

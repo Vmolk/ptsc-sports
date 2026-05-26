@@ -1,11 +1,10 @@
-import { createClient } from '@supabase/supabase-js';
 import jwt from 'jsonwebtoken';
 
 const CORS = {
   'Content-Type': 'application/json; charset=utf-8',
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
 };
 
 export function ok(data, statusCode = 200, cache = true) {
@@ -33,22 +32,12 @@ export function handlePreflight(event) {
   return null;
 }
 
-export function getSupabase() {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return null;
-  return createClient(url, key, { auth: { persistSession: false } });
-}
-
 export function getJwtSecret() {
   return process.env.JWT_SECRET || process.env.AUTH_SECRET || 'dev-secret-change-me';
 }
 
 export function verifyToken(event) {
-  const auth =
-    event.headers?.authorization ||
-    event.headers?.Authorization ||
-    '';
+  const auth = event.headers?.authorization || event.headers?.Authorization || '';
   if (!auth.startsWith('Bearer ')) return null;
   try {
     return jwt.verify(auth.slice(7), getJwtSecret());
@@ -57,19 +46,6 @@ export function verifyToken(event) {
   }
 }
 
-export function requireAuth(event, roles = []) {
-  const user = verifyToken(event);
-  if (!user) return { error: fail('Unauthorized', 401) };
-  if (roles.length > 0 && !roles.includes(user.role)) {
-    return { error: fail('Forbidden', 403) };
-  }
-  return { user };
-}
-
 export function parseBody(event) {
-  try {
-    return JSON.parse(event.body || '{}');
-  } catch {
-    return null;
-  }
+  try { return JSON.parse(event.body || '{}'); } catch { return null; }
 }

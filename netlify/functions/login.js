@@ -1,6 +1,5 @@
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { ok, fail, handlePreflight, getSupabase, getJwtSecret, parseBody } from './_shared.js';
+import { ok, fail, handlePreflight, getJwtSecret, parseBody } from './_shared.js';
 
 export async function handler(event) {
   const pre = handlePreflight(event);
@@ -13,37 +12,15 @@ export async function handler(event) {
   const { username, password } = body;
   if (!username || !password) return fail('Vui lòng nhập tên đăng nhập và mật khẩu', 422);
 
-  const supabase = getSupabase();
+  const validUser = process.env.ADMIN_USERNAME || 'admin';
+  const validPass = process.env.ADMIN_PASSWORD || 'qaqc2026';
 
-  if (supabase) {
-    const { data: user, error } = await supabase
-      .from('users')
-      .select('id, username, email, role, password_hash')
-      .eq('username', username)
-      .single();
-
-    if (error || !user) return fail('Tên đăng nhập hoặc mật khẩu không đúng', 401);
-
-    const valid = await bcrypt.compare(password, user.password_hash);
-    if (!valid) return fail('Tên đăng nhập hoặc mật khẩu không đúng', 401);
-
-    const token = jwt.sign(
-      { sub: user.id, username: user.username, role: user.role },
-      getJwtSecret(),
-      { expiresIn: '8h' }
-    );
-    return ok({ token, user: { id: user.id, username: user.username, email: user.email, role: user.role } }, 200, false);
-  }
-
-  // Fallback: env-var credentials (no DB configured)
-  const envUser = process.env.ADMIN_USERNAME || 'admin';
-  const envPass = process.env.ADMIN_PASSWORD || 'qaqc2026';
-  if (username !== envUser || password !== envPass) {
+  if (username !== validUser || password !== validPass) {
     return fail('Tên đăng nhập hoặc mật khẩu không đúng', 401);
   }
 
   const token = jwt.sign(
-    { sub: 'env-admin', username, role: 'admin' },
+    { sub: 'admin', username, role: 'admin' },
     getJwtSecret(),
     { expiresIn: '8h' }
   );

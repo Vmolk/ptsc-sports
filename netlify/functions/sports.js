@@ -1,67 +1,22 @@
-import { ok, fail, handlePreflight, getSupabase, requireAuth, parseBody } from './_shared.js';
+import { ok, fail, handlePreflight } from './_shared.js';
+import { fetchSheet, toInt } from './_sheets.js';
 import { sports as staticSports } from '../../data/eventData.js';
 
 export async function handler(event) {
   const pre = handlePreflight(event);
   if (pre) return pre;
+  if (event.httpMethod !== 'GET') return fail('Method not allowed', 405);
 
-  const { id, tournament_id } = event.queryStringParameters || {};
-  const supabase = getSupabase();
+  const rows = await fetchSheet('sports');
+  if (!rows?.length) return ok(staticSports);
 
-  if (event.httpMethod === 'GET') {
-    if (!supabase) return ok(staticSports);
-    let q = supabase.from('sports').select('*').order('name');
-    if (tournament_id) q = q.eq('tournament_id', tournament_id);
-    const { data, error } = await q;
-    if (error) return fail(error.message, 500);
-    return ok(data.length > 0 ? data : staticSports);
-  }
-
-  if (event.httpMethod === 'POST') {
-    const { error: authError } = requireAuth(event, ['admin', 'editor']);
-    if (authError) return authError;
-    if (!supabase) return fail('Database not configured', 503);
-
-    const body = parseBody(event);
-    if (!body) return fail('Invalid JSON', 400);
-    const { name, icon, teams_count, format, venue, tournament_id: tid } = body;
-    if (!name) return fail('Name is required', 422);
-    const sid = body.id || name.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
-
-    const { data, error } = await supabase
-      .from('sports')
-      .insert({ id: sid, name, icon: icon || '🏆', teams_count: teams_count || 0, format, venue, tournament_id: tid })
-      .select().single();
-    if (error) return fail(error.message, 500);
-    return ok(data, 201, false);
-  }
-
-  if (event.httpMethod === 'PUT') {
-    const { error: authError } = requireAuth(event, ['admin', 'editor']);
-    if (authError) return authError;
-    if (!supabase) return fail('Database not configured', 503);
-    if (!id) return fail('ID required', 422);
-
-    const body = parseBody(event);
-    if (!body) return fail('Invalid JSON', 400);
-    const { name, icon, teams_count, format, venue } = body;
-
-    const { data, error } = await supabase
-      .from('sports').update({ name, icon, teams_count, format, venue }).eq('id', id).select().single();
-    if (error) return fail(error.message, 500);
-    return ok(data, 200, false);
-  }
-
-  if (event.httpMethod === 'DELETE') {
-    const { error: authError } = requireAuth(event, ['admin']);
-    if (authError) return authError;
-    if (!supabase) return fail('Database not configured', 503);
-    if (!id) return fail('ID required', 422);
-
-    const { error } = await supabase.from('sports').delete().eq('id', id);
-    if (error) return fail(error.message, 500);
-    return ok({ deleted: true }, 200, false);
-  }
-
-  return fail('Method not allowed', 405);
+  const data = rows.map((r) => ({
+    id:     r.id,
+    name:   r.name,
+    icon:   r.icon || '🏆',
+    teams:  toInt(r.teams),
+    format: r.format || '',
+    venue:  r.venue || '',
+  }));
+  return ok(data);
 }

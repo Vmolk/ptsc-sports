@@ -1,16 +1,17 @@
-import { ok, fail, handlePreflight, getSupabase } from './_shared.js';
+import { ok, fail, handlePreflight } from './_shared.js';
+import { fetchSheet, toInt } from './_sheets.js';
 import { schedule, teams, sports } from '../../data/eventData.js';
 
-const teamById = Object.fromEntries(teams.map((t) => [t.id, t]));
-const sportById = Object.fromEntries(sports.map((s) => [s.id, s]));
+const staticTeamById  = Object.fromEntries(teams.map((t) => [t.id, t]));
+const staticSportById = Object.fromEntries(sports.map((s) => [s.id, s]));
 
-function enrichStatic(match) {
-  const home = teamById[match.home] || {};
-  const away = teamById[match.away] || {};
-  const sport = sportById[match.sportId] || {};
-  return { ...match, sportName: sport.name ?? match.sportId, sportIcon: sport.icon ?? '🏅',
-    homeName: home.name ?? match.home, homeColor: home.color ?? '#888',
-    awayName: away.name ?? match.away, awayColor: away.color ?? '#888' };
+function enrichStatic(m) {
+  const home  = staticTeamById[m.home] || {};
+  const away  = staticTeamById[m.away] || {};
+  const sport = staticSportById[m.sportId] || {};
+  return { ...m, sportName: sport.name ?? m.sportId, sportIcon: sport.icon ?? '🏅',
+    homeName: home.name ?? m.home, homeColor: home.color ?? '#888',
+    awayName: away.name ?? m.away, awayColor: away.color ?? '#888' };
 }
 
 export async function handler(event) {
@@ -19,9 +20,12 @@ export async function handler(event) {
   if (event.httpMethod !== 'GET') return fail('Method not allowed', 405);
 
   const { day, status, sport } = event.queryStringParameters || {};
-  const supabase = getSupabase();
 
-  if (!supabase) {
+  const [matchRows, teamRows, sportRows] = await Promise.all([
+    fetchSheet('matches'), fetchSheet('teams'), fetchSheet('sports'),
+  ]);
+
+  if (!matchRows?.length) {
     let r = schedule.map(enrichStatic);
     if (day) r = r.filter((m) => String(m.day) === String(day));
     if (status) r = r.filter((m) => m.status === status);
@@ -29,28 +33,29 @@ export async function handler(event) {
     return ok(r);
   }
 
-  let q = supabase.from('matches')
-    .select('*, sports(name,icon), home_team:teams!home_team_id(name,color,short), away_team:teams!away_team_id(name,color,short)')
-    .order('day').order('match_time');
-  if (day) q = q.eq('day', day);
-  if (status) q = q.eq('status', status);
-  if (sport) q = q.eq('sport_id', sport);
+  const teamById  = Object.fromEntries((teamRows || []).map((t) => [t.id, t]));
+  const sportById = Object.fromEntries((sportRows || []).map((s) => [s.id, s]));
 
-  const { data, error } = await q;
-  if (error) return fail(error.message, 500);
+  let rows = matchRows.map((m) => {
+    const home  = teamById[m.home]  || staticTeamById[m.home]  || {};
+    const away  = teamById[m.away]  || staticTeamById[m.away]  || {};
+    const sp    = sportById[m.sport_id || m.sportId] || staticSportById[m.sport_id || m.sportId] || {};
+    return {
+      id: m.id, sportId: m.sport_id || m.sportId,
+      round: m.round, day: toInt(m.day, 1), time: m.time || m.match_time,
+      venue: m.venue, home: m.home, away: m.away,
+      homeScore: m.home_score !== '' ? toInt(m.home_score, null) : null,
+      awayScore: m.away_score !== '' ? toInt(m.away_score, null) : null,
+      status: m.status || 'upcoming',
+      sportName: sp.name ?? '', sportIcon: sp.icon ?? '🏅',
+      homeName: home.name ?? m.home, homeColor: home.color ?? '#888',
+      awayName: away.name ?? m.away, awayColor: away.color ?? '#888',
+    };
+  });
 
-  if (!data?.length) {
-    let r = schedule.map(enrichStatic);
-    if (day) r = r.filter((m) => String(m.day) === String(day));
-    if (status) r = r.filter((m) => m.status === status);
-    if (sport) r = r.filter((m) => m.sportId === sport);
-    return ok(r);
-  }
-
-  const enriched = data.map((m) => ({
-    ...m, sportName: m.sports?.name ?? m.sport_id, sportIcon: m.sports?.icon ?? '🏅',
-    homeName: m.home_team?.name ?? m.home_team_id, homeColor: m.home_team?.color ?? '#888',
-    awayName: m.away_team?.name ?? m.away_team_id, awayColor: m.away_team?.color ?? '#888',
-  }));
-  return ok(enriched);
+  if (day)    rows = rows.filter((m) => String(m.day) === String(day));
+  if (status) rows = rows.filter((m) => m.status === status);
+  if (sport)  rows = rows.filter((m) => m.sportId === sport);
+  rows.sort((a, b) => a.day - b.day || (a.time || '').localeCompare(b.time || ''));
+  return ok(rows);
 }

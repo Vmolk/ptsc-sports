@@ -1,8 +1,3 @@
-/**
- * src/pages/Home.jsx
- * Landing page: hero banner, live countdown, animated stat counters,
- * and a preview grid of sports — mirroring the reference homepage.
- */
 import { Link } from 'react-router-dom';
 import { api } from '../utils/api.js';
 import { useFetch } from '../hooks/useFetch.js';
@@ -23,12 +18,13 @@ export default function Home() {
 
   return (
     <>
-      {/* ---------- HERO ---------- */}
+      {/* ---- HERO ---- */}
       <section className="hero">
-        <div className="hero-overlay" />
         <div className="container hero-content reveal">
           <p className="hero-kicker">{t('organized_by')}</p>
-          <h1 className="hero-title">QAQC<br /><span>Sport Tournament</span></h1>
+          <h1 className="hero-title">
+            QAQC<span>Sport Tournament</span>
+          </h1>
           <Countdown date={eventDate} />
           <Link to="/schedule" className="btn btn-primary hero-btn">
             {t('hero_cta')} →
@@ -36,8 +32,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- STATS ---------- */}
-      <section className="section stats-section">
+      {/* ---- STATS BAR ---- */}
+      <section className="stats-section">
         <div className="container">
           {loading && <Loading />}
           {error && <ErrorState message={error} />}
@@ -45,8 +41,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- SPORTS PREVIEW ---------- */}
-      <section className="section sports-preview">
+      {/* ---- SPORTS ---- */}
+      <section className="sports-section">
         <div className="container">
           <div className="section-head">
             <h2 className="section-title">{t('sports_title')}</h2>
@@ -56,7 +52,7 @@ export default function Home() {
           <div className="sports-grid">
             {(sports || []).slice(0, 8).map((s, i) => (
               <article
-                className="card sport-card reveal"
+                className="sport-card reveal"
                 key={s.id}
                 style={{ animationDelay: `${i * 60}ms` }}
               >
@@ -68,7 +64,7 @@ export default function Home() {
           </div>
 
           <div className="sports-cta">
-            <Link to="/sports" className="btn btn-gold">{t('nav_sports')} →</Link>
+            <Link to="/sports" className="btn btn-ghost">{t('nav_sports')} →</Link>
           </div>
         </div>
       </section>
@@ -76,23 +72,22 @@ export default function Home() {
   );
 }
 
-/** Stats counter row — reads aggregated numbers from the backend. */
 function StatsRow({ stats, t }) {
-  const a = stats.athletes;
+  const a = stats.athletes || {};
   const items = [
     { num: stats.sportsCount, label: t('stat_sports') },
-    { num: stats.days, label: t('stat_days') },
-    { num: stats.teamsCount, label: t('stat_teams') },
-    { num: a.total, label: t('stat_athletes') },
-    { num: `${a.male}/${a.female}`, label: t('stat_gender') },
-    { num: `${a.under45}/${a.over45}`, label: t('stat_age') },
-    { num: stats.matchesCount, label: t('stat_matches') },
+    { num: stats.days,        label: t('stat_days') },
+    { num: stats.teamsCount,  label: t('stat_teams') },
+    { num: a.total,           label: t('stat_athletes') },
+    { num: `${a.male}/${a.female}`,       label: t('stat_gender') },
+    { num: `${a.under45}/${a.over45}`,    label: t('stat_age') },
+    { num: stats.matchesCount,            label: t('stat_matches') },
   ];
   return (
     <div className="stats-grid">
       {items.map((it, i) => (
         <div className="stat-cell reveal" key={i} style={{ animationDelay: `${i * 50}ms` }}>
-          <span className="stat-num">{it.num}</span>
+          <span className="stat-num">{it.num ?? '—'}</span>
           <span className="stat-label">{it.label}</span>
         </div>
       ))}

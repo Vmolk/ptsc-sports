@@ -39,14 +39,10 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  // Validate token on mount
+  // Validate token on mount — just parse the stored user (no auth-me endpoint needed)
   useEffect(() => {
     const token = getToken();
-    if (!token || !user) return;
-    fetch(`${BASE}/auth-me`, { headers: { Authorization: `Bearer ${token}` } })
-      .then((r) => r.json())
-      .then((j) => { if (j.success) { setUser(j.data); localStorage.setItem(USER_KEY, JSON.stringify(j.data)); } else logout(); })
-      .catch(() => {});
+    if (!token) logout();
   }, []);
 
   return (
