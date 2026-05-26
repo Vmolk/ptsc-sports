@@ -31,7 +31,7 @@ export const sports = [
 
 export const teams = [
   { id: 't1', name: 'Team Piping',     short: 'KT',  color: '#e63946', members: 42 },
-  { id: 't2', name: 'Team E&I',     short: 'VH',  color: '#1d3557', members: 38 },
+  { id: 't2', name: 'Team E&I',     short: 'E&I',  color: '#1d3557', members: 38 },
   { id: 't3', name: 'Team DIM',        short: 'DA',  color: '#2a9d8f', members: 35 },
   { id: 't4', name: 'Team Hàn-NDT',    short: 'TC',  color: '#e9c46a', members: 28 },
   { id: 't5', name: 'Team Liên quân Kết cấu- Sơn',      short: 'NS',  color: '#f4a261', members: 24 },
