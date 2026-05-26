@@ -1,0 +1,102 @@
+/**
+ * src/pages/Home.jsx
+ * Landing page: hero banner, live countdown, animated stat counters,
+ * and a preview grid of sports — mirroring the reference homepage.
+ */
+import { Link } from 'react-router-dom';
+import { api } from '../utils/api.js';
+import { useFetch } from '../hooks/useFetch.js';
+import { useLanguage } from '../context/LanguageContext.jsx';
+import Countdown from '../components/Countdown.jsx';
+import { Loading, ErrorState } from '../components/States.jsx';
+import './Home.css';
+
+export default function Home() {
+  const { t } = useLanguage();
+  const { data: stats, loading, error } = useFetch(() => api.getStats(), []);
+  const { data: sports } = useFetch(() => api.getSports(), []);
+
+  const eventDate =
+    stats?.event?.startDate ||
+    import.meta.env.VITE_EVENT_DATE ||
+    '2026-04-18T08:00:00+07:00';
+
+  return (
+    <>
+      {/* ---------- HERO ---------- */}
+      <section className="hero">
+        <div className="hero-overlay" />
+        <div className="container hero-content reveal">
+          <p className="hero-kicker">{t('organized_by')}</p>
+          <h1 className="hero-title">PTSC M&amp;C<br /><span>Sports Day 2026</span></h1>
+          <p className="hero-tag">Kỷ niệm 25 năm thành lập · 2001 – 2026</p>
+          <Countdown date={eventDate} />
+          <Link to="/schedule" className="btn btn-primary hero-btn">
+            {t('hero_cta')} →
+          </Link>
+        </div>
+      </section>
+
+      {/* ---------- STATS ---------- */}
+      <section className="section stats-section">
+        <div className="container">
+          {loading && <Loading />}
+          {error && <ErrorState message={error} />}
+          {stats && <StatsRow stats={stats} t={t} />}
+        </div>
+      </section>
+
+      {/* ---------- SPORTS PREVIEW ---------- */}
+      <section className="section sports-preview">
+        <div className="container">
+          <div className="section-head">
+            <h2 className="section-title">{t('sports_title')}</h2>
+            <p className="section-sub">{t('organized_by')}</p>
+          </div>
+
+          <div className="sports-grid">
+            {(sports || []).slice(0, 8).map((s, i) => (
+              <article
+                className="card sport-card reveal"
+                key={s.id}
+                style={{ animationDelay: `${i * 60}ms` }}
+              >
+                <span className="sport-icon" aria-hidden="true">{s.icon}</span>
+                <h3 className="sport-name">{s.name}</h3>
+                <p className="sport-meta">{s.format}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="sports-cta">
+            <Link to="/sports" className="btn btn-gold">{t('nav_sports')} →</Link>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+/** Stats counter row — reads aggregated numbers from the backend. */
+function StatsRow({ stats, t }) {
+  const a = stats.athletes;
+  const items = [
+    { num: stats.sportsCount, label: t('stat_sports') },
+    { num: stats.days, label: t('stat_days') },
+    { num: stats.teamsCount, label: t('stat_teams') },
+    { num: a.total, label: t('stat_athletes') },
+    { num: `${a.male}/${a.female}`, label: t('stat_gender') },
+    { num: `${a.under45}/${a.over45}`, label: t('stat_age') },
+    { num: stats.matchesCount, label: t('stat_matches') },
+  ];
+  return (
+    <div className="stats-grid">
+      {items.map((it, i) => (
+        <div className="stat-cell reveal" key={i} style={{ animationDelay: `${i * 50}ms` }}>
+          <span className="stat-num">{it.num}</span>
+          <span className="stat-label">{it.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}

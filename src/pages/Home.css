@@ -1,0 +1,113 @@
+/* ---------- HERO ---------- */
+.hero {
+  position: relative;
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 120% at 80% -10%, rgba(230,57,70,0.4), transparent 45%),
+    radial-gradient(100% 100% at 0% 110%, rgba(233,196,106,0.25), transparent 50%),
+    linear-gradient(160deg, var(--navy-900), var(--navy-700));
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at 50% 40%, #000 30%, transparent 80%);
+}
+.hero-content {
+  position: relative;
+  text-align: center;
+  padding-block: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.hero-kicker {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.9rem;
+  color: var(--gold);
+}
+.hero-title {
+  font-size: clamp(2.8rem, 9vw, 6rem);
+  letter-spacing: 0.01em;
+}
+.hero-title span { color: var(--gold); }
+.hero-tag {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 12px;
+}
+.hero-btn { margin-top: 22px; }
+
+/* ---------- STATS ---------- */
+.stats-section {
+  background: var(--navy-800);
+  padding-block: 44px;
+  margin-top: -1px;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 14px;
+}
+.stat-cell {
+  text-align: center;
+  padding: 18px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.stat-num {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  color: var(--gold);
+  line-height: 1;
+}
+.stat-label {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.74rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ---------- SPORTS PREVIEW ---------- */
+.sports-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.sport-card {
+  text-align: center;
+  padding: 30px 18px;
+}
+.sport-icon { font-size: 2.6rem; display: block; margin-bottom: 12px; }
+.sport-name { font-size: 1.3rem; color: var(--navy-800); }
+.sport-meta { color: var(--muted); font-size: 0.88rem; margin-top: 4px; }
+
+.sports-cta { text-align: center; margin-top: 36px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+  .sports-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 720px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .sports-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 420px) {
+  .sports-grid { grid-template-columns: 1fr; }
+}
