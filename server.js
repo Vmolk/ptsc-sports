@@ -1,0 +1,59 @@
+/**
+ * server.js — Express adapter for Render deployment
+ * Wraps Netlify-style function handlers and serves the React build.
+ */
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+import { handler as statsHandler }       from './netlify/functions/stats.js';
+import { handler as sportsHandler }      from './netlify/functions/sports.js';
+import { handler as teamsHandler }       from './netlify/functions/teams.js';
+import { handler as leaderboardHandler } from './netlify/functions/leaderboard.js';
+import { handler as scheduleHandler }    from './netlify/functions/schedule.js';
+import { handler as galleryHandler }     from './netlify/functions/gallery.js';
+import { handler as loginHandler }       from './netlify/functions/login.js';
+
+const app  = express();
+const PORT = process.env.PORT || 3000;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+app.use(express.json());
+
+/* ---- Adapter: Express req → Netlify-style event → Express res ---- */
+function adapt(handler) {
+  return async (req, res) => {
+    const event = {
+      httpMethod:            req.method,
+      queryStringParameters: req.query || {},
+      headers:               req.headers,
+      body:                  JSON.stringify(req.body),
+    };
+    try {
+      const result = await handler(event);
+      res.status(result.statusCode)
+         .set(result.headers || {})
+         .send(result.body);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+  };
+}
+
+/* ---- API routes ---- */
+app.all('/api/stats',       adapt(statsHandler));
+app.all('/api/sports',      adapt(sportsHandler));
+app.all('/api/teams',       adapt(teamsHandler));
+app.all('/api/leaderboard', adapt(leaderboardHandler));
+app.all('/api/schedule',    adapt(scheduleHandler));
+app.all('/api/gallery',     adapt(galleryHandler));
+app.all('/api/login',       adapt(loginHandler));
+
+/* ---- Serve React build ---- */
+app.use(express.static(path.join(__dirname, 'dist')));
+app.get('*', (_req, res) =>
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+);
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
