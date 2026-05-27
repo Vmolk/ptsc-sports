@@ -34,11 +34,9 @@ export async function handler(req) {
   if (athleteRows?.length) {
     const kv = Object.fromEntries(athleteRows.map((r) => [r.key, r.value]));
     athletes = {
-      total:   toInt(kv.total, sa.total),
-      male:    toInt(kv.male, sa.male),
-      female:  toInt(kv.female, sa.female),
-      under45: toInt(kv.under45, sa.under45),
-      over45:  toInt(kv.over45, sa.over45),
+      total:  toInt(kv.total, sa.total),
+      male:   toInt(kv.male, sa.male),
+      female: toInt(kv.female, sa.female),
     };
   }
 

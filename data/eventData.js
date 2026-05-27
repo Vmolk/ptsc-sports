@@ -75,6 +75,4 @@ export const athletes = {
   total: 198,
   male: 122,
   female: 76,
-  under45: 134,
-  over45: 64,
 };

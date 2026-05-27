@@ -79,9 +79,8 @@ function StatsRow({ stats, t }) {
     { num: stats.days,        label: t('stat_days') },
     { num: stats.teamsCount,  label: t('stat_teams') },
     { num: a.total,           label: t('stat_athletes') },
-    { num: `${a.male}/${a.female}`,       label: t('stat_gender') },
-    { num: `${a.under45}/${a.over45}`,    label: t('stat_age') },
-    { num: stats.matchesCount,            label: t('stat_matches') },
+    { num: `${a.male}/${a.female}`, label: t('stat_gender') },
+    { num: stats.matchesCount,      label: t('stat_matches') },
   ];
   return (
     <div className="stats-grid">
