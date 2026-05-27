@@ -70,6 +70,11 @@ export const gallery = [
   { id: 'g8', title: 'Bế mạc',              sportId: null,         day: 2, color: '#8d99ae' },
 ];
 
+// Individual medal records — fallback when Google Sheet not configured.
+export const individualMedals = [
+  // { athlete: 'Nguyễn Văn A', dept: 'IT',  sport: 'Cầu lông', medal: 'gold' },
+];
+
 // Athlete demographic breakdown used by the home stats section.
 export const athletes = {
   total: 198,
