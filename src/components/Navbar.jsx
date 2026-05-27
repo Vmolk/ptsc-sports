@@ -5,7 +5,7 @@
  * reference site's nav structure.
  */
 import { useState } from 'react';
-import { NavLink, Link, useLocation } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import './Navbar.css';
 
@@ -20,7 +20,6 @@ const LINKS = [
 export default function Navbar() {
   const { t, lang, toggle } = useLanguage();
   const [open, setOpen] = useState(false);
-  const location = useLocation();
 
   // Close mobile menu whenever the route changes
   const close = () => setOpen(false);
@@ -58,15 +57,6 @@ export default function Navbar() {
           <button className="lang-toggle" onClick={toggle} aria-label="Đổi ngôn ngữ">
             {lang === 'vi' ? 'EN' : 'VI'}
           </button>
-
-          <Link
-            to="/login"
-            className="btn btn-gold nav-login"
-            onClick={close}
-            state={{ from: location.pathname }}
-          >
-            {t('login')}
-          </Link>
         </nav>
       </div>
     </header>

@@ -26,8 +26,4 @@ export const api = {
     const qs = new URLSearchParams(params).toString();
     return request(qs ? `/schedule?${qs}` : '/schedule');
   },
-  login: (username, password) => request('/login', {
-    method: 'POST',
-    body: JSON.stringify({ username, password }),
-  }),
 };

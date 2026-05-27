@@ -12,7 +12,6 @@ import { handler as teamsHandler }       from './netlify/functions/teams.js';
 import { handler as leaderboardHandler } from './netlify/functions/leaderboard.js';
 import { handler as scheduleHandler }    from './netlify/functions/schedule.js';
 import { handler as galleryHandler }     from './netlify/functions/gallery.js';
-import { handler as loginHandler }       from './netlify/functions/login.js';
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -48,7 +47,6 @@ app.all('/api/teams',       adapt(teamsHandler));
 app.all('/api/leaderboard', adapt(leaderboardHandler));
 app.all('/api/schedule',    adapt(scheduleHandler));
 app.all('/api/gallery',     adapt(galleryHandler));
-app.all('/api/login',       adapt(loginHandler));
 
 /* ---- Serve React build ---- */
 app.use(express.static(path.join(__dirname, 'dist')));
