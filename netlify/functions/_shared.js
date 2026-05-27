@@ -1,9 +1,7 @@
-import jwt from 'jsonwebtoken';
-
 const CORS = {
   'Content-Type': 'application/json; charset=utf-8',
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Allow-Headers': 'Content-Type',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
 };
 
@@ -30,20 +28,6 @@ export function handlePreflight(event) {
     return { statusCode: 204, headers: CORS, body: '' };
   }
   return null;
-}
-
-export function getJwtSecret() {
-  return process.env.JWT_SECRET || process.env.AUTH_SECRET || 'dev-secret-change-me';
-}
-
-export function verifyToken(event) {
-  const auth = event.headers?.authorization || event.headers?.Authorization || '';
-  if (!auth.startsWith('Bearer ')) return null;
-  try {
-    return jwt.verify(auth.slice(7), getJwtSecret());
-  } catch {
-    return null;
-  }
 }
 
 export function parseBody(event) {
