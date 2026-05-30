@@ -40,13 +40,13 @@ export const medals = [
 ];
 
 export const schedule = [
-  // Ngày 1 — Vòng bảng bóng đá
-  { id: 'm01', sportId: 'football',    date: '2026-07-01', day: 1, time: '07:30', round: 'group',  venue: 'Sân cỏ',      home: 'ei',      away: 'painting', homeScore: 3,  awayScore: 1,  status: 'finished' },
-  { id: 'm02', sportId: 'football',    date: '2026-07-01', day: 1, time: '07:30', round: 'group',  venue: 'Sân cỏ',      home: 'dim',     away: 'vattu',    homeScore: 2,  awayScore: 2,  status: 'finished' },
-  { id: 'm03', sportId: 'football',    date: '2026-07-01', day: 1, time: '08:30', round: 'group',  venue: 'Sân cỏ',      home: 'tonghop', away: 'ketkau',   homeScore: 1,  awayScore: 0,  status: 'finished' },
-  { id: 'm04', sportId: 'football',    date: '2026-07-01', day: 1, time: '08:30', round: 'group',  venue: 'Sân cỏ',      home: 'piping',  away: 'ei',       homeScore: 0,  awayScore: 2,  status: 'finished' },
-  { id: 'm05', sportId: 'football',    date: '2026-07-01', day: 1, time: '09:30', round: 'group',  venue: 'Sân cỏ',      home: 'painting',away: 'dim',      homeScore: 1,  awayScore: 3,  status: 'finished' },
-  { id: 'm06', sportId: 'football',    date: '2026-07-01', day: 1, time: '09:30', round: 'group',  venue: 'Sân cỏ',      home: 'vattu',   away: 'tonghop',  homeScore: 1,  awayScore: 2,  status: 'finished' },
+  // Ngày 1 — Vòng bảng bóng đá (Bảng A: ei, painting, piping · Bảng B: dim, vattu, tonghop, ketkau)
+  { id: 'm01', sportId: 'football',    date: '2026-07-01', day: 1, time: '07:30', round: 'group', groupName: 'A', venue: 'Sân cỏ',      home: 'ei',      away: 'painting', homeScore: 3,  awayScore: 1,  status: 'finished' },
+  { id: 'm02', sportId: 'football',    date: '2026-07-01', day: 1, time: '07:30', round: 'group', groupName: 'B', venue: 'Sân cỏ',      home: 'dim',     away: 'vattu',    homeScore: 2,  awayScore: 2,  status: 'finished' },
+  { id: 'm03', sportId: 'football',    date: '2026-07-01', day: 1, time: '08:30', round: 'group', groupName: 'B', venue: 'Sân cỏ',      home: 'tonghop', away: 'ketkau',   homeScore: 1,  awayScore: 0,  status: 'finished' },
+  { id: 'm04', sportId: 'football',    date: '2026-07-01', day: 1, time: '08:30', round: 'group', groupName: 'A', venue: 'Sân cỏ',      home: 'piping',  away: 'ei',       homeScore: 0,  awayScore: 2,  status: 'finished' },
+  { id: 'm05', sportId: 'football',    date: '2026-07-01', day: 1, time: '09:30', round: 'group', groupName: 'A', venue: 'Sân cỏ',      home: 'painting',away: 'piping',   homeScore: 1,  awayScore: 3,  status: 'finished' },
+  { id: 'm06', sportId: 'football',    date: '2026-07-01', day: 1, time: '09:30', round: 'group', groupName: 'B', venue: 'Sân cỏ',      home: 'vattu',   away: 'tonghop',  homeScore: 1,  awayScore: 2,  status: 'finished' },
   // Ngày 1 — Cầu lông tứ kết
   { id: 'm07', sportId: 'badminton',   date: '2026-07-01', day: 1, time: '08:00', round: 'qf',     venue: 'Nhà thi đấu', home: 'ei',      away: 'vattu',    homeScore: 21, awayScore: 15, status: 'finished' },
   { id: 'm08', sportId: 'badminton',   date: '2026-07-01', day: 1, time: '09:00', round: 'qf',     venue: 'Nhà thi đấu', home: 'dim',     away: 'piping',   homeScore: 21, awayScore: 18, status: 'finished' },
@@ -94,3 +94,12 @@ export const athletes = {
   male: 134,
   female: 76,
 };
+
+/* Top scorers fallback — used when Google Sheet 'scorers' tab is empty */
+export const scorers = [
+  { player: 'Nguyễn Văn A', team: 'E&I',      goals: 4, assists: 2 },
+  { player: 'Trần Văn B',   team: 'Piping',    goals: 3, assists: 1 },
+  { player: 'Lê Thị C',     team: 'Dim',       goals: 2, assists: 3 },
+  { player: 'Phạm Văn D',   team: 'Tổng hợp',  goals: 2, assists: 0 },
+  { player: 'Hoàng Văn E',  team: 'Kết cấu',   goals: 1, assists: 2 },
+];

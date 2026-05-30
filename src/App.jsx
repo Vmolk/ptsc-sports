@@ -4,6 +4,7 @@ import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import Home from './pages/Home.jsx';
 import Leaderboard from './pages/Leaderboard.jsx';
+import Bracket from './pages/Bracket.jsx';
 import Gallery from './pages/Gallery.jsx';
 import Sports from './pages/Sports.jsx';
 import Schedule from './pages/Schedule.jsx';
@@ -24,6 +25,7 @@ export default function App() {
         <Routes>
           <Route path="/"            element={<Home />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/bracket"     element={<Bracket />} />
           <Route path="/gallery"     element={<Gallery />} />
           <Route path="/sports"      element={<Sports />} />
           <Route path="/schedule"    element={<Schedule />} />

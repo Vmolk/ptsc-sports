@@ -10,12 +10,12 @@ export async function handler(event) {
   const rows = await fetchSheet('teams');
   if (!rows?.length) return ok(staticTeams);
 
-  const data = rows.map((r) => ({
+  return ok(rows.map(r => ({
     id:      r.id,
     name:    r.name,
-    short:   r.short || '',
-    color:   r.color || '#1d3557',
-    members: toInt(r.members),
-  }));
-  return ok(data);
+    short:   r.short   || '',
+    color:   r.color   || '#1d3557',
+    logo:    r.logo    || '',
+    members: toInt(r.members, 0),
+  })));
 }
