@@ -12,7 +12,8 @@ import { handler as leaderboardHandler } from './netlify/functions/leaderboard.j
 import { handler as bracketHandler }     from './netlify/functions/bracket.js';
 import { handler as scorersHandler }     from './netlify/functions/scorers.js';
 import { handler as scheduleHandler }    from './netlify/functions/schedule.js';
-import { handler as galleryHandler }     from './netlify/functions/gallery.js';
+import { handler as galleryHandler }      from './netlify/functions/gallery.js';
+import { handler as participantsHandler } from './netlify/functions/participants.js';
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -45,7 +46,8 @@ app.all('/api/leaderboard', adapt(leaderboardHandler));
 app.all('/api/bracket',     adapt(bracketHandler));
 app.all('/api/scorers',     adapt(scorersHandler));
 app.all('/api/schedule',    adapt(scheduleHandler));
-app.all('/api/gallery',     adapt(galleryHandler));
+app.all('/api/gallery',       adapt(galleryHandler));
+app.all('/api/participants', adapt(participantsHandler));
 
 app.use(express.static(path.join(__dirname, 'dist')));
 app.get('*', (_req, res) =>

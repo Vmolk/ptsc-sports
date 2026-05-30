@@ -17,8 +17,9 @@ export const api = {
   getBracket:    ()            => request('/bracket'),
   getScorers:    ()            => request('/scorers'),
   getGallery:    (day)         => request(day ? `/gallery?day=${day}` : '/gallery'),
-  getSchedule:   (params = {}) => {
+  getSchedule:     (params = {}) => {
     const qs = new URLSearchParams(params).toString();
     return request(qs ? `/schedule?${qs}` : '/schedule');
   },
+  getParticipants: (sport) => request(sport ? `/participants?sport=${sport}` : '/participants'),
 };
