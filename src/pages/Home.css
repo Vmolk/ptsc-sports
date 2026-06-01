@@ -17,29 +17,22 @@
   display: block;
 }
 
-/* Dark gradient overlay — only darkens the bottom so countdown is readable */
+/* Overlay: no dark tint — image shown as-is */
 .hero-overlay {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: flex-end;
-  background: linear-gradient(
-    to bottom,
-    transparent        0%,
-    transparent       45%,
-    rgba(1,13,33,0.55) 68%,
-    rgba(1,13,33,0.88) 100%
-  );
+  background: none;
   pointer-events: none;
 }
 
+/* Countdown positioned in the empty stadium area, above the date pill */
 .hero-content {
-  position: relative;
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 16%;        /* sits above the date pill at the very bottom */
   z-index: 1;
   pointer-events: auto;
   text-align: center;
-  width: 100%;
-  padding-block: 24px 48px;
 }
 
 .hero-btn { margin-top: 12px; }
