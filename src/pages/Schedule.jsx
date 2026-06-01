@@ -3,6 +3,19 @@ import { api } from '../utils/api.js';
 import { useFetch } from '../hooks/useFetch.js';
 import { Loading, ErrorState, Empty } from '../components/States.jsx';
 
+/* Team avatar: logo image or coloured badge */
+function TeamAvatar({ name, color, logo, size = 28 }) {
+  if (logo) return (
+    <img src={logo} alt={name}
+      style={{ width: size, height: size, borderRadius: 6, objectFit: 'cover', flexShrink: 0 }} />
+  );
+  return (
+    <span className="team-dot" style={{ background: color, width: size, height: size, fontSize: size * 0.36 }}>
+      {(name || '?').split(' ').pop()[0]}
+    </span>
+  );
+}
+
 const STATUS_LABEL = { live: 'TRỰC TIẾP', upcoming: 'SẮP DIỄN RA', finished: 'KẾT THÚC' };
 const ROUND_LABEL  = {
   group: 'Vòng bảng', r16: '1/8', qf: 'Tứ kết',
@@ -150,18 +163,14 @@ export default function Schedule() {
 
                     <div className="match-teams">
                       <span className="match-team">
-                        <span className="team-dot" style={{ background: m.homeColor }}>
-                          {(m.homeName || '?').split(' ').pop()[0]}
-                        </span>
+                        <TeamAvatar name={m.homeName} color={m.homeColor} logo={m.homeLogo} />
                         {m.homeName}
                       </span>
                       <span className={`match-score ${m.homeScore == null ? 'tbd' : ''}`}>
                         {m.homeScore == null ? 'vs' : `${m.homeScore} – ${m.awayScore}`}
                       </span>
                       <span className="match-team away">
-                        <span className="team-dot" style={{ background: m.awayColor }}>
-                          {(m.awayName || '?').split(' ').pop()[0]}
-                        </span>
+                        <TeamAvatar name={m.awayName} color={m.awayColor} logo={m.awayLogo} />
                         {m.awayName}
                       </span>
                     </div>

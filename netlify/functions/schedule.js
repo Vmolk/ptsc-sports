@@ -56,8 +56,10 @@ function enrichStatic(m) {
     sportIcon: sport.icon  ?? '🏅',
     homeName:  home.name   ?? m.home,
     homeColor: home.color  ?? '#888',
+    homeLogo:  home.logo   ?? '',
     awayName:  away.name   ?? m.away,
     awayColor: away.color  ?? '#888',
+    awayLogo:  away.logo   ?? '',
   };
 }
 
@@ -108,8 +110,10 @@ export async function handler(event) {
       sportIcon: sp.icon  ?? '🏅',
       homeName:  home.name  ?? m.home,
       homeColor: home.color ?? '#888',
+      homeLogo:  home.logo  ?? '',
       awayName:  away.name  ?? m.away,
       awayColor: away.color ?? '#888',
+      awayLogo:  away.logo  ?? '',
     };
   });
 
