@@ -35,8 +35,8 @@ export default function Navbar() {
             onError={e => { e.currentTarget.style.display = 'none'; }}
           />
           <div>
-            <span className="brand-text">PTSC M&C <em>Sport</em></span>
-            <span className="brand-sub">Hội Thao QLCL 2026</span>
+            <span className="brand-text">HỘI THAO</span>
+            <span className="brand-sub">Phòng Quản Lý Chất Lượng</span>
           </div>
         </Link>
 
