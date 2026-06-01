@@ -7,7 +7,7 @@ export async function handler(event) {
   if (pre) return pre;
   if (event.httpMethod !== 'GET') return fail('Method not allowed', 405);
 
-  const rows = await fetchSheet('scorers');
+  const rows = await fetchSheet('scorers') || await fetchSheet('scores');
   if (!rows?.length) return ok([]);
 
   return ok(
