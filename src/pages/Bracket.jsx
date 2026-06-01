@@ -11,7 +11,7 @@ const ROUND_LABEL = {
 
 /* ─── Layout constants ─── */
 const LABEL_H = 34;   // round-label row height (px)
-const MATCH_H = 76;   // rendered match card height (px)
+const MATCH_H = 104;  // rendered match card height (px) — 2 × 52px rows
 const MATCH_W = 214;  // match card width (px)
 const GUTTER  = 44;   // connector gutter between rounds (px)
 
@@ -49,13 +49,13 @@ function VBMatch({ m }) {
     <div className="vb-match">
       <div className={`vb-team ${homeWin ? 'winner' : ''}`}>
         <TeamAvatar name={m.homeName} short={m.homeColor?.slice(1,4)}
-                    color={m.homeColor} logo={m.homeLogo} size={30} />
+                    color={m.homeColor} logo={m.homeLogo} size={40} />
         <span className="vb-name">{m.homeName || '—'}</span>
         {played && <span className="vb-score">{m.homeScore}</span>}
       </div>
       <div className={`vb-team ${awayWin ? 'winner' : ''}`}>
         <TeamAvatar name={m.awayName} short={m.awayColor?.slice(1,4)}
-                    color={m.awayColor} logo={m.awayLogo} size={30} />
+                    color={m.awayColor} logo={m.awayLogo} size={40} />
         <span className="vb-name">{m.awayName || '—'}</span>
         {played && <span className="vb-score">{m.awayScore}</span>}
       </div>
@@ -175,7 +175,7 @@ function GroupTable({ groupName, standings, matches }) {
             <tr key={t.id} className={i < 2 ? 'qualify' : ''}>
               <td>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <TeamAvatar name={t.name} short={t.short} color={t.color} logo={t.logo} size={28} />
+                  <TeamAvatar name={t.name} short={t.short} color={t.color} logo={t.logo} size={36} />
                   <span style={{ fontWeight: i < 2 ? 600 : 400 }}>{t.name}</span>
                 </div>
               </td>

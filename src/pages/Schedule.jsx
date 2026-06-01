@@ -4,7 +4,7 @@ import { useFetch } from '../hooks/useFetch.js';
 import { Loading, ErrorState, Empty } from '../components/States.jsx';
 
 /* Team avatar: logo image or coloured badge */
-function TeamAvatar({ name, color, logo, size = 28 }) {
+function TeamAvatar({ name, color, logo, size = 36 }) {
   if (logo) return (
     <img src={logo} alt={name}
       style={{ width: size, height: size, borderRadius: 6, objectFit: 'cover', flexShrink: 0 }} />

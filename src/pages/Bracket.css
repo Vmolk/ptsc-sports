@@ -92,7 +92,7 @@
 /* Team row */
 .vb-team {
   display: flex; align-items: center; gap: 8px;
-  padding: 7px 10px; height: 38px;
+  padding: 6px 10px; height: 52px;
   font-size: .82rem;
   transition: background .12s;
 }
