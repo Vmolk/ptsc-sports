@@ -1,7 +1,7 @@
 .footer {
-  background: var(--bg-950);
-  color: var(--text-muted);
-  border-top: 1px solid var(--line);
+  background: var(--blue-dark);
+  color: rgba(255,255,255,0.75);
+  border-top: none;
   margin-top: auto;
 }
 
@@ -14,25 +14,25 @@
 
 .footer-brand {
   font-family: var(--font-display);
-  font-size: 1.5rem; font-weight: 800;
+  font-size: 1.4rem; font-weight: 800;
   color: #fff; margin-bottom: 10px;
   letter-spacing: .04em; text-transform: uppercase;
 }
-.footer-brand span { color: var(--gold); }
+.footer-brand span { color: var(--blue-light); }
 
-.footer-note { font-size: .88rem; margin-bottom: 4px; }
+.footer-note { font-size: .88rem; margin-bottom: 4px; color: rgba(255,255,255,0.65); }
 
 .footer-links { display: flex; flex-direction: column; gap: 10px; }
-.footer-links a { color: var(--text-muted); font-size: .9rem; transition: color .18s; }
-.footer-links a:hover { color: var(--gold); }
+.footer-links a { color: rgba(255,255,255,0.65); font-size: .9rem; transition: color .18s; }
+.footer-links a:hover { color: #fff; }
 
-.footer-meta p { font-size: .88rem; margin-bottom: 8px; }
+.footer-meta p { font-size: .88rem; margin-bottom: 8px; color: rgba(255,255,255,0.75); }
 
 .footer-bar {
-  border-top: 1px solid var(--line);
+  border-top: 1px solid rgba(255,255,255,0.12);
   padding-block: 16px;
   font-size: .8rem;
-  color: var(--text-dim);
+  color: rgba(255,255,255,0.45);
 }
 
 @media (max-width: 760px) {

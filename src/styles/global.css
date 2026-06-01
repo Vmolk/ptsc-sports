@@ -1,37 +1,37 @@
 /* ============================================================
-   HỘI THAO PHÒNG QUẢN LÝ CHẤT LƯỢNG — PTSC M&C Design System
-   Deep-blue stadium theme
+   HỘI THAO PHÒNG QUẢN LÝ CHẤT LƯỢNG — PTSC M&C
+   Light stadium-blue theme (matches the home hero banner)
    ============================================================ */
 
 :root {
-  /* ── Blue backgrounds (stadium deep-blue) ── */
-  --bg-950:  #010d21;
-  --bg-900:  #021529;
-  --bg-800:  #042040;
-  --bg-700:  #073060;
-  --bg-600:  #0a3d78;
+  /* ── Light blue backgrounds ── */
+  --bg-950:  #dbeafe;   /* page background  — sky blue  */
+  --bg-900:  #eff6ff;   /* section bg       — near-white blue */
+  --bg-800:  #ffffff;   /* card bg          — white     */
+  --bg-700:  #f0f7ff;   /* elevated card bg — off-white */
+  --bg-600:  #bfdbfe;   /* hover bg         — soft blue */
 
   /* ── Brand colours ── */
-  --blue:      #1976d2;   /* PTSC blue  — primary accent     */
-  --blue-light:#64b5f6;   /* sky blue   — hover / highlight  */
-  --blue-dark: #0d47a1;   /* deep blue  — pressed state      */
-  --gold:      #ffc107;   /* amber gold — medals / top-3     */
-  --gold-dark: #e6a800;
-  --red:       #e53935;   /* M&C red    — live / urgent      */
-  --red-dark:  #c62828;
-  --teal:      #00bcd4;
+  --blue:       #1565c0;   /* PTSC blue  — primary accent  */
+  --blue-light: #1976d2;   /* medium blue                  */
+  --blue-dark:  #0d47a1;   /* deep blue  — pressed / hero  */
+  --gold:       #f59e0b;   /* amber gold — medals / top-3  */
+  --gold-dark:  #e6a800;
+  --red:        #e53935;   /* M&C red    — live / urgent   */
+  --red-dark:   #c62828;
+  --teal:       #0891b2;
 
   /* ── Utility ── */
-  --line:       rgba(255,255,255,0.08);
-  --line-blue:  rgba(25,118,210,0.35);
+  --line:       rgba(21,101,192,0.15);
+  --line-blue:  rgba(21,101,192,0.25);
 
-  --text:       #ffffff;
-  --text-muted: rgba(255,255,255,0.58);
-  --text-dim:   rgba(255,255,255,0.35);
+  --text:       #0d2137;                  /* dark navy body text  */
+  --text-muted: rgba(13,33,55,0.58);
+  --text-dim:   rgba(13,33,55,0.38);
 
   --radius:    14px;
   --radius-sm: 10px;
-  --shadow:    0 20px 48px -16px rgba(0,10,50,0.7);
+  --shadow:    0 4px 20px rgba(13,33,55,0.10);
 
   --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
   --font-body:    'Sora', system-ui, sans-serif;
@@ -43,7 +43,7 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-body);
-  background: var(--bg-900);
+  background: var(--bg-950);
   color: var(--text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -77,17 +77,17 @@ h1,h2,h3,h4 {
   font-family: var(--font-display); font-size: 1rem; font-weight: 700;
   letter-spacing: 0.06em; text-transform: uppercase;
   cursor: pointer;
-  transition: transform 0.15s, opacity 0.15s, box-shadow 0.2s;
+  transition: transform 0.15s, box-shadow 0.2s;
 }
 .btn:hover  { transform: translateY(-2px); }
 .btn:active { transform: scale(.97); }
 
 .btn-primary { background: var(--blue); color: #fff; }
-.btn-primary:hover { background: var(--blue-dark); box-shadow: 0 8px 24px rgba(25,118,210,.45); }
+.btn-primary:hover { background: var(--blue-dark); box-shadow: 0 8px 24px rgba(21,101,192,.35); }
 .btn-gold    { background: var(--gold); color: #000; }
 .btn-gold:hover { background: var(--gold-dark); }
-.btn-ghost   { background: transparent; color: var(--text); border: 1.5px solid var(--line); }
-.btn-ghost:hover { border-color: var(--blue-light); color: var(--blue-light); }
+.btn-ghost   { background: #fff; color: var(--blue); border: 1.5px solid var(--blue); }
+.btn-ghost:hover { background: var(--blue); color: #fff; }
 
 /* ── Badges ── */
 .badge {
@@ -96,25 +96,30 @@ h1,h2,h3,h4 {
   letter-spacing: .06em; text-transform: uppercase;
 }
 .badge-live     { background: var(--red); color: #fff; animation: pulse 1.6s infinite; }
-.badge-upcoming { background: rgba(25,118,210,.18); color: var(--blue-light); }
-.badge-finished { background: rgba(255,255,255,.08); color: var(--text-muted); }
+.badge-upcoming { background: rgba(21,101,192,.12); color: var(--blue); border: 1px solid rgba(21,101,192,.3); }
+.badge-finished { background: rgba(13,33,55,.08); color: var(--text-muted); }
 
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
 
 /* ── Cards ── */
 .card {
-  background: var(--bg-700);
+  background: var(--bg-800);
   border-radius: var(--radius);
   border: 1px solid var(--line);
+  box-shadow: var(--shadow);
   transition: transform .18s, border-color .2s, box-shadow .2s;
 }
-.card:hover { transform: translateY(-4px); border-color: var(--line-blue); box-shadow: 0 12px 36px rgba(0,10,50,.5); }
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--line-blue);
+  box-shadow: 0 8px 28px rgba(21,101,192,.18);
+}
 
 /* ── States ── */
 .loading, .error-box, .empty {
   text-align: center; padding: 48px 20px; color: var(--text-muted); font-size: 1rem;
 }
-.error-box { color: #ef9a9a; }
+.error-box { color: #c62828; }
 
 .spinner {
   width: 36px; height: 36px; margin: 0 auto 14px;
@@ -132,10 +137,7 @@ h1,h2,h3,h4 {
 
 /* ── Section header ── */
 .section-head { margin-bottom: 40px; }
-.section-title {
-  font-size: clamp(1.8rem,4vw,2.8rem);
-  color: var(--text);
-}
+.section-title { font-size: clamp(1.8rem,4vw,2.8rem); color: var(--text); }
 .section-title::after {
   content: ''; display: block; width: 52px; height: 4px;
   background: var(--blue); border-radius: 4px; margin-top: 10px;
@@ -143,7 +145,7 @@ h1,h2,h3,h4 {
 .section-sub { color: var(--text-muted); font-size: .9rem; margin-top: 8px; }
 
 /* ── Accessibility ── */
-:focus-visible { outline: 2px solid var(--blue-light); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
 .visually-hidden { position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap; }
 
 @media (prefers-reduced-motion: reduce) {

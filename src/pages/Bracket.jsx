@@ -70,7 +70,7 @@ function BkConnector({ cx, cy, mi, matchCount, sh, half }) {
   const hasPair      = isPairLeader && (mi + 1) < matchCount;
   const nextCy       = hasPair ? LABEL_H + (mi + 1.5) * sh : 0;
   const midY         = hasPair ? (cy + nextCy) / 2 : 0;
-  const L = { position: 'absolute', background: 'var(--gold)', opacity: .55 };
+  const L = { position: 'absolute', background: 'var(--blue)', opacity: .6 };
 
   return (
     <>

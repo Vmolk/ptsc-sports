@@ -2,10 +2,11 @@
 
 .countdown-label {
   font-family: var(--font-display);
-  font-size: .82rem; font-weight: 600;
+  font-size: .82rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: .14em;
-  color: var(--text-muted);
+  color: rgba(255,255,255,0.85);
   margin-bottom: 16px;
+  text-shadow: 0 1px 4px rgba(0,0,0,.4);
 }
 
 .countdown-grid {
@@ -16,9 +17,10 @@
   position: relative;
   display: flex; flex-direction: column; align-items: center;
   min-width: 76px; padding: 14px 12px;
-  background: var(--bg-700);
-  border: 1px solid var(--line);
+  background: var(--blue-dark);
+  border: none;
   border-radius: var(--radius-sm);
+  box-shadow: 0 4px 16px rgba(13,33,55,0.35);
 }
 
 .countdown-num {
@@ -34,13 +36,14 @@
   margin-top: 5px;
   font-size: .68rem; letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: rgba(255,255,255,0.7);
 }
 
 .countdown-sep {
   position: absolute; right: -10px; top: 18px;
   font-family: var(--font-display); font-size: 2rem; font-weight: 800;
-  color: var(--gold); line-height: 1;
+  color: #fff; line-height: 1;
+  text-shadow: 0 2px 4px rgba(0,0,0,.3);
 }
 
 @media (max-width: 520px) {
