@@ -9,7 +9,7 @@
   display: flex; align-items: flex-end;
   overflow: hidden;
   /* Banner image — user places file at public/hero-bg.jpg */
-  background-image: url('/hero-bg.jpg');
+  background-image: url('/hero-bg.png');
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;

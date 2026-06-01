@@ -29,7 +29,7 @@ export default function Navbar() {
       <div className="container navbar-inner">
         <Link to="/" className="brand" onClick={close}>
           <img
-            src="/ptsc-logo.png"
+            src="/ptsc-logo.JPG"
             alt="PTSC M&C"
             className="brand-logo"
             onError={e => { e.currentTarget.style.display = 'none'; }}
