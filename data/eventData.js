@@ -16,7 +16,7 @@ export const event = {
 export const sports = [
   { id: 'football',     name: 'Bóng đá',      icon: '⚽', format: 'Vòng bảng + Bán kết + Chung kết',                    venue: 'Sân cỏ nhân tạo', teams: 6 },
   { id: 'badminton',    name: 'Cầu lông',      icon: '🏸', format: 'Đơn · Đôi — Tứ kết → Bán kết → Chung kết',         venue: 'Nhà thi đấu',     teams: 7 },
-  { id: 'pickleball',   name: 'Pickleball',    icon: '🏓', format: 'Đôi nam — Tứ kết → Bán kết → Chung kết',             venue: 'Sân ngoài trời',  teams: 7 },
+  { id: 'pickleball',   name: 'Pickleball',    icon: '🏓', format: '5 Bảng · 4 cặp/bảng — Vòng bảng + Knock-out',       venue: 'Sân ngoài trời',  teams: 20 },
   { id: 'waterhandball',name: 'Bóng ném nước', icon: '🤽', format: 'Bán kết + Chung kết',                                 venue: 'Hồ bơi PTSC',     teams: 4 },
   { id: 'tugofwar',     name: 'Kéo co',        icon: '🪢', format: 'Thi đấu theo tổ — Bán kết + Chung kết',              venue: 'Bãi thi đấu',     teams: 7 },
 ];
@@ -98,15 +98,52 @@ export const schedule = [
   { id: 'b_donu03', sportId: 'badminton', category: 'Đôi', round: 'final', date: '2026-07-12', day: 2, time: '10:30', venue: 'Nhà thi đấu', home: 'painting', away: 'tonghop', homeScore: null, awayScore: null, status: '' },
 
   // ═══════════════════════════════════════
-  // 🏓  PICKLEBALL  (chỉ Đôi nam)
+  // 🏓  PICKLEBALL  — 5 Bảng × 4 cặp (Đôi)
+  //   Bảng A: E&I 1 · Painting 1 · Dim 1 · Vật tư 1
+  //   Bảng B: Tổng hợp 1 · Kết cấu 1 · Piping 1 · E&I 2
+  //   Bảng C: Painting 2 · Dim 2 · Vật tư 2 · Tổng hợp 2
+  //   Bảng D: Kết cấu 2 · Piping 2 · E&I 3 · Painting 3
+  //   Bảng E: Dim 3 · Vật tư 3 · Tổng hợp 3 · Kết cấu 3
   // ═══════════════════════════════════════
-  { id: 'p01', sportId: 'pickleball', category: 'Đôi', round: 'qf',    date: '2026-07-05', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'ketkau',  homeScore: 11,   awayScore: 7,    status: 'finished' },
-  { id: 'p02', sportId: 'pickleball', category: 'Đôi', round: 'qf',    date: '2026-07-05', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'vattu',   away: 'painting',homeScore: 11,   awayScore: 8,    status: 'finished' },
-  { id: 'p03', sportId: 'pickleball', category: 'Đôi', round: 'qf',    date: '2026-07-05', day: 1, time: '11:00', venue: 'Sân ngoài trời', home: 'dim',     away: 'tonghop', homeScore: 11,   awayScore: 9,    status: 'finished' },
-  { id: 'p04', sportId: 'pickleball', category: 'Đôi', round: 'qf',    date: '2026-07-05', day: 1, time: '11:00', venue: 'Sân ngoài trời', home: 'piping',  away: 'painting',homeScore: 7,    awayScore: 11,   status: 'finished' },
-  { id: 'p05', sportId: 'pickleball', category: 'Đôi', round: 'sf',    date: '2026-07-12', day: 2, time: '08:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'vattu',   homeScore: null, awayScore: null, status: '' },
-  { id: 'p06', sportId: 'pickleball', category: 'Đôi', round: 'sf',    date: '2026-07-12', day: 2, time: '08:00', venue: 'Sân ngoài trời', home: 'dim',     away: 'painting',homeScore: null, awayScore: null, status: '' },
-  { id: 'p07', sportId: 'pickleball', category: 'Đôi', round: 'final', date: '2026-07-12', day: 2, time: '10:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'dim',     homeScore: null, awayScore: null, status: '' },
+  // ── Bảng A ──
+  { id: 'pA01', sportId: 'pickleball', category: 'Đôi', groupName: 'A', round: 'group', date: '2026-07-05', day: 1, time: '08:00', venue: 'Sân ngoài trời', home: 'E&I 1',      away: 'Painting 1', homeScore: 11, awayScore: 7,  status: 'finished' },
+  { id: 'pA02', sportId: 'pickleball', category: 'Đôi', groupName: 'A', round: 'group', date: '2026-07-05', day: 1, time: '08:00', venue: 'Sân ngoài trời', home: 'Dim 1',       away: 'Vật tư 1',   homeScore: 9,  awayScore: 11, status: 'finished' },
+  { id: 'pA03', sportId: 'pickleball', category: 'Đôi', groupName: 'A', round: 'group', date: '2026-07-05', day: 1, time: '09:00', venue: 'Sân ngoài trời', home: 'E&I 1',       away: 'Dim 1',      homeScore: 11, awayScore: 8,  status: 'finished' },
+  { id: 'pA04', sportId: 'pickleball', category: 'Đôi', groupName: 'A', round: 'group', date: '2026-07-05', day: 1, time: '09:00', venue: 'Sân ngoài trời', home: 'Painting 1',  away: 'Vật tư 1',   homeScore: 6,  awayScore: 11, status: 'finished' },
+  { id: 'pA05', sportId: 'pickleball', category: 'Đôi', groupName: 'A', round: 'group', date: '2026-07-05', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'E&I 1',       away: 'Vật tư 1',   homeScore: 11, awayScore: 9,  status: 'finished' },
+  { id: 'pA06', sportId: 'pickleball', category: 'Đôi', groupName: 'A', round: 'group', date: '2026-07-05', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'Painting 1',  away: 'Dim 1',      homeScore: 8,  awayScore: 11, status: 'finished' },
+  // ── Bảng B ──
+  { id: 'pB01', sportId: 'pickleball', category: 'Đôi', groupName: 'B', round: 'group', date: '2026-07-05', day: 1, time: '08:00', venue: 'Sân ngoài trời', home: 'Tổng hợp 1', away: 'Kết cấu 1',  homeScore: 11, awayScore: 6,  status: 'finished' },
+  { id: 'pB02', sportId: 'pickleball', category: 'Đôi', groupName: 'B', round: 'group', date: '2026-07-05', day: 1, time: '08:00', venue: 'Sân ngoài trời', home: 'Piping 1',   away: 'E&I 2',      homeScore: 7,  awayScore: 11, status: 'finished' },
+  { id: 'pB03', sportId: 'pickleball', category: 'Đôi', groupName: 'B', round: 'group', date: '2026-07-05', day: 1, time: '09:00', venue: 'Sân ngoài trời', home: 'Tổng hợp 1', away: 'Piping 1',   homeScore: 11, awayScore: 9,  status: 'finished' },
+  { id: 'pB04', sportId: 'pickleball', category: 'Đôi', groupName: 'B', round: 'group', date: '2026-07-05', day: 1, time: '09:00', venue: 'Sân ngoài trời', home: 'Kết cấu 1',  away: 'E&I 2',      homeScore: 5,  awayScore: 11, status: 'finished' },
+  { id: 'pB05', sportId: 'pickleball', category: 'Đôi', groupName: 'B', round: 'group', date: '2026-07-05', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'Tổng hợp 1', away: 'E&I 2',      homeScore: 9,  awayScore: 11, status: 'finished' },
+  { id: 'pB06', sportId: 'pickleball', category: 'Đôi', groupName: 'B', round: 'group', date: '2026-07-05', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'Kết cấu 1',  away: 'Piping 1',   homeScore: 11, awayScore: 8,  status: 'finished' },
+  // ── Bảng C ──
+  { id: 'pC01', sportId: 'pickleball', category: 'Đôi', groupName: 'C', round: 'group', date: '2026-07-07', day: 1, time: '08:00', venue: 'Sân ngoài trời', home: 'Painting 2', away: 'Dim 2',      homeScore: 11, awayScore: 9,  status: 'finished' },
+  { id: 'pC02', sportId: 'pickleball', category: 'Đôi', groupName: 'C', round: 'group', date: '2026-07-07', day: 1, time: '08:00', venue: 'Sân ngoài trời', home: 'Vật tư 2',   away: 'Tổng hợp 2', homeScore: 7,  awayScore: 11, status: 'finished' },
+  { id: 'pC03', sportId: 'pickleball', category: 'Đôi', groupName: 'C', round: 'group', date: '2026-07-07', day: 1, time: '09:00', venue: 'Sân ngoài trời', home: 'Painting 2', away: 'Vật tư 2',   homeScore: 11, awayScore: 8,  status: 'finished' },
+  { id: 'pC04', sportId: 'pickleball', category: 'Đôi', groupName: 'C', round: 'group', date: '2026-07-07', day: 1, time: '09:00', venue: 'Sân ngoài trời', home: 'Dim 2',       away: 'Tổng hợp 2', homeScore: 6,  awayScore: 11, status: 'finished' },
+  { id: 'pC05', sportId: 'pickleball', category: 'Đôi', groupName: 'C', round: 'group', date: '2026-07-07', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'Painting 2', away: 'Tổng hợp 2', homeScore: 11, awayScore: 10, status: 'finished' },
+  { id: 'pC06', sportId: 'pickleball', category: 'Đôi', groupName: 'C', round: 'group', date: '2026-07-07', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'Dim 2',       away: 'Vật tư 2',   homeScore: 9,  awayScore: 11, status: 'finished' },
+  // ── Bảng D ──
+  { id: 'pD01', sportId: 'pickleball', category: 'Đôi', groupName: 'D', round: 'group', date: '2026-07-07', day: 1, time: '08:00', venue: 'Sân ngoài trời', home: 'Kết cấu 2',  away: 'Piping 2',   homeScore: 11, awayScore: 7,  status: 'finished' },
+  { id: 'pD02', sportId: 'pickleball', category: 'Đôi', groupName: 'D', round: 'group', date: '2026-07-07', day: 1, time: '08:00', venue: 'Sân ngoài trời', home: 'E&I 3',       away: 'Painting 3', homeScore: 9,  awayScore: 11, status: 'finished' },
+  { id: 'pD03', sportId: 'pickleball', category: 'Đôi', groupName: 'D', round: 'group', date: '2026-07-07', day: 1, time: '09:00', venue: 'Sân ngoài trời', home: 'Kết cấu 2',  away: 'E&I 3',      homeScore: 8,  awayScore: 11, status: 'finished' },
+  { id: 'pD04', sportId: 'pickleball', category: 'Đôi', groupName: 'D', round: 'group', date: '2026-07-07', day: 1, time: '09:00', venue: 'Sân ngoài trời', home: 'Piping 2',   away: 'Painting 3', homeScore: 11, awayScore: 9,  status: 'finished' },
+  { id: 'pD05', sportId: 'pickleball', category: 'Đôi', groupName: 'D', round: 'group', date: '2026-07-07', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'Kết cấu 2',  away: 'Painting 3', homeScore: 11, awayScore: 8,  status: 'finished' },
+  { id: 'pD06', sportId: 'pickleball', category: 'Đôi', groupName: 'D', round: 'group', date: '2026-07-07', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'Piping 2',   away: 'E&I 3',      homeScore: 7,  awayScore: 11, status: 'finished' },
+  // ── Bảng E ──
+  { id: 'pE01', sportId: 'pickleball', category: 'Đôi', groupName: 'E', round: 'group', date: '2026-07-08', day: 1, time: '08:00', venue: 'Sân ngoài trời', home: 'Dim 3',       away: 'Vật tư 3',   homeScore: 11, awayScore: 9,  status: 'finished' },
+  { id: 'pE02', sportId: 'pickleball', category: 'Đôi', groupName: 'E', round: 'group', date: '2026-07-08', day: 1, time: '08:00', venue: 'Sân ngoài trời', home: 'Tổng hợp 3', away: 'Kết cấu 3',  homeScore: 11, awayScore: 6,  status: 'finished' },
+  { id: 'pE03', sportId: 'pickleball', category: 'Đôi', groupName: 'E', round: 'group', date: '2026-07-08', day: 1, time: '09:00', venue: 'Sân ngoài trời', home: 'Dim 3',       away: 'Tổng hợp 3', homeScore: 8,  awayScore: 11, status: 'finished' },
+  { id: 'pE04', sportId: 'pickleball', category: 'Đôi', groupName: 'E', round: 'group', date: '2026-07-08', day: 1, time: '09:00', venue: 'Sân ngoài trời', home: 'Vật tư 3',   away: 'Kết cấu 3',  homeScore: 11, awayScore: 7,  status: 'finished' },
+  { id: 'pE05', sportId: 'pickleball', category: 'Đôi', groupName: 'E', round: 'group', date: '2026-07-08', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'Dim 3',       away: 'Kết cấu 3',  homeScore: 11, awayScore: 8,  status: 'finished' },
+  { id: 'pE06', sportId: 'pickleball', category: 'Đôi', groupName: 'E', round: 'group', date: '2026-07-08', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'Vật tư 3',   away: 'Tổng hợp 3', homeScore: 7,  awayScore: 11, status: 'finished' },
+  // ── Knock-out ──
+  { id: 'pSF1', sportId: 'pickleball', category: 'Đôi', round: 'sf',    date: '2026-07-12', day: 2, time: '08:00', venue: 'Sân ngoài trời', home: 'E&I 1',      away: 'E&I 2',      homeScore: null, awayScore: null, status: '' },
+  { id: 'pSF2', sportId: 'pickleball', category: 'Đôi', round: 'sf',    date: '2026-07-12', day: 2, time: '09:00', venue: 'Sân ngoài trời', home: 'Tổng hợp 1', away: 'Vật tư 1',   homeScore: null, awayScore: null, status: '' },
+  { id: 'pF1',  sportId: 'pickleball', category: 'Đôi', round: 'final', date: '2026-07-12', day: 2, time: '10:30', venue: 'Sân ngoài trời', home: 'E&I 1',      away: 'Tổng hợp 1', homeScore: null, awayScore: null, status: '' },
 
   // ═══════════════════════════════════════
   // 🤽  BÓNG NÉM NƯỚC
