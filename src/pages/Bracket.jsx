@@ -158,16 +158,23 @@ function VisualBracket({ rounds, roundOrder }) {
 }
 
 /* ─── Group standings (football) ─── */
-function GroupTable({ groupName, standings, matches }) {
+function GroupTable({ groupName, standings, matches, sportId }) {
+  const isPkl = sportId === 'pickleball';
   return (
     <div className="group-block">
       <h4 className="group-title">Bảng {groupName}</h4>
       <table className="group-table">
         <thead>
           <tr>
-            <th style={{ textAlign: 'left' }}>Đội</th>
-            <th>T</th><th>W</th><th>D</th><th>L</th>
-            <th>HS</th><th>HB</th><th>HL</th><th>Điểm</th>
+            <th style={{ textAlign: 'left' }}>{isPkl ? 'Cặp đôi' : 'Đội'}</th>
+            <th>T</th>
+            <th>W</th>
+            {!isPkl && <th>D</th>}
+            <th>L</th>
+            {!isPkl && <th>HS</th>}
+            {!isPkl && <th>HB</th>}
+            <th>{isPkl ? 'Hệ số' : 'HL'}</th>
+            <th>Điểm</th>
           </tr>
         </thead>
         <tbody>
@@ -175,13 +182,16 @@ function GroupTable({ groupName, standings, matches }) {
             <tr key={t.id} className={i < 2 ? 'qualify' : ''}>
               <td>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <TeamAvatar name={t.name} short={t.short} color={t.color} logo={t.logo} size={36} />
+                  {!isPkl && <TeamAvatar name={t.name} short={t.short} color={t.color} logo={t.logo} size={28} />}
                   <span style={{ fontWeight: i < 2 ? 600 : 400 }}>{t.name}</span>
                 </div>
               </td>
               <td>{t.w + t.d + t.l}</td>
-              <td>{t.w}</td><td>{t.d}</td><td>{t.l}</td>
-              <td>{t.gf}</td><td>{t.ga}</td>
+              <td>{t.w}</td>
+              {!isPkl && <td>{t.d}</td>}
+              <td>{t.l}</td>
+              {!isPkl && <td>{t.gf}</td>}
+              {!isPkl && <td>{t.ga}</td>}
               <td className={t.gd > 0 ? 'pos' : t.gd < 0 ? 'neg' : ''}>
                 {t.gd > 0 ? '+' : ''}{t.gd}
               </td>
@@ -295,7 +305,7 @@ function BracketContent({ data, sportId }) {
       {tab === 'groups'  && hasGroups   && (
         <div className="groups-wrap">
           {Object.entries(data.groups).map(([gn, g]) => (
-            <GroupTable key={gn} groupName={gn} standings={g.standings} matches={g.matches} />
+            <GroupTable key={gn} groupName={gn} standings={g.standings} matches={g.matches} sportId={sportId} />
           ))}
         </div>
       )}

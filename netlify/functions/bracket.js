@@ -15,8 +15,12 @@ export const ROUND_LABEL = {
   sf: 'Bán kết', '3rd': 'Hạng 3', final: 'Chung kết',
 };
 
-/* Compute W/D/L standings from a list of matches */
-function computeStandings(matches, teamById) {
+/* Compute standings from a list of matches.
+ * sportId='pickleball': 1 pt/win, no draws, sort by pts then hệ số (gf-ga)
+ * other sports: 3 pts/win, 1 pt/draw (football style)
+ */
+function computeStandings(matches, teamById, sportId) {
+  const isPkl = sportId === 'pickleball';
   const tbl = {};
   const ensure = (id) => {
     if (!tbl[id]) tbl[id] = { id, w: 0, d: 0, l: 0, gf: 0, ga: 0, pts: 0 };
@@ -27,9 +31,18 @@ function computeStandings(matches, teamById) {
     const hs = toInt(homeScore, 0), as = toInt(awayScore, 0);
     tbl[home].gf += hs; tbl[home].ga += as;
     tbl[away].gf += as; tbl[away].ga += hs;
-    if (hs > as)      { tbl[home].w++; tbl[home].pts += 3; tbl[away].l++; }
-    else if (hs < as) { tbl[away].w++; tbl[away].pts += 3; tbl[home].l++; }
-    else              { tbl[home].d++; tbl[home].pts++; tbl[away].d++; tbl[away].pts++; }
+    if (hs > as) {
+      tbl[home].w++;
+      tbl[home].pts += isPkl ? 1 : 3;
+      tbl[away].l++;
+    } else if (hs < as) {
+      tbl[away].w++;
+      tbl[away].pts += isPkl ? 1 : 3;
+      tbl[home].l++;
+    } else if (!isPkl) {
+      tbl[home].d++; tbl[home].pts++;
+      tbl[away].d++; tbl[away].pts++;
+    }
   });
   return Object.values(tbl)
     .map(t => ({
@@ -58,7 +71,7 @@ function enrich(m, teamById) {
 }
 
 /* Build groups + knockout rounds from an array of enriched matches */
-function buildBracket(enrichedMatches, teamById) {
+function buildBracket(enrichedMatches, teamById, sportId) {
   const groupMatches = enrichedMatches.filter(m => m.round === 'group');
   const knockouts    = enrichedMatches.filter(m => m.round !== 'group');
 
@@ -68,7 +81,7 @@ function buildBracket(enrichedMatches, teamById) {
     groups = {};
     groupNames.forEach(gn => {
       const gm = groupMatches.filter(m => (m.groupName || 'A') === gn);
-      groups[gn] = { matches: gm, standings: computeStandings(gm, teamById) };
+      groups[gn] = { matches: gm, standings: computeStandings(gm, teamById, sportId) };
     });
   }
 
@@ -139,7 +152,7 @@ export async function handler(event) {
         .map(cat => {
           const catMatches = sportMatches.filter(m => m.category === cat);
           const enriched   = catMatches.map(m => enrich(m, teamById));
-          const bracket    = buildBracket(enriched, teamById);
+          const bracket    = buildBracket(enriched, teamById, sp.id);
           return { name: cat, ...bracket };
         })
         .filter(c => c.hasGroups || c.roundOrder.length > 0);
@@ -153,7 +166,7 @@ export async function handler(event) {
 
     /* Single bracket (no categories) */
     const enriched = sportMatches.map(m => enrich(m, teamById));
-    const bracket  = buildBracket(enriched, teamById);
+    const bracket  = buildBracket(enriched, teamById, sp.id);
     return {
       id: sp.id, name: sp.name, icon: sp.icon ?? '🏅',
       hasCategories: false,
