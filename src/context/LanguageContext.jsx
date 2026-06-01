@@ -21,7 +21,7 @@ const STRINGS = {
     stat_athletes: 'Tổng VĐV',
     stat_gender: 'Nam / Nữ',
     stat_matches: 'Trận đấu',
-    sports_title: 'Các môn thể thao',
+    sports_title: 'Môn thể thao',
     hero_cta: 'Xem lịch thi đấu',
     organized_by: 'PTSC M&C · Phòng Quản Lý Chất Lượng',
   },
