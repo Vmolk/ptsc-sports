@@ -18,36 +18,11 @@ export default function Home() {
 
   return (
     <>
-      {/* ── HERO ── */}
+      {/* ── HERO — background image from public/hero-bg.jpg ── */}
       <section className="hero">
         <div className="container hero-content reveal">
-
-          {/* Organiser logo + kicker */}
-          <div className="hero-org">
-            <img
-              src="/ptsc-logo.png"
-              alt="PTSC M&C"
-              className="hero-org-logo"
-              onError={e => { e.currentTarget.style.display = 'none'; }}
-            />
-          </div>
-          <p className="hero-kicker">{t('organized_by')}</p>
-
-          {/* Main title */}
-          <h1 className="hero-title">
-            HỘI THAO
-            <span className="hero-title-sub">PHÒNG QUẢN LÝ CHẤT LƯỢNG</span>
-            <span className="hero-title-year">2026</span>
-          </h1>
-
-          {/* Date range */}
-          <div className="hero-dates">
-            🏟️&nbsp; 05 / 07 / 2026 &nbsp;–&nbsp; 18 / 07 / 2026
-          </div>
-
-          {/* Countdown */}
+          <p className="hero-kicker">{t('countdown')}</p>
           <Countdown date={eventDate} />
-
           <Link to="/schedule" className="btn btn-primary hero-btn">
             {t('hero_cta')} →
           </Link>
