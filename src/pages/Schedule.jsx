@@ -9,19 +9,17 @@ const ROUND_LABEL  = {
   sf: 'Bán kết', '3rd': 'Hạng 3', final: 'Chung kết',
 };
 
-/* "2026-07-01" → "01/07/2026" */
+/* "2026-07-05" → "05/07/2026" */
 function formatDate(iso) {
   if (!iso) return '';
-  try {
-    const [y, mo, d] = iso.split('-');
-    return `${d}/${mo}/${y}`;
-  } catch { return iso; }
+  try { const [y, mo, d] = iso.split('-'); return `${d}/${mo}/${y}`; }
+  catch { return iso; }
 }
 
-/* Group an array of matches by their `date` field, keeping date order */
+/* Group matches by date, sorted ascending */
 function groupByDate(matches) {
   const map = {};
-  matches.forEach((m) => {
+  matches.forEach(m => {
     const key = m.date || 'unknown';
     if (!map[key]) map[key] = [];
     map[key].push(m);
@@ -30,58 +28,79 @@ function groupByDate(matches) {
 }
 
 export default function Schedule() {
-  const [day,    setDay]    = useState('');
-  const [status, setStatus] = useState('');
-  const [sport,  setSport]  = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
+  const [status,       setStatus]       = useState('');
+  const [sport,        setSport]        = useState('');
 
   const { data: sports } = useFetch(() => api.getSports(), []);
-  const { data, loading, error } = useFetch(
-    () => api.getSchedule({
-      ...(day    && { day }),
-      ...(status && { status }),
-      ...(sport  && { sport }),
-    }),
-    [day, status, sport]
-  );
 
-  const grouped = useMemo(() => (data ? groupByDate(data) : []), [data]);
+  /* Fetch ALL matches once — filter client-side so date chips are always dynamic */
+  const { data: allData, loading, error } = useFetch(() => api.getSchedule(), []);
+
+  /* Unique sorted dates from actual data */
+  const availableDates = useMemo(() => {
+    if (!allData) return [];
+    return [...new Set(allData.map(m => m.date).filter(Boolean))].sort();
+  }, [allData]);
+
+  /* Client-side filtering */
+  const filtered = useMemo(() => {
+    if (!allData) return [];
+    return allData.filter(m => {
+      if (selectedDate && m.date    !== selectedDate) return false;
+      if (status       && m.status  !== status)       return false;
+      if (sport        && m.sportId !== sport)         return false;
+      return true;
+    });
+  }, [allData, selectedDate, status, sport]);
+
+  const grouped = useMemo(() => groupByDate(filtered), [filtered]);
 
   return (
     <div className="page">
       <header className="page-header">
         <div className="container">
           <h1>Lịch thi đấu</h1>
-          <p>01/07/2026 – 02/07/2026 · QAQC Sport Tournament 2026</p>
+          <p>05/07/2026 – 18/07/2026 · Hội Thao Phòng Quản Lý Chất Lượng 2026</p>
         </div>
       </header>
 
       <section className="section">
         <div className="container">
 
-          {/* ---- Filter: Ngày ---- */}
+          {/* ── Filter: Ngày (dynamic from data) ── */}
           <div className="filters">
             <span className="filter-label">Ngày</span>
-            <button className={`chip ${day === ''  ? 'active' : ''}`} onClick={() => setDay('')}>Tất cả</button>
-            <button className={`chip ${day === '1' ? 'active' : ''}`} onClick={() => setDay('1')}>01/07/2026</button>
-            <button className={`chip ${day === '2' ? 'active' : ''}`} onClick={() => setDay('2')}>02/07/2026</button>
+            <button
+              className={`chip ${selectedDate === '' ? 'active' : ''}`}
+              onClick={() => setSelectedDate('')}>
+              Tất cả
+            </button>
+            {availableDates.map(d => (
+              <button
+                key={d}
+                className={`chip ${selectedDate === d ? 'active' : ''}`}
+                onClick={() => setSelectedDate(selectedDate === d ? '' : d)}>
+                {formatDate(d)}
+              </button>
+            ))}
           </div>
 
-          {/* ---- Filter: Môn ---- */}
+          {/* ── Filter: Môn ── */}
           <div className="filters">
             <span className="filter-label">Môn</span>
             <button className={`chip ${sport === '' ? 'active' : ''}`} onClick={() => setSport('')}>Tất cả</button>
-            {(sports || []).map((s) => (
+            {(sports || []).map(s => (
               <button
                 key={s.id}
                 className={`chip ${sport === s.id ? 'active' : ''}`}
-                onClick={() => setSport(sport === s.id ? '' : s.id)}
-              >
+                onClick={() => setSport(sport === s.id ? '' : s.id)}>
                 {s.icon} {s.name}
               </button>
             ))}
           </div>
 
-          {/* ---- Filter: Trạng thái ---- */}
+          {/* ── Filter: Trạng thái ── */}
           <div className="filters">
             <span className="filter-label">Trạng thái</span>
             <button className={`chip ${status === ''         ? 'active' : ''}`} onClick={() => setStatus('')}>Tất cả</button>
@@ -92,29 +111,26 @@ export default function Schedule() {
 
           {loading && <Loading />}
           {error   && <ErrorState message={error} />}
-          {data && data.length === 0 && <Empty label="Không có trận đấu phù hợp." />}
+          {!loading && !error && filtered.length === 0 && <Empty label="Không có trận đấu phù hợp." />}
 
-          {/* ---- Match count ---- */}
-          {data && data.length > 0 && (
+          {filtered.length > 0 && (
             <p className="match-summary">
-              {data.length} trận
+              {filtered.length} trận
               {sport ? ` · ${sports?.find(s => s.id === sport)?.name || sport}` : ''}
             </p>
           )}
 
-          {/* ---- Grouped by date ---- */}
+          {/* ── Matches grouped by date ── */}
           {grouped.map(([dateKey, matches]) => (
             <div key={dateKey} style={{ marginBottom: 36 }}>
-
-              {/* Date section header */}
               <div style={{
                 display: 'flex', alignItems: 'center', gap: 12,
                 marginBottom: 16, paddingBottom: 10,
-                borderBottom: '2px solid var(--gold)',
+                borderBottom: '2px solid var(--blue)',
               }}>
                 <span style={{
                   fontFamily: 'var(--font-display)', fontSize: '1.1rem',
-                  fontWeight: 800, letterSpacing: '.04em', color: 'var(--gold)',
+                  fontWeight: 800, letterSpacing: '.04em', color: 'var(--blue-light)',
                 }}>
                   📅 {formatDate(dateKey)}
                 </span>
@@ -125,11 +141,8 @@ export default function Schedule() {
 
               <div className="match-list">
                 {matches.map((m, i) => (
-                  <article
-                    className="card match-card reveal"
-                    key={m.id}
-                    style={{ animationDelay: `${i * 40}ms` }}
-                  >
+                  <article className="card match-card reveal" key={m.id}
+                    style={{ animationDelay: `${i * 40}ms` }}>
                     <div className="match-when">
                       <span className="match-time">{m.time}</span>
                       <span className="match-sub">{ROUND_LABEL[m.round] ?? m.round}</span>
