@@ -222,11 +222,53 @@ function GroupMatchRow({ m }) {
   );
 }
 
+/* ─── Top scorers (football only) ─── */
+function TopScorers() {
+  const { data, loading } = useFetch(() => api.getScorers(), []);
+  if (loading) return <p style={{ color: 'var(--text-muted)', fontSize: '.9rem', padding: '16px 0' }}>Đang tải...</p>;
+  if (!data?.length) return <p style={{ color: 'var(--text-muted)', fontSize: '.9rem', padding: '16px 0' }}>Chưa có dữ liệu.</p>;
+
+  return (
+    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '.9rem' }}>
+      <thead>
+        <tr>
+          {['#', 'Cầu thủ', 'Đội / Tổ', '⚽ Bàn', '🎯 Kiến tạo'].map(h => (
+            <th key={h} style={{
+              padding: '8px 12px', textAlign: h === '#' || h.includes('⚽') || h.includes('🎯') ? 'center' : 'left',
+              fontSize: '.72rem', fontWeight: 700, letterSpacing: '.06em',
+              textTransform: 'uppercase', color: 'var(--text-muted)',
+              borderBottom: '1px solid var(--line)',
+            }}>{h}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((p, i) => (
+          <tr key={`${p.player}-${i}`} style={{ borderBottom: '1px solid var(--line)' }}>
+            <td style={{ padding: '10px 12px', textAlign: 'center' }}>
+              <span style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                width: 26, height: 26, borderRadius: '50%', fontWeight: 700, fontSize: '.82rem',
+                background: i === 0 ? 'var(--gold)' : i === 1 ? '#b0bec5' : i === 2 ? '#a0674a' : 'var(--bg-700)',
+                color: i < 3 ? '#000' : 'var(--text-muted)',
+              }}>{i + 1}</span>
+            </td>
+            <td style={{ padding: '10px 12px', fontWeight: 600 }}>{p.player}</td>
+            <td style={{ padding: '10px 12px', color: 'var(--text-muted)', fontSize: '.85rem' }}>{p.team}</td>
+            <td style={{ padding: '10px 12px', textAlign: 'center', fontWeight: 800, color: 'var(--gold)', fontFamily: 'var(--font-display)', fontSize: '1rem' }}>{p.goals}</td>
+            <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-muted)' }}>{p.assists || '—'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
 /* ─── Per-sport section ─── */
 function SportSection({ sport }) {
+  const isFootball  = sport.id === 'football';
   const hasGroups   = sport.hasGroups;
   const hasKnockout = sport.roundOrder?.length > 0;
-  const showTabs    = hasGroups && hasKnockout;
   const [tab, setTab] = useState(hasGroups ? 'groups' : 'bracket');
 
   return (
@@ -236,30 +278,37 @@ function SportSection({ sport }) {
         <h2 className="sport-section-name">{sport.name}</h2>
       </div>
 
-      {showTabs && (
-        <div className="sport-tabs">
-          <button className={`sport-tab ${tab === 'groups'  ? 'active' : ''}`} onClick={() => setTab('groups')}>
-            📊 Bảng đấu
-          </button>
-          <button className={`sport-tab ${tab === 'bracket' ? 'active' : ''}`} onClick={() => setTab('bracket')}>
-            🏆 Sơ đồ thi đấu
-          </button>
-        </div>
-      )}
+      {/* Build tab list — only render bar if 2+ tabs */}
+      {(() => {
+        const tabs = [
+          hasGroups   && { id: 'groups',  label: '📊 Bảng đấu'       },
+          hasKnockout && { id: 'bracket', label: '🏆 Sơ đồ thi đấu'  },
+          isFootball  && { id: 'scorers', label: '⚽ Vua phá lưới'   },
+        ].filter(Boolean);
+        return tabs.length > 1 ? (
+          <div className="sport-tabs">
+            {tabs.map(t => (
+              <button key={t.id}
+                className={`sport-tab ${tab === t.id ? 'active' : ''}`}
+                onClick={() => setTab(t.id)}>
+                {t.label}
+              </button>
+            ))}
+          </div>
+        ) : null;
+      })()}
 
-      {tab === 'groups' && hasGroups && (
+      {tab === 'groups'  && hasGroups   && (
         <div className="groups-wrap">
           {Object.entries(sport.groups).map(([gn, g]) => (
             <GroupTable key={gn} groupName={gn} standings={g.standings} matches={g.matches} />
           ))}
         </div>
       )}
+      {tab === 'bracket' && hasKnockout && <VisualBracket rounds={sport.rounds} roundOrder={sport.roundOrder} />}
+      {tab === 'scorers'                 && <TopScorers />}
 
-      {(tab === 'bracket' || !hasGroups) && hasKnockout && (
-        <VisualBracket rounds={sport.rounds} roundOrder={sport.roundOrder} />
-      )}
-
-      {!hasKnockout && !hasGroups && (
+      {!hasKnockout && !hasGroups && tab !== 'scorers' && (
         <p style={{ color: 'var(--text-muted)', padding: '20px 0' }}>Chưa có trận đấu.</p>
       )}
     </section>
