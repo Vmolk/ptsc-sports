@@ -3,7 +3,6 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import Home from './pages/Home.jsx';
-import Leaderboard from './pages/Leaderboard.jsx';
 import Bracket from './pages/Bracket.jsx';
 import Gallery from './pages/Gallery.jsx';
 import Sports from './pages/Sports.jsx';
@@ -24,8 +23,7 @@ export default function App() {
       <main style={{ flex: 1 }}>
         <Routes>
           <Route path="/"            element={<Home />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/bracket"     element={<Bracket />} />
+          <Route path="/bracket"  element={<Bracket />} />
           <Route path="/gallery"     element={<Gallery />} />
           <Route path="/sports"      element={<Sports />} />
           <Route path="/schedule"    element={<Schedule />} />

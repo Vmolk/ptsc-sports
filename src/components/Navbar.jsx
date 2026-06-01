@@ -10,12 +10,11 @@ import { useLanguage } from '../context/LanguageContext.jsx';
 import './Navbar.css';
 
 const LINKS = [
-  { to: '/',            key: 'nav_home',        end: true },
-  { to: '/leaderboard', key: 'nav_leaderboard' },
-  { to: '/bracket',     key: 'nav_bracket'     },
-  { to: '/gallery',     key: 'nav_gallery'     },
-  { to: '/sports',      key: 'nav_sports'      },
-  { to: '/schedule',    key: 'nav_schedule'    },
+  { to: '/',         key: 'nav_home',     end: true },
+  { to: '/bracket',  key: 'nav_bracket'            },
+  { to: '/gallery',  key: 'nav_gallery'            },
+  { to: '/sports',   key: 'nav_sports'             },
+  { to: '/schedule', key: 'nav_schedule'           },
 ];
 
 export default function Navbar() {
