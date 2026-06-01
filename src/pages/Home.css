@@ -1,53 +1,48 @@
 /* ============================================================
-   Home Page — PTSC M&C · stadium banner background
+   Home Page — PTSC M&C
    ============================================================ */
 
-/* ── HERO ── */
+/* ── HERO — full image, no crop ── */
 .hero {
   position: relative;
-  min-height: 92vh;
-  display: flex; align-items: flex-end;
+  display: block;
   overflow: hidden;
-  /* Banner image — user places file at public/hero-bg.jpg */
-  background-image: url('/hero-bg.png');
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
-  /* Fallback when image not yet placed */
-  background-color: var(--bg-950);
+  background: var(--bg-950); /* fallback colour while image loads */
 }
 
-/* Bottom overlay — dark gradient so countdown/CTA are readable */
-.hero::after {
-  content: '';
-  position: absolute; inset: 0;
+/* The actual banner image — always shown in full, never cropped */
+.hero-bg-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Dark gradient overlay — only darkens the bottom so countdown is readable */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
   background: linear-gradient(
     to bottom,
-    rgba(1,13,33,0.08)  0%,
-    rgba(1,13,33,0.15) 40%,
-    rgba(1,13,33,0.65) 72%,
-    rgba(1,13,33,0.92) 100%
+    transparent        0%,
+    transparent       45%,
+    rgba(1,13,33,0.55) 68%,
+    rgba(1,13,33,0.88) 100%
   );
   pointer-events: none;
 }
 
 .hero-content {
-  position: relative; z-index: 1;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
   text-align: center;
   width: 100%;
-  padding-block: 32px 56px;
+  padding-block: 24px 48px;
 }
 
-/* Countdown label */
-.hero-kicker {
-  font-family: var(--font-display);
-  font-size: .82rem; font-weight: 700;
-  letter-spacing: .2em; text-transform: uppercase;
-  color: var(--blue-light);
-  margin-bottom: 14px;
-}
-
-.hero-btn { margin-top: 16px; }
+.hero-btn { margin-top: 12px; }
 
 /* ── STATS BAR ── */
 .stats-section {
@@ -105,9 +100,8 @@
 .sports-cta { text-align: center; margin-top: 36px; }
 
 /* ── Responsive ── */
-@media (max-width: 900px)  { .sports-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 900px) { .sports-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) {
-  .hero { min-height: 80vh; }
   .stat-cell  { padding: 10px 16px; }
   .stat-num   { font-size: 1.5rem; }
   .sports-section { padding-block: 48px; }

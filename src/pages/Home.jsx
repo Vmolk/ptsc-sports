@@ -18,14 +18,20 @@ export default function Home() {
 
   return (
     <>
-      {/* ── HERO — background image from public/hero-bg.jpg ── */}
+      {/* ── HERO — full banner image, countdown overlaid at bottom ── */}
       <section className="hero">
-        <div className="container hero-content reveal">
-          <p className="hero-kicker">{t('countdown')}</p>
-          <Countdown date={eventDate} />
-          <Link to="/schedule" className="btn btn-primary hero-btn">
-            {t('hero_cta')} →
-          </Link>
+        {/* Full image — never cropped */}
+        <img src="/hero-bg.png" alt="Hội Thao Phòng Quản Lý Chất Lượng 2026"
+          className="hero-bg-img" />
+
+        {/* Overlay: countdown + CTA anchored to bottom */}
+        <div className="hero-overlay">
+          <div className="container hero-content reveal">
+            <Countdown date={eventDate} />
+            <Link to="/schedule" className="btn btn-primary hero-btn">
+              {t('hero_cta')} →
+            </Link>
+          </div>
         </div>
       </section>
 
