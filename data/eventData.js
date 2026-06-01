@@ -6,11 +6,11 @@
  */
 
 export const event = {
-  name:      'QAQC SPORT TOURNAMENT',
-  organizer: 'QAQC',
-  startDate: '2026-07-01T08:00:00+07:00',
-  endDate:   '2026-07-02T17:00:00+07:00',
-  days:      2,
+  name:      'HỘI THAO PHÒNG QUẢN LÝ CHẤT LƯỢNG 2026',
+  organizer: 'PTSC M&C',
+  startDate: '2026-07-05T08:00:00+07:00',
+  endDate:   '2026-07-18T17:00:00+07:00',
+  days:      14,
 };
 
 export const sports = [
@@ -56,54 +56,54 @@ export const schedule = [
   // ⚽  BÓNG ĐÁ
   // ═══════════════════════════════════════
   // Vòng bảng — Bảng A: E&I, Painting, Piping
-  { id: 'f01', sportId: 'football', groupName: 'A', round: 'group', date: '2026-07-01', day: 1, time: '07:00', venue: 'Sân cỏ', home: 'ei',      away: 'painting', homeScore: 2,    awayScore: 1,    status: 'finished' },
-  { id: 'f02', sportId: 'football', groupName: 'A', round: 'group', date: '2026-07-01', day: 1, time: '07:45', venue: 'Sân cỏ', home: 'painting', away: 'piping',  homeScore: 0,    awayScore: 3,    status: 'finished' },
-  { id: 'f03', sportId: 'football', groupName: 'A', round: 'group', date: '2026-07-01', day: 1, time: '08:30', venue: 'Sân cỏ', home: 'ei',      away: 'piping',   homeScore: 1,    awayScore: 1,    status: 'finished' },
+  { id: 'f01', sportId: 'football', groupName: 'A', round: 'group', date: '2026-07-05', day: 1, time: '07:00', venue: 'Sân cỏ', home: 'ei',      away: 'painting', homeScore: 2,    awayScore: 1,    status: 'finished' },
+  { id: 'f02', sportId: 'football', groupName: 'A', round: 'group', date: '2026-07-05', day: 1, time: '07:45', venue: 'Sân cỏ', home: 'painting', away: 'piping',  homeScore: 0,    awayScore: 3,    status: 'finished' },
+  { id: 'f03', sportId: 'football', groupName: 'A', round: 'group', date: '2026-07-05', day: 1, time: '08:30', venue: 'Sân cỏ', home: 'ei',      away: 'piping',   homeScore: 1,    awayScore: 1,    status: 'finished' },
   // Vòng bảng — Bảng B: Dim, Vật tư, Tổng hợp
-  { id: 'f04', sportId: 'football', groupName: 'B', round: 'group', date: '2026-07-01', day: 1, time: '07:00', venue: 'Sân cỏ', home: 'dim',     away: 'vattu',    homeScore: 3,    awayScore: 0,    status: 'finished' },
-  { id: 'f05', sportId: 'football', groupName: 'B', round: 'group', date: '2026-07-01', day: 1, time: '07:45', venue: 'Sân cỏ', home: 'vattu',   away: 'tonghop',  homeScore: 1,    awayScore: 2,    status: 'finished' },
-  { id: 'f06', sportId: 'football', groupName: 'B', round: 'group', date: '2026-07-01', day: 1, time: '08:30', venue: 'Sân cỏ', home: 'dim',     away: 'tonghop',  homeScore: 2,    awayScore: 1,    status: 'finished' },
+  { id: 'f04', sportId: 'football', groupName: 'B', round: 'group', date: '2026-07-05', day: 1, time: '07:00', venue: 'Sân cỏ', home: 'dim',     away: 'vattu',    homeScore: 3,    awayScore: 0,    status: 'finished' },
+  { id: 'f05', sportId: 'football', groupName: 'B', round: 'group', date: '2026-07-05', day: 1, time: '07:45', venue: 'Sân cỏ', home: 'vattu',   away: 'tonghop',  homeScore: 1,    awayScore: 2,    status: 'finished' },
+  { id: 'f06', sportId: 'football', groupName: 'B', round: 'group', date: '2026-07-05', day: 1, time: '08:30', venue: 'Sân cỏ', home: 'dim',     away: 'tonghop',  homeScore: 2,    awayScore: 1,    status: 'finished' },
   // Bán kết
-  { id: 'f07', sportId: 'football', round: 'sf',    date: '2026-07-02', day: 2, time: '07:30', venue: 'Sân cỏ', home: 'ei',    away: 'dim',     homeScore: null, awayScore: null, status: '' },
-  { id: 'f08', sportId: 'football', round: 'sf',    date: '2026-07-02', day: 2, time: '07:30', venue: 'Sân cỏ', home: 'piping',away: 'tonghop', homeScore: null, awayScore: null, status: '' },
+  { id: 'f07', sportId: 'football', round: 'sf',    date: '2026-07-12', day: 2, time: '07:30', venue: 'Sân cỏ', home: 'ei',    away: 'dim',     homeScore: null, awayScore: null, status: '' },
+  { id: 'f08', sportId: 'football', round: 'sf',    date: '2026-07-12', day: 2, time: '07:30', venue: 'Sân cỏ', home: 'piping',away: 'tonghop', homeScore: null, awayScore: null, status: '' },
   // Chung kết (không có trận tranh hạng 3)
-  { id: 'f09', sportId: 'football', round: 'final', date: '2026-07-02', day: 2, time: '10:30', venue: 'Sân cỏ', home: 'ei',    away: 'piping',  homeScore: null, awayScore: null, status: '' },
+  { id: 'f09', sportId: 'football', round: 'final', date: '2026-07-12', day: 2, time: '10:30', venue: 'Sân cỏ', home: 'ei',    away: 'piping',  homeScore: null, awayScore: null, status: '' },
 
   // ═══════════════════════════════════════
   // 🏸  CẦU LÔNG
   // ═══════════════════════════════════════
-  { id: 'b01', sportId: 'badminton', round: 'qf',    date: '2026-07-01', day: 1, time: '08:00', venue: 'Nhà thi đấu', home: 'ei',      away: 'vattu',   homeScore: 21,   awayScore: 12,   status: 'finished' },
-  { id: 'b02', sportId: 'badminton', round: 'qf',    date: '2026-07-01', day: 1, time: '08:00', venue: 'Nhà thi đấu', home: 'painting',away: 'tonghop', homeScore: 15,   awayScore: 21,   status: 'finished' },
-  { id: 'b03', sportId: 'badminton', round: 'qf',    date: '2026-07-01', day: 1, time: '09:00', venue: 'Nhà thi đấu', home: 'dim',     away: 'ketkau',  homeScore: 21,   awayScore: 19,   status: 'finished' },
-  { id: 'b04', sportId: 'badminton', round: 'qf',    date: '2026-07-01', day: 1, time: '09:00', venue: 'Nhà thi đấu', home: 'piping',  away: 'vattu',   homeScore: 21,   awayScore: 16,   status: 'finished' },
-  { id: 'b05', sportId: 'badminton', round: 'sf',    date: '2026-07-01', day: 1, time: '11:00', venue: 'Nhà thi đấu', home: 'ei',      away: 'tonghop', homeScore: null, awayScore: null, status: '' },
-  { id: 'b06', sportId: 'badminton', round: 'sf',    date: '2026-07-01', day: 1, time: '11:00', venue: 'Nhà thi đấu', home: 'dim',     away: 'piping',  homeScore: null, awayScore: null, status: '' },
-  { id: 'b07', sportId: 'badminton', round: 'final', date: '2026-07-02', day: 2, time: '09:00', venue: 'Nhà thi đấu', home: 'ei',      away: 'dim',     homeScore: null, awayScore: null, status: '' },
+  { id: 'b01', sportId: 'badminton', round: 'qf',    date: '2026-07-05', day: 1, time: '08:00', venue: 'Nhà thi đấu', home: 'ei',      away: 'vattu',   homeScore: 21,   awayScore: 12,   status: 'finished' },
+  { id: 'b02', sportId: 'badminton', round: 'qf',    date: '2026-07-05', day: 1, time: '08:00', venue: 'Nhà thi đấu', home: 'painting',away: 'tonghop', homeScore: 15,   awayScore: 21,   status: 'finished' },
+  { id: 'b03', sportId: 'badminton', round: 'qf',    date: '2026-07-05', day: 1, time: '09:00', venue: 'Nhà thi đấu', home: 'dim',     away: 'ketkau',  homeScore: 21,   awayScore: 19,   status: 'finished' },
+  { id: 'b04', sportId: 'badminton', round: 'qf',    date: '2026-07-05', day: 1, time: '09:00', venue: 'Nhà thi đấu', home: 'piping',  away: 'vattu',   homeScore: 21,   awayScore: 16,   status: 'finished' },
+  { id: 'b05', sportId: 'badminton', round: 'sf',    date: '2026-07-05', day: 1, time: '11:00', venue: 'Nhà thi đấu', home: 'ei',      away: 'tonghop', homeScore: null, awayScore: null, status: '' },
+  { id: 'b06', sportId: 'badminton', round: 'sf',    date: '2026-07-05', day: 1, time: '11:00', venue: 'Nhà thi đấu', home: 'dim',     away: 'piping',  homeScore: null, awayScore: null, status: '' },
+  { id: 'b07', sportId: 'badminton', round: 'final', date: '2026-07-12', day: 2, time: '09:00', venue: 'Nhà thi đấu', home: 'ei',      away: 'dim',     homeScore: null, awayScore: null, status: '' },
 
   // ═══════════════════════════════════════
   // 🏓  PICKLEBALL
   // ═══════════════════════════════════════
-  { id: 'p01', sportId: 'pickleball', round: 'qf',    date: '2026-07-01', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'ketkau',  homeScore: 11,   awayScore: 7,    status: 'finished' },
-  { id: 'p02', sportId: 'pickleball', round: 'qf',    date: '2026-07-01', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'vattu',   away: 'painting',homeScore: 11,   awayScore: 8,    status: 'finished' },
-  { id: 'p03', sportId: 'pickleball', round: 'qf',    date: '2026-07-01', day: 1, time: '11:00', venue: 'Sân ngoài trời', home: 'dim',     away: 'tonghop', homeScore: 11,   awayScore: 9,    status: 'finished' },
-  { id: 'p04', sportId: 'pickleball', round: 'qf',    date: '2026-07-01', day: 1, time: '11:00', venue: 'Sân ngoài trời', home: 'piping',  away: 'painting',homeScore: 7,    awayScore: 11,   status: 'finished' },
-  { id: 'p05', sportId: 'pickleball', round: 'sf',    date: '2026-07-02', day: 2, time: '08:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'vattu',   homeScore: null, awayScore: null, status: '' },
-  { id: 'p06', sportId: 'pickleball', round: 'sf',    date: '2026-07-02', day: 2, time: '08:00', venue: 'Sân ngoài trời', home: 'dim',     away: 'painting',homeScore: null, awayScore: null, status: '' },
-  { id: 'p07', sportId: 'pickleball', round: 'final', date: '2026-07-02', day: 2, time: '10:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'dim',     homeScore: null, awayScore: null, status: '' },
+  { id: 'p01', sportId: 'pickleball', round: 'qf',    date: '2026-07-05', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'ketkau',  homeScore: 11,   awayScore: 7,    status: 'finished' },
+  { id: 'p02', sportId: 'pickleball', round: 'qf',    date: '2026-07-05', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'vattu',   away: 'painting',homeScore: 11,   awayScore: 8,    status: 'finished' },
+  { id: 'p03', sportId: 'pickleball', round: 'qf',    date: '2026-07-05', day: 1, time: '11:00', venue: 'Sân ngoài trời', home: 'dim',     away: 'tonghop', homeScore: 11,   awayScore: 9,    status: 'finished' },
+  { id: 'p04', sportId: 'pickleball', round: 'qf',    date: '2026-07-05', day: 1, time: '11:00', venue: 'Sân ngoài trời', home: 'piping',  away: 'painting',homeScore: 7,    awayScore: 11,   status: 'finished' },
+  { id: 'p05', sportId: 'pickleball', round: 'sf',    date: '2026-07-12', day: 2, time: '08:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'vattu',   homeScore: null, awayScore: null, status: '' },
+  { id: 'p06', sportId: 'pickleball', round: 'sf',    date: '2026-07-12', day: 2, time: '08:00', venue: 'Sân ngoài trời', home: 'dim',     away: 'painting',homeScore: null, awayScore: null, status: '' },
+  { id: 'p07', sportId: 'pickleball', round: 'final', date: '2026-07-12', day: 2, time: '10:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'dim',     homeScore: null, awayScore: null, status: '' },
 
   // ═══════════════════════════════════════
   // 🤽  BÓNG NÉM NƯỚC
   // ═══════════════════════════════════════
-  { id: 'w01', sportId: 'waterhandball', round: 'sf',    date: '2026-07-01', day: 1, time: '13:00', venue: 'Hồ bơi PTSC', home: 'ei',      away: 'dim',     homeScore: 6,    awayScore: 4,    status: 'finished' },
-  { id: 'w02', sportId: 'waterhandball', round: 'sf',    date: '2026-07-01', day: 1, time: '14:00', venue: 'Hồ bơi PTSC', home: 'tonghop', away: 'painting',homeScore: 3,    awayScore: 5,    status: 'finished' },
-  { id: 'w03', sportId: 'waterhandball', round: 'final', date: '2026-07-02', day: 2, time: '11:00', venue: 'Hồ bơi PTSC', home: 'ei',      away: 'painting',homeScore: null, awayScore: null, status: '' },
+  { id: 'w01', sportId: 'waterhandball', round: 'sf',    date: '2026-07-05', day: 1, time: '13:00', venue: 'Hồ bơi PTSC', home: 'ei',      away: 'dim',     homeScore: 6,    awayScore: 4,    status: 'finished' },
+  { id: 'w02', sportId: 'waterhandball', round: 'sf',    date: '2026-07-05', day: 1, time: '14:00', venue: 'Hồ bơi PTSC', home: 'tonghop', away: 'painting',homeScore: 3,    awayScore: 5,    status: 'finished' },
+  { id: 'w03', sportId: 'waterhandball', round: 'final', date: '2026-07-12', day: 2, time: '11:00', venue: 'Hồ bơi PTSC', home: 'ei',      away: 'painting',homeScore: null, awayScore: null, status: '' },
 
   // ═══════════════════════════════════════
   // 🪢  KÉO CO
   // ═══════════════════════════════════════
-  { id: 'k01', sportId: 'tugofwar', round: 'sf',    date: '2026-07-01', day: 1, time: '14:00', venue: 'Bãi thi đấu', home: 'ei',      away: 'piping',  homeScore: 2,    awayScore: 1,    status: 'finished' },
-  { id: 'k02', sportId: 'tugofwar', round: 'sf',    date: '2026-07-01', day: 1, time: '15:00', venue: 'Bãi thi đấu', home: 'dim',     away: 'tonghop', homeScore: 1,    awayScore: 2,    status: 'finished' },
-  { id: 'k03', sportId: 'tugofwar', round: 'final', date: '2026-07-02', day: 2, time: '15:00', venue: 'Bãi thi đấu', home: 'ei',      away: 'tonghop', homeScore: null, awayScore: null, status: '' },
+  { id: 'k01', sportId: 'tugofwar', round: 'sf',    date: '2026-07-05', day: 1, time: '14:00', venue: 'Bãi thi đấu', home: 'ei',      away: 'piping',  homeScore: 2,    awayScore: 1,    status: 'finished' },
+  { id: 'k02', sportId: 'tugofwar', round: 'sf',    date: '2026-07-05', day: 1, time: '15:00', venue: 'Bãi thi đấu', home: 'dim',     away: 'tonghop', homeScore: 1,    awayScore: 2,    status: 'finished' },
+  { id: 'k03', sportId: 'tugofwar', round: 'final', date: '2026-07-12', day: 2, time: '15:00', venue: 'Bãi thi đấu', home: 'ei',      away: 'tonghop', homeScore: null, awayScore: null, status: '' },
 ];
 
 export const gallery = [

@@ -1,30 +1,37 @@
 /* ============================================================
-   QAQC Sport Tournament — Global Design System
-   Dark navy theme matching the brand mockup
+   HỘI THAO PHÒNG QUẢN LÝ CHẤT LƯỢNG — PTSC M&C Design System
+   Deep-blue stadium theme
    ============================================================ */
 
 :root {
-  --bg-950:  #060c18;
-  --bg-900:  #080f1c;
-  --bg-800:  #0b1628;
-  --bg-700:  #0f1d35;
-  --bg-600:  #162840;
+  /* ── Blue backgrounds (stadium deep-blue) ── */
+  --bg-950:  #010d21;
+  --bg-900:  #021529;
+  --bg-800:  #042040;
+  --bg-700:  #073060;
+  --bg-600:  #0a3d78;
 
-  --gold:      #f5c030;
-  --gold-dark: #d9a820;
-  --red:       #e53935;
+  /* ── Brand colours ── */
+  --blue:      #1976d2;   /* PTSC blue  — primary accent     */
+  --blue-light:#64b5f6;   /* sky blue   — hover / highlight  */
+  --blue-dark: #0d47a1;   /* deep blue  — pressed state      */
+  --gold:      #ffc107;   /* amber gold — medals / top-3     */
+  --gold-dark: #e6a800;
+  --red:       #e53935;   /* M&C red    — live / urgent      */
   --red-dark:  #c62828;
-  --teal:      #2a9d8f;
-  --line:      rgba(255,255,255,0.08);
-  --line-gold: rgba(245,192,48,0.25);
+  --teal:      #00bcd4;
+
+  /* ── Utility ── */
+  --line:       rgba(255,255,255,0.08);
+  --line-blue:  rgba(25,118,210,0.35);
 
   --text:       #ffffff;
-  --text-muted: rgba(255,255,255,0.55);
+  --text-muted: rgba(255,255,255,0.58);
   --text-dim:   rgba(255,255,255,0.35);
 
   --radius:    14px;
   --radius-sm: 10px;
-  --shadow:    0 20px 48px -16px rgba(0,0,0,0.6);
+  --shadow:    0 20px 48px -16px rgba(0,10,50,0.7);
 
   --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
   --font-body:    'Sora', system-ui, sans-serif;
@@ -63,7 +70,7 @@ h1,h2,h3,h4 {
 
 .section { padding-block: 72px; }
 
-/* ---- Buttons ---- */
+/* ── Buttons ── */
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 12px 28px; border: none; border-radius: var(--radius-sm);
@@ -72,35 +79,38 @@ h1,h2,h3,h4 {
   cursor: pointer;
   transition: transform 0.15s, opacity 0.15s, box-shadow 0.2s;
 }
-.btn:hover { transform: translateY(-2px); }
+.btn:hover  { transform: translateY(-2px); }
 .btn:active { transform: scale(.97); }
 
-.btn-primary { background: var(--red); color: #fff; }
-.btn-primary:hover { background: var(--red-dark); box-shadow: 0 8px 24px rgba(229,57,53,.4); }
-.btn-gold { background: var(--gold); color: var(--bg-900); }
+.btn-primary { background: var(--blue); color: #fff; }
+.btn-primary:hover { background: var(--blue-dark); box-shadow: 0 8px 24px rgba(25,118,210,.45); }
+.btn-gold    { background: var(--gold); color: #000; }
 .btn-gold:hover { background: var(--gold-dark); }
-.btn-ghost { background: transparent; color: var(--text); border: 1.5px solid var(--line); }
-.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+.btn-ghost   { background: transparent; color: var(--text); border: 1.5px solid var(--line); }
+.btn-ghost:hover { border-color: var(--blue-light); color: var(--blue-light); }
 
-/* ---- Badges ---- */
-.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 99px;
-  font-family: var(--font-display); font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+/* ── Badges ── */
+.badge {
+  display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 99px;
+  font-family: var(--font-display); font-size: .78rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+}
 .badge-live     { background: var(--red); color: #fff; animation: pulse 1.6s infinite; }
-.badge-upcoming { background: rgba(42,157,143,.15); color: var(--teal); }
+.badge-upcoming { background: rgba(25,118,210,.18); color: var(--blue-light); }
 .badge-finished { background: rgba(255,255,255,.08); color: var(--text-muted); }
 
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
 
-/* ---- Cards (public pages) ---- */
+/* ── Cards ── */
 .card {
   background: var(--bg-700);
   border-radius: var(--radius);
   border: 1px solid var(--line);
   transition: transform .18s, border-color .2s, box-shadow .2s;
 }
-.card:hover { transform: translateY(-4px); border-color: var(--line-gold); box-shadow: 0 12px 36px rgba(0,0,0,.35); }
+.card:hover { transform: translateY(-4px); border-color: var(--line-blue); box-shadow: 0 12px 36px rgba(0,10,50,.5); }
 
-/* ---- States ---- */
+/* ── States ── */
 .loading, .error-box, .empty {
   text-align: center; padding: 48px 20px; color: var(--text-muted); font-size: 1rem;
 }
@@ -108,19 +118,19 @@ h1,h2,h3,h4 {
 
 .spinner {
   width: 36px; height: 36px; margin: 0 auto 14px;
-  border: 3px solid var(--line); border-top-color: var(--gold);
+  border: 3px solid var(--line); border-top-color: var(--blue);
   border-radius: 50%; animation: spin .8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ---- Reveal animation ---- */
+/* ── Reveal animation ── */
 @keyframes rise {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 .reveal { animation: rise .55s cubic-bezier(.22,1,.36,1) both; }
 
-/* ---- Section header ---- */
+/* ── Section header ── */
 .section-head { margin-bottom: 40px; }
 .section-title {
   font-size: clamp(1.8rem,4vw,2.8rem);
@@ -128,12 +138,12 @@ h1,h2,h3,h4 {
 }
 .section-title::after {
   content: ''; display: block; width: 52px; height: 4px;
-  background: var(--gold); border-radius: 4px; margin-top: 10px;
+  background: var(--blue); border-radius: 4px; margin-top: 10px;
 }
 .section-sub { color: var(--text-muted); font-size: .9rem; margin-top: 8px; }
 
-/* ---- Accessibility ---- */
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+/* ── Accessibility ── */
+:focus-visible { outline: 2px solid var(--blue-light); outline-offset: 3px; }
 .visually-hidden { position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap; }
 
 @media (prefers-reduced-motion: reduce) {

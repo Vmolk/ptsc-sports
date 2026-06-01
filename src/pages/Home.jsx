@@ -14,25 +14,47 @@ export default function Home() {
   const eventDate =
     stats?.event?.startDate ||
     import.meta.env.VITE_EVENT_DATE ||
-    '2026-07-01T08:00:00+07:00';
+    '2026-07-05T08:00:00+07:00';
 
   return (
     <>
-      {/* ---- HERO ---- */}
+      {/* ── HERO ── */}
       <section className="hero">
         <div className="container hero-content reveal">
+
+          {/* Organiser logo + kicker */}
+          <div className="hero-org">
+            <img
+              src="/ptsc-logo.png"
+              alt="PTSC M&C"
+              className="hero-org-logo"
+              onError={e => { e.currentTarget.style.display = 'none'; }}
+            />
+          </div>
           <p className="hero-kicker">{t('organized_by')}</p>
+
+          {/* Main title */}
           <h1 className="hero-title">
-            QAQC<span>Sport Tournament</span>
+            HỘI THAO
+            <span className="hero-title-sub">PHÒNG QUẢN LÝ CHẤT LƯỢNG</span>
+            <span className="hero-title-year">2026</span>
           </h1>
+
+          {/* Date range */}
+          <div className="hero-dates">
+            🏟️&nbsp; 05 / 07 / 2026 &nbsp;–&nbsp; 18 / 07 / 2026
+          </div>
+
+          {/* Countdown */}
           <Countdown date={eventDate} />
+
           <Link to="/schedule" className="btn btn-primary hero-btn">
             {t('hero_cta')} →
           </Link>
         </div>
       </section>
 
-      {/* ---- STATS BAR ---- */}
+      {/* ── STATS BAR ── */}
       <section className="stats-section">
         <div className="container">
           {loading && <Loading />}
@@ -41,7 +63,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---- SPORTS ---- */}
+      {/* ── SPORTS ── */}
       <section className="sports-section">
         <div className="container">
           <div className="section-head">
@@ -75,12 +97,12 @@ export default function Home() {
 function StatsRow({ stats, t }) {
   const a = stats.athletes || {};
   const items = [
-    { num: stats.sportsCount, label: t('stat_sports') },
-    { num: stats.days,        label: t('stat_days') },
-    { num: stats.teamsCount,  label: t('stat_teams') },
-    { num: a.total,           label: t('stat_athletes') },
-    { num: `${a.male}/${a.female}`, label: t('stat_gender') },
-    { num: stats.matchesCount,      label: t('stat_matches') },
+    { num: stats.sportsCount,            label: t('stat_sports')   },
+    { num: stats.days,                   label: t('stat_days')     },
+    { num: stats.teamsCount,             label: t('stat_teams')    },
+    { num: a.total,                      label: t('stat_athletes') },
+    { num: `${a.male}/${a.female}`,      label: t('stat_gender')   },
+    { num: stats.matchesCount,           label: t('stat_matches')  },
   ];
   return (
     <div className="stats-grid">

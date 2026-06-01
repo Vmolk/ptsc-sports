@@ -4,11 +4,12 @@
 
 .page-header {
   background:
-    radial-gradient(100% 140% at 100% 0%, rgba(229,57,53,0.25), transparent 55%),
+    radial-gradient(110% 150% at 100%  0%, rgba(25,118,210,0.30), transparent 55%),
+    radial-gradient( 80% 120% at   0% 100%, rgba(13, 71,161,0.20), transparent 50%),
     var(--bg-950);
   color: #fff;
   padding-block: 56px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-blue);
 }
 .page-header h1 {
   font-family: var(--font-display);
@@ -49,8 +50,8 @@
   cursor: pointer;
   transition: all .16s;
 }
-.chip:hover  { border-color: var(--gold); color: var(--gold); }
-.chip.active { background: var(--gold); border-color: var(--gold); color: #000; font-weight: 700; }
+.chip:hover  { border-color: var(--blue-light); color: var(--blue-light); }
+.chip.active { background: var(--blue); border-color: var(--blue); color: #fff; font-weight: 700; }
 
 /* ---- Match summary line ---- */
 .match-summary {

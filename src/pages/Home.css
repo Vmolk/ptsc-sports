@@ -1,30 +1,40 @@
 /* ============================================================
-   Home Page — matching the QAQC Sport Tournament mockup
+   Home Page — PTSC M&C blue stadium theme
    ============================================================ */
 
-/* ---- HERO ---- */
+/* ── HERO ── */
 .hero {
   position: relative;
-  background: var(--bg-950);
   min-height: 92vh;
   display: flex; align-items: center;
   overflow: hidden;
+  /* Deep-blue stadium gradient */
+  background:
+    radial-gradient(ellipse 110% 60% at 50% 110%, rgba(25,118,210,0.55) 0%, transparent 65%),
+    radial-gradient(ellipse 60%  35% at 15%  10%, rgba(100,181,246,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 60%  35% at 85%  10%, rgba(100,181,246,0.08) 0%, transparent 55%),
+    var(--bg-950);
 }
 
-/* Dot-grid background pattern */
+/* Stadium track oval lines */
 .hero::before {
   content: '';
-  position: absolute; inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,.055) 1px, transparent 1px);
-  background-size: 32px 32px;
+  position: absolute; bottom: -40px; left: 50%;
+  transform: translateX(-50%);
+  width: 130%; height: 55%;
+  background:
+    radial-gradient(ellipse at center bottom, transparent 28%, rgba(25,118,210,0.18) 29%, rgba(25,118,210,0.18) 31%, transparent 32%),
+    radial-gradient(ellipse at center bottom, transparent 44%, rgba(25,118,210,0.12) 45%, rgba(25,118,210,0.12) 47%, transparent 48%),
+    radial-gradient(ellipse at center bottom, transparent 60%, rgba(25,118,210,0.08) 61%, rgba(25,118,210,0.08) 63%, transparent 64%);
   pointer-events: none;
 }
 
-/* Bottom fade */
+/* Dot-grid texture */
 .hero::after {
   content: '';
-  position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
-  background: linear-gradient(to bottom, transparent, var(--bg-900));
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(100,181,246,.045) 1px, transparent 1px);
+  background-size: 32px 32px;
   pointer-events: none;
 }
 
@@ -34,36 +44,76 @@
   padding-block: 80px 60px;
 }
 
+/* Organiser badge */
+.hero-org {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-bottom: 20px;
+}
+.hero-org-logo {
+  height: 40px; width: auto; object-fit: contain;
+}
 .hero-kicker {
   font-family: var(--font-display);
-  font-size: .82rem; font-weight: 600;
-  letter-spacing: .18em; text-transform: uppercase;
-  color: var(--gold);
+  font-size: .82rem; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--blue-light);
   margin-bottom: 20px;
 }
 
+/* Main title */
 .hero-title {
-  font-size: clamp(2.8rem, 9vw, 7rem);
-  font-weight: 800; color: #fff;
-  line-height: .95; margin-bottom: 28px;
+  font-size: clamp(2.4rem, 7vw, 5.6rem);
+  font-weight: 900; color: #fff;
+  line-height: 1; margin-bottom: 10px;
   text-shadow: 0 4px 32px rgba(0,0,0,.5);
+  letter-spacing: .02em;
 }
-.hero-title span { display: block; color: var(--gold); }
+.hero-title-sub {
+  font-family: var(--font-display);
+  display: block;
+  font-size: clamp(1.3rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: var(--blue-light);
+  letter-spacing: .06em;
+  margin-bottom: 6px;
+}
+.hero-title-year {
+  font-family: var(--font-display);
+  display: block;
+  font-size: clamp(3.5rem, 11vw, 8rem);
+  font-weight: 900;
+  color: var(--gold);
+  line-height: .9;
+  letter-spacing: -.01em;
+  text-shadow: 0 0 60px rgba(255,193,7,.35);
+  margin-bottom: 16px;
+}
+
+/* Date range pill */
+.hero-dates {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(25,118,210,.2);
+  border: 1px solid rgba(100,181,246,.3);
+  border-radius: 99px; padding: 6px 20px;
+  font-family: var(--font-display);
+  font-size: 1rem; font-weight: 700; letter-spacing: .06em;
+  color: var(--blue-light);
+  margin-bottom: 28px;
+}
 
 .hero-btn { margin-top: 8px; }
 
-/* ---- STATS BAR ---- */
+/* ── STATS BAR ── */
 .stats-section {
-  background: var(--bg-900);
+  background: var(--bg-800);
   padding-block: 40px;
+  border-top: 1px solid var(--line-blue);
   border-bottom: 1px solid var(--line);
 }
-
 .stats-grid {
   display: flex; flex-wrap: wrap;
   align-items: stretch; justify-content: center;
 }
-
 .stat-cell {
   display: flex; flex-direction: column; align-items: center;
   padding: 12px 28px;
@@ -71,11 +121,10 @@
   text-align: center;
 }
 .stat-cell:last-child { border-right: none; }
-
 .stat-num {
   font-family: var(--font-display);
   font-size: 2rem; font-weight: 800;
-  color: #fff; line-height: 1;
+  color: var(--blue-light); line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 .stat-label {
@@ -84,15 +133,13 @@
   margin-top: 4px;
 }
 
-/* ---- SPORTS ---- */
+/* ── SPORTS GRID ── */
 .sports-section { background: var(--bg-900); padding-block: 72px; }
-
 .sports-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px; margin-top: 40px;
 }
-
 .sport-card {
   background: var(--bg-700);
   border: 1px solid var(--line);
@@ -103,20 +150,20 @@
 }
 .sport-card:hover {
   transform: translateY(-5px);
-  border-color: rgba(245,192,48,.3);
-  box-shadow: 0 12px 32px rgba(0,0,0,.35);
+  border-color: rgba(100,181,246,.4);
+  box-shadow: 0 12px 32px rgba(0,10,50,.5);
 }
 .sport-icon { font-size: 2.4rem; display: block; margin-bottom: 12px; line-height: 1; }
 .sport-name { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: #fff; }
 .sport-meta { font-size: .78rem; color: var(--text-muted); margin-top: 5px; }
 .sports-cta { text-align: center; margin-top: 36px; }
 
-/* ---- Responsive ---- */
+/* ── Responsive ── */
 @media (max-width: 900px)  { .sports-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) {
-  .hero-title { font-size: clamp(2.2rem, 12vw, 3.6rem); }
-  .stat-cell { padding: 10px 16px; }
-  .stat-num { font-size: 1.5rem; }
+  .hero-title { font-size: clamp(2rem, 10vw, 3rem); }
+  .stat-cell  { padding: 10px 16px; }
+  .stat-num   { font-size: 1.5rem; }
   .sports-section { padding-block: 48px; }
   .sport-card { padding: 20px 14px 16px; }
 }

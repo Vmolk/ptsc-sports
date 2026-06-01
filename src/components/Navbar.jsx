@@ -28,8 +28,16 @@ export default function Navbar() {
     <header className="navbar">
       <div className="container navbar-inner">
         <Link to="/" className="brand" onClick={close}>
-          <span className="brand-mark" aria-hidden="true">🏆</span>
-          <span className="brand-text">QAQC <em>Sport Tournament</em></span>
+          <img
+            src="/ptsc-logo.png"
+            alt="PTSC M&C"
+            className="brand-logo"
+            onError={e => { e.currentTarget.style.display = 'none'; }}
+          />
+          <div>
+            <span className="brand-text">PTSC M&C <em>Sport</em></span>
+            <span className="brand-sub">Hội Thao QLCL 2026</span>
+          </div>
         </Link>
 
         <button
