@@ -75,9 +75,10 @@ function ParticipantsGrid({ participants, teams }) {
     }}>
       {byTeam.map(({ teamId, teamName, teamColor, members }) => (
         <div key={teamId} style={{
-          background: 'var(--bg-800)',
-          border: '1px solid var(--line)',
+          background: '#fff',
+          border: '1px solid var(--line-blue)',
           borderRadius: 10, overflow: 'hidden',
+          boxShadow: '0 2px 8px rgba(21,101,192,.08)',
         }}>
           {/* Team header */}
           <div style={{
@@ -90,7 +91,7 @@ function ParticipantsGrid({ participants, teams }) {
             <span style={{
               fontFamily: 'var(--font-display)', fontWeight: 800,
               fontSize: '.9rem', letterSpacing: '.04em', textTransform: 'uppercase',
-              color: '#fff',
+              color: teamColor,
             }}>
               {teamName}
             </span>
@@ -108,7 +109,7 @@ function ParticipantsGrid({ participants, teams }) {
               <div key={i} style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8,
               }}>
-                <span style={{ fontSize: '.82rem', color: '#fff' }}>{m.name}</span>
+                <span style={{ fontSize: '.82rem', color: 'var(--text)' }}>{m.name}</span>
                 <CatBadge label={m.category} />
               </div>
             ))}
@@ -166,9 +167,9 @@ export default function Sports() {
                     onClick={() => setActiveSport(s.id)}
                     style={{
                       padding: '9px 20px', borderRadius: 8,
-                      border: `1px solid ${currentSport?.id === s.id ? 'var(--gold)' : 'var(--line)'}`,
-                      background: currentSport?.id === s.id ? 'var(--gold)' : 'transparent',
-                      color:      currentSport?.id === s.id ? '#000' : 'var(--text-muted)',
+                      border: `1px solid ${currentSport?.id === s.id ? 'var(--blue)' : 'var(--line)'}`,
+                      background: currentSport?.id === s.id ? 'var(--blue)' : '#fff',
+                      color:      currentSport?.id === s.id ? '#fff' : 'var(--text-muted)',
                       fontWeight: 600, fontSize: '.9rem', cursor: 'pointer', transition: 'all .15s',
                     }}>
                     {s.icon} {s.name}
@@ -211,13 +212,13 @@ export default function Sports() {
 
                   {/* ── Participants section ── */}
                   <div style={{
-                    borderTop: '2px solid var(--gold)',
+                    borderTop: '2px solid var(--blue)',
                     paddingTop: 20,
                   }}>
                     <h3 style={{
                       fontFamily: 'var(--font-display)', fontSize: '1.1rem',
                       fontWeight: 800, textTransform: 'uppercase', letterSpacing: '.06em',
-                      color: 'var(--gold)', marginBottom: 4,
+                      color: 'var(--blue-dark)', marginBottom: 4,
                     }}>
                       Danh sách VĐV tham dự
                     </h3>
