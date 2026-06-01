@@ -1,7 +1,9 @@
 /**
  * /api/bracket
- * Returns sports with group standings + knockout rounds.
- * Used by both Bracket page and Leaderboard (standings) page.
+ * Returns sports with group standings + knockout rounds, grouped by category.
+ * Sports with multiple categories (e.g. badminton: Đơn nam/nữ, Đôi nam/nữ)
+ * return { hasCategories: true, categories: [...] }.
+ * Sports with one or no category return the flat structure.
  */
 import { ok, fail, handlePreflight } from './_shared.js';
 import { fetchSheet, toInt } from './_sheets.js';
@@ -13,7 +15,7 @@ export const ROUND_LABEL = {
   sf: 'Bán kết', '3rd': 'Hạng 3', final: 'Chung kết',
 };
 
-/* Compute W/D/L standings from a list of {home,away,homeScore,awayScore} */
+/* Compute W/D/L standings from a list of matches */
 function computeStandings(matches, teamById) {
   const tbl = {};
   const ensure = (id) => {
@@ -31,8 +33,7 @@ function computeStandings(matches, teamById) {
   });
   return Object.values(tbl)
     .map(t => ({
-      ...t,
-      gd:    t.gf - t.ga,
+      ...t, gd: t.gf - t.ga,
       name:  teamById[t.id]?.name  ?? t.id,
       short: teamById[t.id]?.short ?? '',
       color: teamById[t.id]?.color ?? '#888',
@@ -41,21 +42,44 @@ function computeStandings(matches, teamById) {
     .sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
 }
 
-/* Enrich a raw match with team/sport display info */
+/* Enrich a raw match with team display info */
 function enrich(m, teamById) {
   const home = teamById[m.home] || {};
   const away = teamById[m.away] || {};
   return {
-    id:         m.id,
-    round:      m.round,
-    roundLabel: ROUND_LABEL[m.round] ?? m.round,
-    groupName:  m.groupName || '',
+    id: m.id, round: m.round, roundLabel: ROUND_LABEL[m.round] ?? m.round,
+    groupName: m.groupName || '', category: m.category || '',
     home: m.home, away: m.away,
-    homeScore:  m.homeScore, awayScore: m.awayScore,
-    homeName:   home.name  ?? m.home,  homeColor: home.color ?? '#888', homeLogo: home.logo ?? '',
-    awayName:   away.name  ?? m.away,  awayColor: away.color ?? '#888', awayLogo: away.logo ?? '',
+    homeScore: m.homeScore, awayScore: m.awayScore,
+    homeName:  home.name  ?? m.home,  homeColor: home.color ?? '#888', homeLogo: home.logo ?? '',
+    awayName:  away.name  ?? m.away,  awayColor: away.color ?? '#888', awayLogo: away.logo ?? '',
     date: m.date ?? '', time: m.time ?? '', status: m.status ?? '',
   };
+}
+
+/* Build groups + knockout rounds from an array of enriched matches */
+function buildBracket(enrichedMatches, teamById) {
+  const groupMatches = enrichedMatches.filter(m => m.round === 'group');
+  const knockouts    = enrichedMatches.filter(m => m.round !== 'group');
+
+  let groups = null;
+  if (groupMatches.length) {
+    const groupNames = [...new Set(groupMatches.map(m => m.groupName || 'A'))].sort();
+    groups = {};
+    groupNames.forEach(gn => {
+      const gm = groupMatches.filter(m => (m.groupName || 'A') === gn);
+      groups[gn] = { matches: gm, standings: computeStandings(gm, teamById) };
+    });
+  }
+
+  const roundKeys = [...new Set(knockouts.map(m => m.round))]
+    .sort((a, b) => (ROUND_ORDER[a] ?? 9) - (ROUND_ORDER[b] ?? 9));
+  const rounds = {};
+  roundKeys.forEach(r => {
+    rounds[r] = { label: ROUND_LABEL[r] ?? r, matches: knockouts.filter(m => m.round === r) };
+  });
+
+  return { hasGroups: groupMatches.length > 0, groups, rounds, roundOrder: roundKeys };
 }
 
 export async function handler(event) {
@@ -76,9 +100,10 @@ export async function handler(event) {
   const rawMatches = matchRows?.length
     ? matchRows.map(m => ({
         id:        m.id,
-        sportId:   m.sport_id || m.sportId || '',
-        round:     m.round || 'group',
-        groupName: m.group_name || m.groupName || '',
+        sportId:   m.sport_id   || m.sportId   || '',
+        round:     m.round      || 'group',
+        category:  m.category   || '',
+        groupName: m.group_name || m.groupName  || '',
         home: m.home, away: m.away,
         homeScore: (m.home_score !== '' && m.home_score != null) ? toInt(m.home_score, null) : null,
         awayScore: (m.away_score !== '' && m.away_score != null) ? toInt(m.away_score, null) : null,
@@ -86,6 +111,7 @@ export async function handler(event) {
       }))
     : schedule.map(m => ({
         id: m.id, sportId: m.sportId, round: m.round,
+        category:  m.category  || '',
         groupName: m.groupName || '',
         home: m.home, away: m.away,
         homeScore: m.homeScore ?? null, awayScore: m.awayScore ?? null,
@@ -100,37 +126,44 @@ export async function handler(event) {
   });
 
   const result = sports.map(sp => {
-    const matches = (bySport[sp.id] || []).map(m => enrich(m, teamById));
+    const sportMatches = bySport[sp.id] || [];
 
-    /* Group-stage matches */
-    const groupMatches = matches.filter(m => m.round === 'group');
-    const knockouts    = matches.filter(m => m.round !== 'group');
+    /* Check if this sport uses categories */
+    const cats = [...new Set(sportMatches.map(m => m.category || ''))];
+    const hasCategories = cats.some(c => c !== '');
 
-    /* Build group standings */
-    let groups = null;
-    if (groupMatches.length) {
-      const groupNames = [...new Set(groupMatches.map(m => m.groupName || 'A'))].sort();
-      groups = {};
-      groupNames.forEach(gn => {
-        const gm = groupMatches.filter(m => (m.groupName || 'A') === gn);
-        groups[gn] = {
-          matches: gm,
-          standings: computeStandings(gm, teamById),
-        };
-      });
+    if (hasCategories) {
+      /* Build a separate bracket per category */
+      const namedCats = cats.filter(c => c !== '').sort();
+      const categories = namedCats
+        .map(cat => {
+          const catMatches = sportMatches.filter(m => m.category === cat);
+          const enriched   = catMatches.map(m => enrich(m, teamById));
+          const bracket    = buildBracket(enriched, teamById);
+          return { name: cat, ...bracket };
+        })
+        .filter(c => c.hasGroups || c.roundOrder.length > 0);
+
+      return {
+        id: sp.id, name: sp.name, icon: sp.icon ?? '🏅',
+        hasCategories: true,
+        categories,
+      };
     }
 
-    /* Build knockout rounds in sorted order */
-    const roundKeys = [...new Set(knockouts.map(m => m.round))]
-      .sort((a, b) => (ROUND_ORDER[a] ?? 9) - (ROUND_ORDER[b] ?? 9));
-    const rounds = {};
-    roundKeys.forEach(r => {
-      rounds[r] = { label: ROUND_LABEL[r] ?? r, matches: knockouts.filter(m => m.round === r) };
-    });
-
-    return { id: sp.id, name: sp.name, icon: sp.icon ?? '🏅',
-             hasGroups: groupMatches.length > 0, groups, rounds, roundOrder: roundKeys };
-  }).filter(sp => sp.hasGroups || sp.roundOrder.length > 0);
+    /* Single bracket (no categories) */
+    const enriched = sportMatches.map(m => enrich(m, teamById));
+    const bracket  = buildBracket(enriched, teamById);
+    return {
+      id: sp.id, name: sp.name, icon: sp.icon ?? '🏅',
+      hasCategories: false,
+      ...bracket,
+    };
+  }).filter(sp =>
+    sp.hasCategories
+      ? sp.categories?.length > 0
+      : sp.hasGroups || sp.roundOrder?.length > 0
+  );
 
   return ok(result);
 }

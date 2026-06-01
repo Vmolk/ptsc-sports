@@ -264,12 +264,62 @@ function TopScorers() {
   );
 }
 
+/* ─── Content of one bracket (groups + knockout) ─── */
+function BracketContent({ data, sportId }) {
+  const isFootball  = sportId === 'football';
+  const hasGroups   = data.hasGroups;
+  const hasKnockout = data.roundOrder?.length > 0;
+
+  const tabs = [
+    hasGroups   && { id: 'groups',  label: '📊 Bảng đấu'      },
+    hasKnockout && { id: 'bracket', label: '🏆 Sơ đồ thi đấu' },
+    isFootball  && { id: 'scorers', label: '⚽ Vua phá lưới'  },
+  ].filter(Boolean);
+
+  const [tab, setTab] = useState(tabs[0]?.id || 'bracket');
+
+  return (
+    <div>
+      {tabs.length > 1 && (
+        <div className="sport-tabs">
+          {tabs.map(t => (
+            <button key={t.id}
+              className={`sport-tab ${tab === t.id ? 'active' : ''}`}
+              onClick={() => setTab(t.id)}>
+              {t.label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {tab === 'groups'  && hasGroups   && (
+        <div className="groups-wrap">
+          {Object.entries(data.groups).map(([gn, g]) => (
+            <GroupTable key={gn} groupName={gn} standings={g.standings} matches={g.matches} />
+          ))}
+        </div>
+      )}
+      {tab === 'bracket' && hasKnockout && (
+        <VisualBracket rounds={data.rounds} roundOrder={data.roundOrder} />
+      )}
+      {tab === 'scorers' && <TopScorers />}
+
+      {!hasKnockout && !hasGroups && tab !== 'scorers' && (
+        <p style={{ color: 'var(--text-muted)', padding: '20px 0' }}>Chưa có trận đấu.</p>
+      )}
+    </div>
+  );
+}
+
 /* ─── Per-sport section ─── */
 function SportSection({ sport }) {
-  const isFootball  = sport.id === 'football';
-  const hasGroups   = sport.hasGroups;
-  const hasKnockout = sport.roundOrder?.length > 0;
-  const [tab, setTab] = useState(hasGroups ? 'groups' : 'bracket');
+  const hasCategories = sport.hasCategories && sport.categories?.length > 0;
+  const [catName, setCatName] = useState(sport.categories?.[0]?.name ?? '');
+
+  /* Active data: either the selected category or sport itself */
+  const activeData = hasCategories
+    ? (sport.categories.find(c => c.name === catName) || sport.categories[0])
+    : sport;
 
   return (
     <section className="sport-section card">
@@ -278,39 +328,21 @@ function SportSection({ sport }) {
         <h2 className="sport-section-name">{sport.name}</h2>
       </div>
 
-      {/* Build tab list — only render bar if 2+ tabs */}
-      {(() => {
-        const tabs = [
-          hasGroups   && { id: 'groups',  label: '📊 Bảng đấu'       },
-          hasKnockout && { id: 'bracket', label: '🏆 Sơ đồ thi đấu'  },
-          isFootball  && { id: 'scorers', label: '⚽ Vua phá lưới'   },
-        ].filter(Boolean);
-        return tabs.length > 1 ? (
-          <div className="sport-tabs">
-            {tabs.map(t => (
-              <button key={t.id}
-                className={`sport-tab ${tab === t.id ? 'active' : ''}`}
-                onClick={() => setTab(t.id)}>
-                {t.label}
-              </button>
-            ))}
-          </div>
-        ) : null;
-      })()}
-
-      {tab === 'groups'  && hasGroups   && (
-        <div className="groups-wrap">
-          {Object.entries(sport.groups).map(([gn, g]) => (
-            <GroupTable key={gn} groupName={gn} standings={g.standings} matches={g.matches} />
+      {/* Category tabs (e.g. Đơn nam / Đơn nữ / Đôi nam / Đôi nữ) */}
+      {hasCategories && (
+        <div className="sport-tabs" style={{ marginBottom: 8, flexWrap: 'wrap' }}>
+          {sport.categories.map(c => (
+            <button key={c.name}
+              className={`sport-tab ${catName === c.name ? 'active' : ''}`}
+              onClick={() => setCatName(c.name)}>
+              {c.name}
+            </button>
           ))}
         </div>
       )}
-      {tab === 'bracket' && hasKnockout && <VisualBracket rounds={sport.rounds} roundOrder={sport.roundOrder} />}
-      {tab === 'scorers'                 && <TopScorers />}
 
-      {!hasKnockout && !hasGroups && tab !== 'scorers' && (
-        <p style={{ color: 'var(--text-muted)', padding: '20px 0' }}>Chưa có trận đấu.</p>
-      )}
+      {/* Bracket content — remounts when category changes to reset inner tab */}
+      <BracketContent key={catName} data={activeData} sportId={sport.id} />
     </section>
   );
 }

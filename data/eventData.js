@@ -14,11 +14,11 @@ export const event = {
 };
 
 export const sports = [
-  { id: 'football',     name: 'Bóng đá',      icon: '⚽', format: 'Vòng bảng + Bán kết + Chung kết', venue: 'Sân cỏ nhân tạo', teams: 6 },
-  { id: 'badminton',    name: 'Cầu lông',      icon: '🏸', format: 'Tứ kết → Bán kết → Chung kết',   venue: 'Nhà thi đấu',     teams: 7 },
-  { id: 'pickleball',   name: 'Pickleball',    icon: '🏓', format: 'Tứ kết → Bán kết → Chung kết',   venue: 'Sân ngoài trời',  teams: 7 },
-  { id: 'waterhandball',name: 'Bóng ném nước', icon: '🤽', format: 'Bán kết + Chung kết',             venue: 'Hồ bơi PTSC',     teams: 4 },
-  { id: 'tugofwar',     name: 'Kéo co',        icon: '🪢', format: 'Bán kết + Chung kết',             venue: 'Bãi thi đấu',     teams: 7 },
+  { id: 'football',     name: 'Bóng đá',      icon: '⚽', format: 'Vòng bảng + Bán kết + Chung kết',                    venue: 'Sân cỏ nhân tạo', teams: 6 },
+  { id: 'badminton',    name: 'Cầu lông',      icon: '🏸', format: 'Đơn nam · Đơn nữ · Đôi nam · Đôi nữ — Tứ kết → CK', venue: 'Nhà thi đấu',     teams: 7 },
+  { id: 'pickleball',   name: 'Pickleball',    icon: '🏓', format: 'Đôi nam — Tứ kết → Bán kết → Chung kết',             venue: 'Sân ngoài trời',  teams: 7 },
+  { id: 'waterhandball',name: 'Bóng ném nước', icon: '🤽', format: 'Bán kết + Chung kết',                                 venue: 'Hồ bơi PTSC',     teams: 4 },
+  { id: 'tugofwar',     name: 'Kéo co',        icon: '🪢', format: 'Thi đấu theo tổ — Bán kết + Chung kết',              venue: 'Bãi thi đấu',     teams: 7 },
 ];
 
 export const teams = [
@@ -70,26 +70,43 @@ export const schedule = [
   { id: 'f09', sportId: 'football', round: 'final', date: '2026-07-12', day: 2, time: '10:30', venue: 'Sân cỏ', home: 'ei',    away: 'piping',  homeScore: null, awayScore: null, status: '' },
 
   // ═══════════════════════════════════════
-  // 🏸  CẦU LÔNG
+  // 🏸  CẦU LÔNG  (4 nội dung: Đơn nam · Đơn nữ · Đôi nam · Đôi nữ)
   // ═══════════════════════════════════════
-  { id: 'b01', sportId: 'badminton', round: 'qf',    date: '2026-07-05', day: 1, time: '08:00', venue: 'Nhà thi đấu', home: 'ei',      away: 'vattu',   homeScore: 21,   awayScore: 12,   status: 'finished' },
-  { id: 'b02', sportId: 'badminton', round: 'qf',    date: '2026-07-05', day: 1, time: '08:00', venue: 'Nhà thi đấu', home: 'painting',away: 'tonghop', homeScore: 15,   awayScore: 21,   status: 'finished' },
-  { id: 'b03', sportId: 'badminton', round: 'qf',    date: '2026-07-05', day: 1, time: '09:00', venue: 'Nhà thi đấu', home: 'dim',     away: 'ketkau',  homeScore: 21,   awayScore: 19,   status: 'finished' },
-  { id: 'b04', sportId: 'badminton', round: 'qf',    date: '2026-07-05', day: 1, time: '09:00', venue: 'Nhà thi đấu', home: 'piping',  away: 'vattu',   homeScore: 21,   awayScore: 16,   status: 'finished' },
-  { id: 'b05', sportId: 'badminton', round: 'sf',    date: '2026-07-05', day: 1, time: '11:00', venue: 'Nhà thi đấu', home: 'ei',      away: 'tonghop', homeScore: null, awayScore: null, status: '' },
-  { id: 'b06', sportId: 'badminton', round: 'sf',    date: '2026-07-05', day: 1, time: '11:00', venue: 'Nhà thi đấu', home: 'dim',     away: 'piping',  homeScore: null, awayScore: null, status: '' },
-  { id: 'b07', sportId: 'badminton', round: 'final', date: '2026-07-12', day: 2, time: '09:00', venue: 'Nhà thi đấu', home: 'ei',      away: 'dim',     homeScore: null, awayScore: null, status: '' },
+  // Đơn nam
+  { id: 'b_dn01', sportId: 'badminton', category: 'Đơn nam', round: 'qf', date: '2026-07-05', day: 1, time: '08:00', venue: 'Nhà thi đấu', home: 'ei',      away: 'vattu',   homeScore: 21, awayScore: 12, status: 'finished' },
+  { id: 'b_dn02', sportId: 'badminton', category: 'Đơn nam', round: 'qf', date: '2026-07-05', day: 1, time: '08:00', venue: 'Nhà thi đấu', home: 'painting',away: 'tonghop', homeScore: 15, awayScore: 21, status: 'finished' },
+  { id: 'b_dn03', sportId: 'badminton', category: 'Đơn nam', round: 'qf', date: '2026-07-05', day: 1, time: '09:00', venue: 'Nhà thi đấu', home: 'dim',     away: 'ketkau',  homeScore: 21, awayScore: 19, status: 'finished' },
+  { id: 'b_dn04', sportId: 'badminton', category: 'Đơn nam', round: 'qf', date: '2026-07-05', day: 1, time: '09:00', venue: 'Nhà thi đấu', home: 'piping',  away: 'vattu',   homeScore: 21, awayScore: 16, status: 'finished' },
+  { id: 'b_dn05', sportId: 'badminton', category: 'Đơn nam', round: 'sf', date: '2026-07-05', day: 1, time: '11:00', venue: 'Nhà thi đấu', home: 'ei',      away: 'tonghop', homeScore: null, awayScore: null, status: '' },
+  { id: 'b_dn06', sportId: 'badminton', category: 'Đơn nam', round: 'sf', date: '2026-07-05', day: 1, time: '11:00', venue: 'Nhà thi đấu', home: 'dim',     away: 'piping',  homeScore: null, awayScore: null, status: '' },
+  { id: 'b_dn07', sportId: 'badminton', category: 'Đơn nam', round: 'final', date: '2026-07-12', day: 2, time: '09:00', venue: 'Nhà thi đấu', home: 'ei', away: 'dim', homeScore: null, awayScore: null, status: '' },
+  // Đơn nữ
+  { id: 'b_dnu01', sportId: 'badminton', category: 'Đơn nữ', round: 'qf', date: '2026-07-05', day: 1, time: '08:30', venue: 'Nhà thi đấu', home: 'ei',      away: 'painting',homeScore: 21, awayScore: 14, status: 'finished' },
+  { id: 'b_dnu02', sportId: 'badminton', category: 'Đơn nữ', round: 'qf', date: '2026-07-05', day: 1, time: '08:30', venue: 'Nhà thi đấu', home: 'dim',     away: 'vattu',   homeScore: 21, awayScore: 17, status: 'finished' },
+  { id: 'b_dnu03', sportId: 'badminton', category: 'Đơn nữ', round: 'qf', date: '2026-07-05', day: 1, time: '09:30', venue: 'Nhà thi đấu', home: 'tonghop', away: 'ketkau',  homeScore: 21, awayScore: 13, status: 'finished' },
+  { id: 'b_dnu04', sportId: 'badminton', category: 'Đơn nữ', round: 'qf', date: '2026-07-05', day: 1, time: '09:30', venue: 'Nhà thi đấu', home: 'piping',  away: 'painting',homeScore: 16, awayScore: 21, status: 'finished' },
+  { id: 'b_dnu05', sportId: 'badminton', category: 'Đơn nữ', round: 'sf', date: '2026-07-05', day: 1, time: '11:30', venue: 'Nhà thi đấu', home: 'ei',      away: 'dim',     homeScore: null, awayScore: null, status: '' },
+  { id: 'b_dnu06', sportId: 'badminton', category: 'Đơn nữ', round: 'sf', date: '2026-07-05', day: 1, time: '11:30', venue: 'Nhà thi đấu', home: 'tonghop', away: 'painting',homeScore: null, awayScore: null, status: '' },
+  { id: 'b_dnu07', sportId: 'badminton', category: 'Đơn nữ', round: 'final', date: '2026-07-12', day: 2, time: '09:30', venue: 'Nhà thi đấu', home: 'ei', away: 'tonghop', homeScore: null, awayScore: null, status: '' },
+  // Đôi nam
+  { id: 'b_don01', sportId: 'badminton', category: 'Đôi nam', round: 'sf', date: '2026-07-07', day: 1, time: '14:00', venue: 'Nhà thi đấu', home: 'ei',     away: 'dim',     homeScore: 21, awayScore: 18, status: 'finished' },
+  { id: 'b_don02', sportId: 'badminton', category: 'Đôi nam', round: 'sf', date: '2026-07-07', day: 1, time: '14:00', venue: 'Nhà thi đấu', home: 'piping', away: 'tonghop', homeScore: 21, awayScore: 15, status: 'finished' },
+  { id: 'b_don03', sportId: 'badminton', category: 'Đôi nam', round: 'final', date: '2026-07-12', day: 2, time: '10:00', venue: 'Nhà thi đấu', home: 'ei', away: 'piping', homeScore: null, awayScore: null, status: '' },
+  // Đôi nữ
+  { id: 'b_donu01', sportId: 'badminton', category: 'Đôi nữ', round: 'sf', date: '2026-07-07', day: 1, time: '15:00', venue: 'Nhà thi đấu', home: 'painting',away: 'vattu',  homeScore: 21, awayScore: 11, status: 'finished' },
+  { id: 'b_donu02', sportId: 'badminton', category: 'Đôi nữ', round: 'sf', date: '2026-07-07', day: 1, time: '15:00', venue: 'Nhà thi đấu', home: 'ketkau', away: 'tonghop', homeScore: 15, awayScore: 21, status: 'finished' },
+  { id: 'b_donu03', sportId: 'badminton', category: 'Đôi nữ', round: 'final', date: '2026-07-12', day: 2, time: '10:30', venue: 'Nhà thi đấu', home: 'painting', away: 'tonghop', homeScore: null, awayScore: null, status: '' },
 
   // ═══════════════════════════════════════
-  // 🏓  PICKLEBALL
+  // 🏓  PICKLEBALL  (chỉ Đôi nam)
   // ═══════════════════════════════════════
-  { id: 'p01', sportId: 'pickleball', round: 'qf',    date: '2026-07-05', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'ketkau',  homeScore: 11,   awayScore: 7,    status: 'finished' },
-  { id: 'p02', sportId: 'pickleball', round: 'qf',    date: '2026-07-05', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'vattu',   away: 'painting',homeScore: 11,   awayScore: 8,    status: 'finished' },
-  { id: 'p03', sportId: 'pickleball', round: 'qf',    date: '2026-07-05', day: 1, time: '11:00', venue: 'Sân ngoài trời', home: 'dim',     away: 'tonghop', homeScore: 11,   awayScore: 9,    status: 'finished' },
-  { id: 'p04', sportId: 'pickleball', round: 'qf',    date: '2026-07-05', day: 1, time: '11:00', venue: 'Sân ngoài trời', home: 'piping',  away: 'painting',homeScore: 7,    awayScore: 11,   status: 'finished' },
-  { id: 'p05', sportId: 'pickleball', round: 'sf',    date: '2026-07-12', day: 2, time: '08:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'vattu',   homeScore: null, awayScore: null, status: '' },
-  { id: 'p06', sportId: 'pickleball', round: 'sf',    date: '2026-07-12', day: 2, time: '08:00', venue: 'Sân ngoài trời', home: 'dim',     away: 'painting',homeScore: null, awayScore: null, status: '' },
-  { id: 'p07', sportId: 'pickleball', round: 'final', date: '2026-07-12', day: 2, time: '10:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'dim',     homeScore: null, awayScore: null, status: '' },
+  { id: 'p01', sportId: 'pickleball', category: 'Đôi nam', round: 'qf',    date: '2026-07-05', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'ketkau',  homeScore: 11,   awayScore: 7,    status: 'finished' },
+  { id: 'p02', sportId: 'pickleball', category: 'Đôi nam', round: 'qf',    date: '2026-07-05', day: 1, time: '10:00', venue: 'Sân ngoài trời', home: 'vattu',   away: 'painting',homeScore: 11,   awayScore: 8,    status: 'finished' },
+  { id: 'p03', sportId: 'pickleball', category: 'Đôi nam', round: 'qf',    date: '2026-07-05', day: 1, time: '11:00', venue: 'Sân ngoài trời', home: 'dim',     away: 'tonghop', homeScore: 11,   awayScore: 9,    status: 'finished' },
+  { id: 'p04', sportId: 'pickleball', category: 'Đôi nam', round: 'qf',    date: '2026-07-05', day: 1, time: '11:00', venue: 'Sân ngoài trời', home: 'piping',  away: 'painting',homeScore: 7,    awayScore: 11,   status: 'finished' },
+  { id: 'p05', sportId: 'pickleball', category: 'Đôi nam', round: 'sf',    date: '2026-07-12', day: 2, time: '08:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'vattu',   homeScore: null, awayScore: null, status: '' },
+  { id: 'p06', sportId: 'pickleball', category: 'Đôi nam', round: 'sf',    date: '2026-07-12', day: 2, time: '08:00', venue: 'Sân ngoài trời', home: 'dim',     away: 'painting',homeScore: null, awayScore: null, status: '' },
+  { id: 'p07', sportId: 'pickleball', category: 'Đôi nam', round: 'final', date: '2026-07-12', day: 2, time: '10:00', venue: 'Sân ngoài trời', home: 'ei',      away: 'dim',     homeScore: null, awayScore: null, status: '' },
 
   // ═══════════════════════════════════════
   // 🤽  BÓNG NÉM NƯỚC
@@ -148,37 +165,43 @@ export const participants = [
   { sportId: 'football', teamId: 'tonghop',  name: 'Nguyễn Trung Kiên',  category: 'Nam' },
   { sportId: 'football', teamId: 'tonghop',  name: 'Vũ Ngọc Sơn',        category: 'Nam' },
 
-  // 🏸 CẦU LÔNG
-  { sportId: 'badminton', teamId: 'ei',       name: 'Nguyễn Văn An',     category: 'Đơn nam' },
-  { sportId: 'badminton', teamId: 'ei',       name: 'Trần Thị Lan',      category: 'Đơn nữ'  },
-  { sportId: 'badminton', teamId: 'painting', name: 'Nguyễn Hải Long',   category: 'Đơn nam' },
-  { sportId: 'badminton', teamId: 'painting', name: 'Phạm Thị Hoa',      category: 'Đơn nữ'  },
-  { sportId: 'badminton', teamId: 'dim',      name: 'Đinh Mạnh Tiến',    category: 'Đơn nam' },
-  { sportId: 'badminton', teamId: 'dim',      name: 'Nguyễn Thị Thu Thuỳ',category: 'Đơn nữ' },
-  { sportId: 'badminton', teamId: 'vattu',    name: 'Trần Văn Bình',     category: 'Đơn nam' },
-  { sportId: 'badminton', teamId: 'vattu',    name: 'Lê Thị Thuận',      category: 'Đơn nữ'  },
-  { sportId: 'badminton', teamId: 'tonghop',  name: 'Lê Thanh Tuấn',     category: 'Đôi nam' },
-  { sportId: 'badminton', teamId: 'tonghop',  name: 'Nguyễn Quỳnh Hoa',  category: 'Đôi nữ'  },
-  { sportId: 'badminton', teamId: 'ketkau',   name: 'Hoàng Văn Em',      category: 'Đơn nam' },
-  { sportId: 'badminton', teamId: 'ketkau',   name: 'Vũ Thị Thu Thảo',   category: 'Đơn nữ'  },
-  { sportId: 'badminton', teamId: 'piping',   name: 'Mai Chân Hoà',      category: 'Đơn nam' },
-  { sportId: 'badminton', teamId: 'piping',   name: 'Nguyễn Thị Phương Anh', category: 'Đơn nữ' },
+  // 🏸 CẦU LÔNG (Đơn nam · Đơn nữ · Đôi nam · Đôi nữ)
+  { sportId: 'badminton', teamId: 'ei',       name: 'Nguyễn Văn An',        category: 'Đơn nam' },
+  { sportId: 'badminton', teamId: 'ei',       name: 'Trần Thị Lan',         category: 'Đơn nữ'  },
+  { sportId: 'badminton', teamId: 'ei',       name: 'Lê Minh Tuấn',         category: 'Đôi nam' },
+  { sportId: 'badminton', teamId: 'ei',       name: 'Phạm Đức Huy',         category: 'Đôi nam' },
+  { sportId: 'badminton', teamId: 'painting', name: 'Nguyễn Hải Long',      category: 'Đơn nam' },
+  { sportId: 'badminton', teamId: 'painting', name: 'Phạm Thị Hoa',         category: 'Đơn nữ'  },
+  { sportId: 'badminton', teamId: 'painting', name: 'Trần Văn Mạnh',        category: 'Đôi nam' },
+  { sportId: 'badminton', teamId: 'painting', name: 'Đặng Thị Hồng',        category: 'Đôi nữ'  },
+  { sportId: 'badminton', teamId: 'dim',      name: 'Đinh Mạnh Tiến',       category: 'Đơn nam' },
+  { sportId: 'badminton', teamId: 'dim',      name: 'Nguyễn Thị Thu Thuỳ',  category: 'Đơn nữ'  },
+  { sportId: 'badminton', teamId: 'vattu',    name: 'Trần Văn Bình',        category: 'Đơn nam' },
+  { sportId: 'badminton', teamId: 'vattu',    name: 'Lê Thị Thuận',         category: 'Đơn nữ'  },
+  { sportId: 'badminton', teamId: 'tonghop',  name: 'Lê Thanh Tuấn',        category: 'Đơn nam' },
+  { sportId: 'badminton', teamId: 'tonghop',  name: 'Nguyễn Quỳnh Hoa',     category: 'Đơn nữ'  },
+  { sportId: 'badminton', teamId: 'tonghop',  name: 'Nguyễn Trung Kiên',    category: 'Đôi nam' },
+  { sportId: 'badminton', teamId: 'tonghop',  name: 'Vũ Ngọc Hương',        category: 'Đôi nữ'  },
+  { sportId: 'badminton', teamId: 'ketkau',   name: 'Hoàng Văn Em',         category: 'Đơn nam' },
+  { sportId: 'badminton', teamId: 'ketkau',   name: 'Vũ Thị Thu Thảo',      category: 'Đơn nữ'  },
+  { sportId: 'badminton', teamId: 'piping',   name: 'Mai Chân Hoà',         category: 'Đơn nam' },
+  { sportId: 'badminton', teamId: 'piping',   name: 'Nguyễn Thị Phương Anh',category: 'Đơn nữ'  },
 
-  // 🏓 PICKLEBALL (cặp đôi nam-nữ)
-  { sportId: 'pickleball', teamId: 'ei',       name: 'Nguyễn Văn An',     category: 'Cặp nam-nữ' },
-  { sportId: 'pickleball', teamId: 'ei',       name: 'Trần Thị Lan',      category: 'Cặp nam-nữ' },
-  { sportId: 'pickleball', teamId: 'painting', name: 'Nguyễn Hải Long',   category: 'Cặp nam-nữ' },
-  { sportId: 'pickleball', teamId: 'painting', name: 'Phạm Thị Hoa',      category: 'Cặp nam-nữ' },
-  { sportId: 'pickleball', teamId: 'dim',      name: 'Đinh Mạnh Tiến',    category: 'Cặp nam-nữ' },
-  { sportId: 'pickleball', teamId: 'dim',      name: 'Nguyễn Thị Thu Thuỳ',category: 'Cặp nam-nữ'},
-  { sportId: 'pickleball', teamId: 'vattu',    name: 'Trần Văn Bình',     category: 'Cặp nam-nữ' },
-  { sportId: 'pickleball', teamId: 'vattu',    name: 'Lê Thị Thuận',      category: 'Cặp nam-nữ' },
-  { sportId: 'pickleball', teamId: 'tonghop',  name: 'Lê Thanh Tuấn',     category: 'Cặp nam-nữ' },
-  { sportId: 'pickleball', teamId: 'tonghop',  name: 'Nguyễn Quỳnh Hoa',  category: 'Cặp nam-nữ' },
-  { sportId: 'pickleball', teamId: 'ketkau',   name: 'Hoàng Văn Em',      category: 'Cặp nam-nữ' },
-  { sportId: 'pickleball', teamId: 'ketkau',   name: 'Vũ Thị Thu Thảo',   category: 'Cặp nam-nữ' },
-  { sportId: 'pickleball', teamId: 'piping',   name: 'Mai Chân Hoà',      category: 'Cặp nam-nữ' },
-  { sportId: 'pickleball', teamId: 'piping',   name: 'Nguyễn Thị Phương Anh', category: 'Cặp nam-nữ' },
+  // 🏓 PICKLEBALL (chỉ Đôi nam)
+  { sportId: 'pickleball', teamId: 'ei',       name: 'Nguyễn Văn An',     category: 'Đôi nam' },
+  { sportId: 'pickleball', teamId: 'ei',       name: 'Lê Minh Tuấn',      category: 'Đôi nam' },
+  { sportId: 'pickleball', teamId: 'painting', name: 'Nguyễn Hải Long',   category: 'Đôi nam' },
+  { sportId: 'pickleball', teamId: 'painting', name: 'Trần Văn Mạnh',     category: 'Đôi nam' },
+  { sportId: 'pickleball', teamId: 'dim',      name: 'Đinh Mạnh Tiến',    category: 'Đôi nam' },
+  { sportId: 'pickleball', teamId: 'dim',      name: 'Lê Văn Khoa',       category: 'Đôi nam' },
+  { sportId: 'pickleball', teamId: 'vattu',    name: 'Trần Văn Bình',     category: 'Đôi nam' },
+  { sportId: 'pickleball', teamId: 'vattu',    name: 'Nguyễn Quang Vinh', category: 'Đôi nam' },
+  { sportId: 'pickleball', teamId: 'tonghop',  name: 'Lê Thanh Tuấn',    category: 'Đôi nam' },
+  { sportId: 'pickleball', teamId: 'tonghop',  name: 'Nguyễn Trung Kiên', category: 'Đôi nam' },
+  { sportId: 'pickleball', teamId: 'ketkau',   name: 'Hoàng Văn Em',      category: 'Đôi nam' },
+  { sportId: 'pickleball', teamId: 'ketkau',   name: 'Phạm Quang Hiệu',   category: 'Đôi nam' },
+  { sportId: 'pickleball', teamId: 'piping',   name: 'Mai Chân Hoà',      category: 'Đôi nam' },
+  { sportId: 'pickleball', teamId: 'piping',   name: 'Bùi Văn Tùng',      category: 'Đôi nam' },
 
   // 🤽 BÓNG NÉM NƯỚC
   { sportId: 'waterhandball', teamId: 'ei',       name: 'Nguyễn Văn An',    category: 'Nam' },
@@ -194,24 +217,24 @@ export const participants = [
   { sportId: 'waterhandball', teamId: 'painting', name: 'Trần Văn Mạnh',    category: 'Nam' },
   { sportId: 'waterhandball', teamId: 'painting', name: 'Đặng Quốc Cường',  category: 'Nam' },
 
-  // 🪢 KÉO CO
-  { sportId: 'tugofwar', teamId: 'ei',       name: 'Nguyễn Văn An',      category: 'Nam' },
-  { sportId: 'tugofwar', teamId: 'ei',       name: 'Trần Quốc Bảo',      category: 'Nam' },
-  { sportId: 'tugofwar', teamId: 'ei',       name: 'Lê Minh Tuấn',       category: 'Nam' },
-  { sportId: 'tugofwar', teamId: 'ei',       name: 'Phạm Đức Huy',       category: 'Nam' },
-  { sportId: 'tugofwar', teamId: 'ei',       name: 'Trần Thị Lan',       category: 'Nữ'  },
-  { sportId: 'tugofwar', teamId: 'piping',   name: 'Hoàng Minh Đức',     category: 'Nam' },
-  { sportId: 'tugofwar', teamId: 'piping',   name: 'Vũ Thanh Hà',        category: 'Nam' },
-  { sportId: 'tugofwar', teamId: 'piping',   name: 'Bùi Văn Tùng',       category: 'Nam' },
-  { sportId: 'tugofwar', teamId: 'piping',   name: 'Nguyễn Thị Phương Anh',category: 'Nữ'},
-  { sportId: 'tugofwar', teamId: 'dim',      name: 'Đinh Mạnh Tiến',     category: 'Nam' },
-  { sportId: 'tugofwar', teamId: 'dim',      name: 'Lê Văn Khoa',        category: 'Nam' },
-  { sportId: 'tugofwar', teamId: 'dim',      name: 'Phạm Trung Hiếu',    category: 'Nam' },
-  { sportId: 'tugofwar', teamId: 'dim',      name: 'Nguyễn Thị Thu Thuỳ',category: 'Nữ' },
-  { sportId: 'tugofwar', teamId: 'tonghop',  name: 'Lê Thanh Tuấn',      category: 'Nam' },
-  { sportId: 'tugofwar', teamId: 'tonghop',  name: 'Nguyễn Trung Kiên',  category: 'Nam' },
-  { sportId: 'tugofwar', teamId: 'tonghop',  name: 'Vũ Ngọc Sơn',        category: 'Nam' },
-  { sportId: 'tugofwar', teamId: 'tonghop',  name: 'Nguyễn Quỳnh Hoa',   category: 'Nữ'  },
+  // 🪢 KÉO CO (thi đấu theo đội tổ)
+  { sportId: 'tugofwar', teamId: 'ei',       name: 'Nguyễn Văn An',       category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'ei',       name: 'Trần Quốc Bảo',       category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'ei',       name: 'Lê Minh Tuấn',        category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'ei',       name: 'Phạm Đức Huy',        category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'ei',       name: 'Trần Thị Lan',        category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'piping',   name: 'Hoàng Minh Đức',      category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'piping',   name: 'Vũ Thanh Hà',         category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'piping',   name: 'Bùi Văn Tùng',        category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'piping',   name: 'Nguyễn Thị Phương Anh',category: 'Đội tổ'},
+  { sportId: 'tugofwar', teamId: 'dim',      name: 'Đinh Mạnh Tiến',      category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'dim',      name: 'Lê Văn Khoa',         category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'dim',      name: 'Phạm Trung Hiếu',     category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'dim',      name: 'Nguyễn Thị Thu Thuỳ', category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'tonghop',  name: 'Lê Thanh Tuấn',       category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'tonghop',  name: 'Nguyễn Trung Kiên',   category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'tonghop',  name: 'Vũ Ngọc Sơn',         category: 'Đội tổ' },
+  { sportId: 'tugofwar', teamId: 'tonghop',  name: 'Nguyễn Quỳnh Hoa',    category: 'Đội tổ' },
 ];
 
 export const athletes = { total: 150, male: 96, female: 54 };
