@@ -71,8 +71,18 @@
   display: flex; align-items: center;
   justify-content: center; gap: 14px;
 }
-.match-team      { display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: .95rem; color: var(--text); }
-.match-team.away { flex-direction: row-reverse; text-align: right; }
+/* Each side takes equal space so the score stays centred regardless of name length */
+.match-team {
+  display: flex; align-items: center; gap: 8px;
+  font-weight: 500; font-size: .95rem; color: var(--text);
+  flex: 1;
+  justify-content: flex-end;   /* home team: push content to the right */
+}
+.match-team.away {
+  flex-direction: row-reverse;
+  justify-content: flex-end;   /* away team: push content to the left (reversed) */
+  text-align: left;
+}
 
 .match-score {
   font-family: var(--font-display);
