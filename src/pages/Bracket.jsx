@@ -159,9 +159,24 @@ function VisualBracket({ rounds, roundOrder }) {
   );
 }
 
-/* ─── Group standings (football) ─── */
+/* Render a name that may contain " – " (pair) as stacked lines */
+function PairName({ name, bold }) {
+  const parts = name ? name.split(/\s*[–-]\s*/) : [name];
+  if (parts.length === 1) return <span style={{ fontWeight: bold ? 600 : 400 }}>{name}</span>;
+  return (
+    <span style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+      {parts.map((p, i) => (
+        <span key={i} style={{ fontWeight: bold ? 600 : 400, lineHeight: 1.35, whiteSpace: 'nowrap' }}>{p.trim()}</span>
+      ))}
+    </span>
+  );
+}
+
+/* ─── Group standings ─── */
 function GroupTable({ groupName, standings, matches, sportId }) {
-  const isPkl = sportId === 'pickleball';
+  /* Compact table (no D/HS/HB): pickleball AND badminton doubles/pairs */
+  const isCompact = sportId === 'pickleball' || sportId === 'badminton';
+  const isPairs   = isCompact;   /* show stacked pair names, no team avatar */
   const [showMatches, setShowMatches] = useState(false);
   const toggle = useCallback(() => setShowMatches(v => !v), []);
 
@@ -171,14 +186,14 @@ function GroupTable({ groupName, standings, matches, sportId }) {
       <table className="group-table">
         <thead>
           <tr>
-            <th style={{ textAlign: 'left' }}>{isPkl ? 'Cặp đôi' : 'Đội'}</th>
+            <th style={{ textAlign: 'left' }}>{isPairs ? 'Cặp / VĐV' : 'Đội'}</th>
             <th>T</th>
             <th>W</th>
-            {!isPkl && <th>D</th>}
+            {!isCompact && <th>D</th>}
             <th>L</th>
-            {!isPkl && <th>HS</th>}
-            {!isPkl && <th>HB</th>}
-            <th>{isPkl ? 'Hệ số' : 'HL'}</th>
+            {!isCompact && <th>HS</th>}
+            {!isCompact && <th>HB</th>}
+            <th>{isCompact ? 'Hệ số' : 'HL'}</th>
             <th>Điểm</th>
           </tr>
         </thead>
@@ -187,16 +202,16 @@ function GroupTable({ groupName, standings, matches, sportId }) {
             <tr key={t.id} className={i < 2 ? 'qualify' : ''}>
               <td>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  {!isPkl && <TeamAvatar name={t.name} short={t.short} color={t.color} logo={t.logo} size={28} />}
-                  <span style={{ fontWeight: i < 2 ? 600 : 400 }}>{t.name}</span>
+                  {!isPairs && <TeamAvatar name={t.name} short={t.short} color={t.color} logo={t.logo} size={28} />}
+                  <PairName name={t.name} bold={i < 2} />
                 </div>
               </td>
               <td>{t.w + t.d + t.l}</td>
               <td>{t.w}</td>
-              {!isPkl && <td>{t.d}</td>}
+              {!isCompact && <td>{t.d}</td>}
               <td>{t.l}</td>
-              {!isPkl && <td>{t.gf}</td>}
-              {!isPkl && <td>{t.ga}</td>}
+              {!isCompact && <td>{t.gf}</td>}
+              {!isCompact && <td>{t.ga}</td>}
               <td className={t.gd > 0 ? 'pos' : t.gd < 0 ? 'neg' : ''}>
                 {t.gd > 0 ? '+' : ''}{t.gd}
               </td>
