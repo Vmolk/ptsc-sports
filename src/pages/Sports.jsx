@@ -107,9 +107,23 @@ function ParticipantsGrid({ participants, teams }) {
           <div style={{ padding: '8px 12px', display: 'flex', flexDirection: 'column', gap: 5 }}>
             {members.map((m, i) => (
               <div key={i} style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8,
+                display: 'flex', alignItems: 'center', gap: 8,
               }}>
-                <span style={{ fontSize: '.82rem', color: 'var(--text)' }}>{m.name}</span>
+                {/* Số áo */}
+                {m.jersey ? (
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                    minWidth: 26, height: 20, borderRadius: 4,
+                    background: 'rgba(21,101,192,.10)', color: 'var(--blue)',
+                    fontSize: '.7rem', fontWeight: 800, fontFamily: 'var(--font-display)',
+                    letterSpacing: '.02em', flexShrink: 0, padding: '0 4px',
+                  }}>
+                    #{m.jersey}
+                  </span>
+                ) : (
+                  <span style={{ minWidth: 26 }} />
+                )}
+                <span style={{ fontSize: '.82rem', color: 'var(--text)', flex: 1 }}>{m.name}</span>
                 <CatBadge label={m.category} />
               </div>
             ))}

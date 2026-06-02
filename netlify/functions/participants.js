@@ -41,6 +41,7 @@ export async function handler(event) {
         teamId:    tid,
         name:      r.name     || '',
         category:  r.category || '',
+        jersey:    r.jersey   || r.so_ao || '',   // Số áo — column "jersey" or "so_ao"
         teamName:  teamById[tid]?.name  ?? tid,
         teamColor: teamById[tid]?.color ?? '#888',
         teamShort: teamById[tid]?.short ?? '',
@@ -51,6 +52,7 @@ export async function handler(event) {
   } else {
     data = staticParticipants.map(r => ({
       ...r,
+      jersey:    r.jersey || '',
       teamName:  teamById[r.teamId]?.name  ?? r.teamId,
       teamColor: teamById[r.teamId]?.color ?? '#888',
       teamShort: teamById[r.teamId]?.short ?? '',
