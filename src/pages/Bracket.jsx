@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { api } from '../utils/api.js';
 import { useFetch } from '../hooks/useFetch.js';
 import { Loading, ErrorState, Empty } from '../components/States.jsx';
@@ -160,6 +160,9 @@ function VisualBracket({ rounds, roundOrder }) {
 /* ─── Group standings (football) ─── */
 function GroupTable({ groupName, standings, matches, sportId }) {
   const isPkl = sportId === 'pickleball';
+  const [showMatches, setShowMatches] = useState(false);
+  const toggle = useCallback(() => setShowMatches(v => !v), []);
+
   return (
     <div className="group-block">
       <h4 className="group-title">Bảng {groupName}</h4>
@@ -200,9 +203,40 @@ function GroupTable({ groupName, standings, matches, sportId }) {
           ))}
         </tbody>
       </table>
-      <div className="group-matches">
-        {matches.map(m => <GroupMatchRow key={m.id} m={m} />)}
-      </div>
+
+      {/* ── Collapsible match results ── */}
+      {matches?.length > 0 && (
+        <>
+          <button
+            onClick={toggle}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              width: '100%', padding: '7px 0', marginTop: 6,
+              background: 'transparent', border: 'none',
+              borderTop: '1px dashed var(--line-blue)',
+              color: 'var(--blue)', fontWeight: 700, fontSize: '.8rem',
+              cursor: 'pointer', letterSpacing: '.04em', textTransform: 'uppercase',
+              transition: 'color .15s',
+            }}
+          >
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              width: 18, height: 18, borderRadius: '50%',
+              border: '1.5px solid var(--blue)',
+              fontWeight: 800, fontSize: '.85rem', lineHeight: 1,
+              transition: 'transform .2s',
+              transform: showMatches ? 'rotate(45deg)' : 'rotate(0deg)',
+            }}>+</span>
+            {showMatches ? 'Ẩn kết quả trận' : `Xem kết quả (${matches.length} trận)`}
+          </button>
+
+          {showMatches && (
+            <div className="group-matches" style={{ marginTop: 6 }}>
+              {matches.map(m => <GroupMatchRow key={m.id} m={m} />)}
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
@@ -214,18 +248,29 @@ function GroupMatchRow({ m }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 8,
-      padding: '6px 0', borderBottom: '1px solid var(--line)', fontSize: '.82rem',
+      padding: '6px 4px', borderBottom: '1px solid var(--line)', fontSize: '.82rem',
     }}>
-      <span style={{ flex: 1, textAlign: 'right', fontWeight: hw ? 700 : 400, color: hw ? '#fff' : 'var(--text-muted)' }}>
+      <span style={{
+        flex: 1, textAlign: 'right',
+        fontWeight: hw ? 700 : 500,
+        color: hw ? 'var(--blue-dark)' : 'var(--text)',
+      }}>
         {m.homeName}
       </span>
       <span style={{
         minWidth: 56, textAlign: 'center', fontFamily: 'var(--font-display)',
-        fontWeight: 800, fontSize: '1rem', color: played ? '#fff' : 'var(--text-muted)',
+        fontWeight: 800, fontSize: '1rem',
+        color: played ? 'var(--blue-dark)' : 'var(--text-muted)',
+        background: played ? 'rgba(21,101,192,.08)' : 'transparent',
+        borderRadius: 6, padding: '1px 6px',
       }}>
         {played ? `${m.homeScore} – ${m.awayScore}` : 'vs'}
       </span>
-      <span style={{ flex: 1, textAlign: 'left', fontWeight: aw ? 700 : 400, color: aw ? '#fff' : 'var(--text-muted)' }}>
+      <span style={{
+        flex: 1, textAlign: 'left',
+        fontWeight: aw ? 700 : 500,
+        color: aw ? 'var(--blue-dark)' : 'var(--text)',
+      }}>
         {m.awayName}
       </span>
     </div>
