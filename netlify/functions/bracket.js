@@ -11,7 +11,7 @@ import { schedule, teams as staticTeams, sports as staticSports } from '../../da
 
 const ROUND_ORDER = { group: 0, r16: 1, qf: 2, sf: 3, '3rd': 4, final: 5 };
 export const ROUND_LABEL = {
-  group: 'Vòng bảng', r16: '1/8 Cuối', qf: 'Tứ kết',
+  group: 'Vòng bảng', r16: 'Vòng 1/8', qf: 'Tứ kết',
   sf: 'Bán kết', '3rd': 'Hạng 3', final: 'Chung kết',
 };
 

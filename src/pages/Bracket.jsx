@@ -5,7 +5,7 @@ import { Loading, ErrorState, Empty } from '../components/States.jsx';
 import './Bracket.css';
 
 const ROUND_LABEL = {
-  group: 'Vòng bảng', r16: '1/8 Cuối', qf: 'Tứ kết',
+  group: 'Vòng bảng', r16: 'Vòng 1/8', qf: 'Tứ kết',
   sf: 'Bán kết', final: 'Chung kết',
 };
 
@@ -15,10 +15,12 @@ const MATCH_H = 104;  // rendered match card height (px) — 2 × 52px rows
 const MATCH_W = 214;  // match card width (px)
 const GUTTER  = 44;   // connector gutter between rounds (px)
 
+/* Slot height must always exceed MATCH_H (104px) to prevent card overlap */
 function slotSize(baseCount) {
-  if (baseCount <= 2) return 130;
-  if (baseCount <= 4) return 108;
-  return 90;
+  if (baseCount <= 2)  return 140;
+  if (baseCount <= 4)  return 124;
+  if (baseCount <= 8)  return 116;
+  return 112;   // minimum: MATCH_H(104) + 8px gap
 }
 
 /* ─── Team avatar ─── */
