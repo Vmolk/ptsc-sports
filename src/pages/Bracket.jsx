@@ -187,14 +187,12 @@ function GroupTable({ groupName, standings, matches, sportId }) {
         <thead>
           <tr>
             <th style={{ textAlign: 'left' }}>{isPairs ? 'Cặp / VĐV' : 'Đội'}</th>
-            <th>T</th>
-            <th>W</th>
-            {!isCompact && <th>D</th>}
-            <th>L</th>
-            {!isCompact && <th>HS</th>}
-            {!isCompact && <th>HB</th>}
-            <th>{isCompact ? 'Hệ số' : 'HL'}</th>
-            <th>Điểm</th>
+            <th title="Played">P</th>
+            <th title="Wins">W</th>
+            {!isCompact && <th title="Draws">D</th>}
+            <th title="Losses">L</th>
+            <th title="Goal difference">+/-</th>
+            <th title="Points">Pts</th>
           </tr>
         </thead>
         <tbody>
@@ -210,8 +208,6 @@ function GroupTable({ groupName, standings, matches, sportId }) {
               <td>{t.w}</td>
               {!isCompact && <td>{t.d}</td>}
               <td>{t.l}</td>
-              {!isCompact && <td>{t.gf}</td>}
-              {!isCompact && <td>{t.ga}</td>}
               <td className={t.gd > 0 ? 'pos' : t.gd < 0 ? 'neg' : ''}>
                 {t.gd > 0 ? '+' : ''}{t.gd}
               </td>

@@ -20,7 +20,8 @@ export const ROUND_LABEL = {
  * other sports: 3 pts/win, 1 pt/draw (football style)
  */
 function computeStandings(matches, teamById, sportId) {
-  const isPkl = sportId === 'pickleball';
+  /* 1pt/win, no draws: pickleball + badminton */
+  const isPkl = sportId === 'pickleball' || sportId === 'badminton';
   const tbl = {};
   const ensure = (id) => {
     if (!tbl[id]) tbl[id] = { id, w: 0, d: 0, l: 0, gf: 0, ga: 0, pts: 0 };
