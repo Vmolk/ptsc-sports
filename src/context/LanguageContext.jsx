@@ -12,7 +12,7 @@ const STRINGS = {
     nav_gallery: 'Thư Viện Ảnh',
     nav_sports: 'Môn thể thao',
     nav_schedule: 'Lịch thi đấu',
-    nav_bracket:  'Bảng thi đấu',
+    nav_bracket:  'Bảng xếp hạng',
     countdown: 'Đếm ngược đến ngày thi đấu',
     days: 'Ngày', hours: 'Giờ', minutes: 'Phút', seconds: 'Giây',
     stat_sports: 'Môn thi đấu',
@@ -23,7 +23,7 @@ const STRINGS = {
     stat_matches: 'Trận đấu',
     sports_title: 'Môn thể thao',
     hero_cta: 'Xem lịch thi đấu',
-    organized_by: 'PTSC M&C · Phòng Quản Lý Chất Lượng',
+    organized_by: 'Hội Thao Phòng Quản Lý Chất Lượng 2026',
   },
   en: {
     nav_home: 'Home',
@@ -31,7 +31,7 @@ const STRINGS = {
     nav_gallery: 'Gallery',
     nav_sports: 'Sports',
     nav_schedule: 'Schedule',
-    nav_bracket:  'Bracket',
+    nav_bracket:  'Standings',
     countdown: 'Countdown to the games',
     days: 'Days', hours: 'Hours', minutes: 'Mins', seconds: 'Secs',
     stat_sports: 'Sports',
@@ -42,7 +42,7 @@ const STRINGS = {
     stat_matches: 'Matches',
     sports_title: 'Sports Disciplines',
     hero_cta: 'View schedule',
-    organized_by: 'PTSC M&C · Quality Management Dept.',
+    organized_by: 'PTSC M&C Sports Tournament 2026',
   },
 };
 

@@ -424,7 +424,7 @@ export default function Bracket() {
       <header className="page-header">
         <div className="container">
           <h1>Bảng thi đấu</h1>
-          <p>Sơ đồ đấu loại từng môn · QAQC Sport Tournament 2026</p>
+          <p>Hội Thao Phòng Quản Lý Chất Lượng 2026</p>
         </div>
       </header>
 
