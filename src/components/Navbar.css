@@ -21,9 +21,9 @@
 .brand-text em { color: var(--blue-light); font-style: normal; }
 .brand-sub {
   display: block;
-  font-size: .65rem; font-weight: 600;
+  font-size: .65rem; font-weight: 700;
   letter-spacing: .08em; text-transform: uppercase;
-  color: var(--text-muted); line-height: 1; margin-top: 2px;
+  color: var(--blue); line-height: 1; margin-top: 2px;
 }
 
 /* Nav links */

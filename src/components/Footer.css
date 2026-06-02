@@ -18,7 +18,7 @@
   color: #fff; margin-bottom: 10px;
   letter-spacing: .04em; text-transform: uppercase;
 }
-.footer-brand span { color: var(--blue-light); }
+.footer-brand span { color: var(--gold); }
 
 .footer-note { font-size: .88rem; margin-bottom: 4px; color: rgba(255,255,255,0.65); }
 

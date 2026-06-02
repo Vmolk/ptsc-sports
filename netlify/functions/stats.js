@@ -40,11 +40,18 @@ export async function handler(req) {
     };
   }
 
+  /* Allow overriding teamsCount via event sheet key "teams_count" */
+  let teamsCount = teamsRows?.length ?? st.length;
+  if (evRows?.length) {
+    const kv = Object.fromEntries(evRows.map(r => [r.key, r.value]));
+    if (kv.teams_count) teamsCount = toInt(kv.teams_count, teamsCount);
+  }
+
   return ok({
     event,
     sportsCount:  sportsRows?.length  || ss.length,
     days:         event.days,
-    teamsCount:   teamsRows?.length   || st.length,
+    teamsCount,
     athletes,
     matchesCount: matchRows?.length   || sch.length,
   });

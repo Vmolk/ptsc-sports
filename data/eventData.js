@@ -29,7 +29,7 @@ export const teams = [
   { id: 'tonghop', name: 'Tổng hợp', short: 'TH',  color: '#8b5cf6', logo: '' },
   { id: 'ketkau',  name: 'Kết cấu',  short: 'KK',  color: '#f97316', logo: '' },
   { id: 'piping',  name: 'Piping',   short: 'PIP', color: '#10b981', logo: '' },
-  { id: 'civil',   name: 'Civil',    short: 'CVL', color: '#64748b', logo: '' },
+  { id: 'qaqc',    name: 'QAQC',     short: 'QAQ', color: '#64748b', logo: '' },
 ];
 
 export const medals = [
