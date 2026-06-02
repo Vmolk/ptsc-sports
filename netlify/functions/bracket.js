@@ -148,9 +148,22 @@ export async function handler(event) {
     if (hasCategories) {
       /* Build a separate bracket per category */
       const namedCats = cats.filter(c => c !== '').sort();
+
+      /* Knockout matches with no category filled in (common when users forget
+         to fill the category column for SF/Final rows in Google Sheets).
+         When there is only ONE named category, we can safely assign them to it.
+         When there are multiple categories we leave them out to avoid duplication. */
+      const singleCat = namedCats.length === 1;
+      const floatingKO = singleCat
+        ? sportMatches.filter(m => (!m.category || m.category === '') && m.round !== 'group')
+        : [];
+
       const categories = namedCats
         .map(cat => {
-          const catMatches = sportMatches.filter(m => m.category === cat);
+          const catMatches = [
+            ...sportMatches.filter(m => m.category === cat),
+            ...floatingKO,                         // attach uncategorised KO matches
+          ];
           const enriched   = catMatches.map(m => enrich(m, teamById));
           const bracket    = buildBracket(enriched, teamById, sp.id);
           return { name: cat, ...bracket };
