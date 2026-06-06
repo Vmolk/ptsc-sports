@@ -41,7 +41,7 @@
   white-space: nowrap;
 }
 .group-table td { padding: 6px 4px; text-align: center; border-bottom: 1px solid var(--line); color: var(--text); white-space: nowrap; }
-.group-table td:first-child { text-align: left; white-space: normal; word-break: break-word; overflow: hidden; }
+.group-table td:first-child { text-align: left; white-space: normal; word-break: break-word; }
 .group-table tr.qualify td { background: rgba(21,101,192,.06); }
 .group-table tr.qualify td:first-child { border-left: 2px solid var(--blue); padding-left: 10px; }
 .group-table .pts { font-weight: 700; color: var(--blue); }

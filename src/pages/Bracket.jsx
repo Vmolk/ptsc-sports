@@ -186,13 +186,13 @@ function GroupTable({ groupName, standings, matches, sportId }) {
       <h4 className="group-title">Bảng {groupName}</h4>
       <table className="group-table">
         <colgroup>
-          <col style={{ width: '40%' }} />
-          <col style={{ width: '8%' }} />
-          <col style={{ width: '8%' }} />
-          {!isCompact && <col style={{ width: '8%' }} />}
-          <col style={{ width: '8%' }} />
-          <col style={{ width: '14%' }} />
-          <col style={{ width: '14%' }} />
+          <col style={{ width: '45%' }} />
+          <col style={{ width: '7%' }} />
+          <col style={{ width: '7%' }} />
+          {!isCompact && <col style={{ width: '7%' }} />}
+          <col style={{ width: '7%' }} />
+          <col style={{ width: '12%' }} />
+          <col style={{ width: '12%' }} />
         </colgroup>
         <thead>
           <tr>
