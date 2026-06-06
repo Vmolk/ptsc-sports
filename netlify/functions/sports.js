@@ -14,7 +14,8 @@ export async function handler(event) {
     id:     r.id,
     name:   r.name,
     icon:   r.icon || '🏆',
-    teams:  toInt(r.teams),
+    /* Keep teams as raw string — can be "6", "16 đơn + 16 đôi", "16 cặp" etc. */
+    teams:  r.teams || '',
     format: r.format || '',
     venue:  r.venue || '',
   }));
