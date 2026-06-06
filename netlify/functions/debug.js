@@ -1,70 +1,39 @@
 /**
- * /api/debug  — temporary debug endpoint
- * Visit https://ptsc-sports-2026.onrender.com/api/debug in browser to see raw sheet data
+ * /api/debug — diagnostic endpoint
+ * Uses the SAME fetchSheet as all other endpoints (including the fix)
  */
 import { fetchSheet } from './_sheets.js';
 
 export async function handler(event) {
-  const CORS = {
-    'Content-Type': 'application/json; charset=utf-8',
-    'Access-Control-Allow-Origin': '*',
-  };
-
+  const CORS = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
   const sheetName = event.queryStringParameters?.sheet || 'participants';
 
-  const hasId  = !!process.env.GOOGLE_SHEET_ID;
-  const SHEET_ID = process.env.GOOGLE_SHEET_ID;
+  const rows = await fetchSheet(sheetName);
 
-  /* Fetch raw CSV directly so we can see exact bytes */
-  let rawText = null, rawFirst500 = null, httpStatus = null;
-  if (SHEET_ID) {
-    try {
-      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
-      const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
-      httpStatus = res.status;
-      rawText = await res.text();
-      /* Show first 500 chars as JSON string so we can see \n \t \r etc */
-      rawFirst500 = JSON.stringify(rawText.slice(0, 500));
-    } catch (e) {
-      rawFirst500 = `ERROR: ${e.message}`;
-    }
+  /* For participants: show unique sport_ids and sample per sport */
+  let bySport = null;
+  if (sheetName === 'participants' && rows?.length) {
+    bySport = {};
+    rows.forEach(r => {
+      const sid = r.sport_id || '(empty)';
+      if (!bySport[sid]) bySport[sid] = { count: 0, sample: r };
+      bySport[sid].count++;
+    });
   }
-
-  const rows = rawText ? (() => {
-    const { parseCSV } = { parseCSV: (t) => {
-      const cleaned = t.replace(/^﻿/, '');
-      const lines = cleaned.trim().split('\n').filter(l => l.trim());
-      if (lines.length < 2) return [];
-      const parseRow = row => {
-        const result = []; let cur = '', inQ = false;
-        for (const c of row) {
-          if (c === '"') { inQ = !inQ; }
-          else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
-          else { cur += c; }
-        }
-        result.push(cur);
-        return result.map(v => v.trim());
-      };
-      const headers = parseRow(lines[0]).map(h => h.replace(/^﻿/, '').trim());
-      return lines.slice(1).map(line => {
-        const vals = parseRow(line);
-        return Object.fromEntries(headers.map((h, i) => [h, vals[i] ?? '']));
-      });
-    }};
-    return parseCSV(rawText);
-  })() : null;
 
   return {
     statusCode: 200,
     headers: CORS,
     body: JSON.stringify({
-      sheet:        sheetName,
-      hasSheetId:   hasId,
-      httpStatus,
-      rawFirst500,                          /* ← KEY: see exact raw CSV bytes */
-      rowCount:     rows?.length ?? null,
-      headers:      rows?.[0] ? Object.keys(rows[0]) : null,
-      first2rows:   rows?.slice(0, 2) ?? null,
+      sheet:       sheetName,
+      hasSheetId:  !!process.env.GOOGLE_SHEET_ID,
+      rowCount:    rows?.length ?? null,
+      isNull:      rows === null,
+      /* Headers as parsed by the FIXED _sheets.js */
+      headers:     rows?.[0] ? Object.keys(rows[0]) : null,
+      first2rows:  rows?.slice(0, 2) ?? null,
+      /* participants-specific: how many rows per sport_id */
+      bySport,
     }, null, 2),
   };
 }
