@@ -70,8 +70,8 @@ function ParticipantsGrid({ participants, teams }) {
   return (
     <div style={{
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-      gap: 14, marginTop: 16,
+      gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+      gap: 12, marginTop: 16,
     }}>
       {byTeam.map(({ teamId, teamName, teamColor, members }) => (
         <div key={teamId} style={{
@@ -79,25 +79,29 @@ function ParticipantsGrid({ participants, teams }) {
           border: '1px solid var(--line-blue)',
           borderRadius: 10, overflow: 'hidden',
           boxShadow: '0 2px 8px rgba(21,101,192,.08)',
+          display: 'flex', flexDirection: 'column',
         }}>
           {/* Team header */}
           <div style={{
             background: teamColor + '22',
             borderBottom: `2px solid ${teamColor}`,
             padding: '8px 12px',
-            display: 'flex', alignItems: 'center', gap: 8,
+            display: 'flex', alignItems: 'flex-start', gap: 8,
+            minHeight: 52,
           }}>
-            <TeamDot color={teamColor} size={10} />
+            <TeamDot color={teamColor} size={10} style={{ marginTop: 3, flexShrink: 0 }} />
             <span style={{
               fontFamily: 'var(--font-display)', fontWeight: 800,
-              fontSize: '.9rem', letterSpacing: '.04em', textTransform: 'uppercase',
-              color: teamColor,
+              fontSize: '.82rem', letterSpacing: '.03em', textTransform: 'uppercase',
+              color: teamColor, flex: 1, lineHeight: 1.3,
+              wordBreak: 'break-word',
             }}>
               {teamName}
             </span>
             <span style={{
-              marginLeft: 'auto', fontSize: '.75rem',
+              flexShrink: 0, fontSize: '.72rem',
               color: 'var(--text-muted)', fontWeight: 600,
+              whiteSpace: 'nowrap',
             }}>
               {members.length} VĐV
             </span>
