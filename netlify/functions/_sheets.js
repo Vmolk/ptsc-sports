@@ -30,7 +30,14 @@ function parseCSV(text) {
   const cleaned = text.replace(/^﻿/, '');
   const lines = cleaned.trim().split('\n').filter((l) => l.trim());
   if (lines.length < 2) return [];
-  const headers = parseRow(lines[0]).map(h => h.replace(/^﻿/, '').trim());
+  /* Extract header names. Google Sheets gviz/tq sometimes appends the first
+     few cell values into the header cell (e.g. "sport_id badminton football …").
+     Taking only the first whitespace-delimited token recovers the real field name.
+     Single-word headers (all other sheets) are unaffected. */
+  const headers = parseRow(lines[0]).map(h => {
+    const clean = h.replace(/^﻿/, '').trim();
+    return clean.split(/\s+/)[0];   // first token only
+  });
   return lines.slice(1).map((line) => {
     const vals = parseRow(line);
     return Object.fromEntries(headers.map((h, i) => [h, vals[i] ?? '']));
