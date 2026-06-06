@@ -42,13 +42,26 @@ function parseCSV(text) {
  * Returns parsed rows or null if GOOGLE_SHEET_ID is not set / fetch fails.
  */
 export async function fetchSheet(sheetName) {
-  if (!SHEET_ID) return null;
+  if (!SHEET_ID) {
+    console.error(`[fetchSheet] GOOGLE_SHEET_ID not set — returning null for "${sheetName}"`);
+    return null;
+  }
   const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
-    if (!res.ok) return null;
-    return parseCSV(await res.text());
-  } catch {
+    console.log(`[fetchSheet] "${sheetName}" → HTTP ${res.status}`);
+    if (!res.ok) {
+      console.error(`[fetchSheet] "${sheetName}" fetch failed: HTTP ${res.status}`);
+      return null;
+    }
+    const text = await res.text();
+    /* Log first 300 chars raw so we can see BOM / encoding issues */
+    console.log(`[fetchSheet] "${sheetName}" raw (first 300):`, JSON.stringify(text.slice(0, 300)));
+    const rows = parseCSV(text);
+    console.log(`[fetchSheet] "${sheetName}" parsed ${rows.length} rows, headers:`, rows[0] ? Object.keys(rows[0]).join(' | ') : 'NONE');
+    return rows;
+  } catch (err) {
+    console.error(`[fetchSheet] "${sheetName}" exception:`, err.message);
     return null;
   }
 }
