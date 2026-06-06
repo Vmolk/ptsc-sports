@@ -16,7 +16,7 @@ export const event = {
 export const sports = [
   { id: 'football',     name: 'Bóng đá',      icon: '⚽', format: 'Vòng bảng + Bán kết + Chung kết',                    venue: 'Sân cỏ nhân tạo', teams: 6 },
   { id: 'badminton',    name: 'Cầu lông',      icon: '🏸', format: 'Đơn · Đôi — Tứ kết → Bán kết → Chung kết',         venue: 'Nhà thi đấu',     teams: 7 },
-  { id: 'pickleball',   name: 'Pickleball',    icon: '🏓', format: '5 Bảng · 4 cặp/bảng — Vòng bảng + Knock-out',       venue: 'Sân ngoài trời',  teams: 20 },
+  { id: 'pickleball',   name: 'Pickleball',    icon: '/pickleball-icon.png', format: '5 Bảng · 4 cặp/bảng — Vòng bảng + Knock-out',       venue: 'Sân ngoài trời',  teams: 20 },
   { id: 'waterhandball',name: 'Bóng ném nước', icon: '🤽', format: 'Bán kết + Chung kết',                                 venue: 'Hồ bơi PTSC',     teams: 4 },
   { id: 'tugofwar',     name: 'Kéo co',        icon: '🪢', format: 'Thi đấu theo tổ — Bán kết + Chung kết',              venue: 'Bãi thi đấu',     teams: 7 },
 ];

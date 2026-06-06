@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import SportIcon from '../components/SportIcon.jsx';
 import { api } from '../utils/api.js';
 import { useFetch } from '../hooks/useFetch.js';
 import { Loading, ErrorState, Empty } from '../components/States.jsx';
@@ -108,7 +109,7 @@ export default function Schedule() {
                 key={s.id}
                 className={`chip ${sport === s.id ? 'active' : ''}`}
                 onClick={() => setSport(sport === s.id ? '' : s.id)}>
-                {s.icon} {s.name}
+                <SportIcon icon={s.icon} size="1.1em" /> {s.name}
               </button>
             ))}
           </div>
@@ -177,7 +178,7 @@ export default function Schedule() {
 
                     <div className="match-info">
                       <span className={`badge badge-${m.status}`}>{STATUS_LABEL[m.status]}</span>
-                      <span className="match-sport">{m.sportIcon} {m.sportName}</span>
+                      <span className="match-sport"><SportIcon icon={m.sportIcon} size="1em" /> {m.sportName}</span>
                       {m.venue && <span className="match-venue">📍 {m.venue}</span>}
                     </div>
                   </article>

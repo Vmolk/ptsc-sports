@@ -4,6 +4,7 @@ import { useFetch } from '../hooks/useFetch.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import Countdown from '../components/Countdown.jsx';
 import { Loading, ErrorState } from '../components/States.jsx';
+import SportIcon from '../components/SportIcon.jsx';
 import './Home.css';
 
 export default function Home() {
@@ -59,7 +60,7 @@ export default function Home() {
                 key={s.id}
                 style={{ animationDelay: `${i * 60}ms` }}
               >
-                <span className="sport-icon" aria-hidden="true">{s.icon}</span>
+                <SportIcon icon={s.icon} size="2.4rem" style={{ margin: '0 auto 8px' }} />
                 <h3 className="sport-name">{s.name}</h3>
                 <p className="sport-meta">{s.format}</p>
               </article>

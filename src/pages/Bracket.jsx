@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import SportIcon from '../components/SportIcon.jsx';
 import { api } from '../utils/api.js';
 import { useFetch } from '../hooks/useFetch.js';
 import { Loading, ErrorState, Empty } from '../components/States.jsx';
@@ -392,7 +393,7 @@ function SportSection({ sport }) {
   return (
     <section className="sport-section card">
       <div className="sport-section-head">
-        <span className="sport-section-icon">{sport.icon}</span>
+        <SportIcon icon={sport.icon} size="2rem" />
         <h2 className="sport-section-name">{sport.name}</h2>
       </div>
 

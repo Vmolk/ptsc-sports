@@ -3,6 +3,7 @@
  * Sport info + danh sách VĐV theo môn và tổ.
  */
 import { useState, useMemo, useEffect } from 'react';
+import SportIcon from '../components/SportIcon.jsx';
 import { api } from '../utils/api.js';
 import { useFetch } from '../hooks/useFetch.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
@@ -275,7 +276,7 @@ export default function Sports() {
                       color:      currentSport?.id === s.id ? '#fff' : 'var(--text-muted)',
                       fontWeight: 600, fontSize: '.9rem', cursor: 'pointer', transition: 'all .15s',
                     }}>
-                    {s.icon} {s.name}
+                    <SportIcon icon={s.icon} size="1.1em" /> {s.name}
                   </button>
                 ))}
               </div>
@@ -285,7 +286,7 @@ export default function Sports() {
                   {/* ── Sport info card ── */}
                   <div className="card" style={{ padding: '20px 24px', marginBottom: 28 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>
-                      <span style={{ fontSize: '2.4rem' }}>{currentSport.icon}</span>
+                      <SportIcon icon={currentSport.icon} size="2.4rem" />
                       <div>
                         <h2 style={{
                           fontFamily: 'var(--font-display)', fontSize: '1.5rem',
@@ -326,7 +327,7 @@ export default function Sports() {
                       Danh sách VĐV tham dự
                     </h3>
                     <p style={{ color: 'var(--text-muted)', fontSize: '.82rem', marginBottom: 0 }}>
-                      {currentSport.icon} {currentSport.name} ·{' '}
+                      <SportIcon icon={currentSport.icon} size="1em" /> {currentSport.name} ·{' '}
                       {CATEGORY_SPORTS.includes(currentSport.id)
                         ? (() => {
                             const byCat = {};

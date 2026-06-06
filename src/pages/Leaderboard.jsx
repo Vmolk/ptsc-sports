@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import SportIcon from '../components/SportIcon.jsx';
 import { api } from '../utils/api.js';
 import { useFetch } from '../hooks/useFetch.js';
 import { Loading, ErrorState, Empty } from '../components/States.jsx';
@@ -88,7 +89,7 @@ function SportLeaderboard({ sport }) {
   return (
     <section style={{ marginBottom: 40 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20, paddingBottom: 12, borderBottom: '1px solid var(--line)' }}>
-        <span style={{ fontSize: '1.8rem' }}>{sport.icon}</span>
+        <SportIcon icon={sport.icon} size="1.8rem" />
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '.04em' }}>
           {sport.name}
         </h2>
@@ -200,7 +201,7 @@ export default function Leaderboard() {
                     className={`lb-tab ${(current?.id === s.id) ? 'active' : ''}`}
                     onClick={() => setActiveSport(s.id)}
                   >
-                    {s.icon} {s.name}
+                    <SportIcon icon={s.icon} size="1.1em" /> {s.name}
                   </button>
                 ))}
               </div>
