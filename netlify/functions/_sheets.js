@@ -53,11 +53,9 @@ export async function fetchSheet(sheetName) {
     console.error(`[fetchSheet] GOOGLE_SHEET_ID not set — returning null for "${sheetName}"`);
     return null;
   }
-  /* Use export?format=csv — more faithful to actual cell values than gviz/tq.
-     gviz/tq has quirks: it auto-merges early rows into the header and silently
-     drops cells with complex text (e.g. "16 đơn + 16 đôi").
-     export?format=csv returns raw CSV exactly as stored in the sheet. */
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&sheet=${encodeURIComponent(sheetName)}`;
+  /* headers=1 forces gviz/tq to treat exactly row 1 as header,
+     preventing it from auto-merging early data rows into the header. */
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(sheetName)}`;
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
     console.log(`[fetchSheet] "${sheetName}" → HTTP ${res.status}`);
