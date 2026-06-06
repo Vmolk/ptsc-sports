@@ -166,9 +166,35 @@
 
 ---
 
+## 9. Tab `participants` — Danh sách VĐV tham dự
+
+| sport_id | team_id | name | category | jersey |
+|----------|---------|------|----------|--------|
+| football | dieu_khien | Phạm Minh Tuấn | Nam | 10 |
+| football | han_ndt | Trần Minh Hoàng | Nam | 7 |
+| badminton | dieu_khien | Nguyễn Văn A | Đơn | |
+| pickleball | kich_thuoc | Hoàng A – Trần B | Đôi | |
+
+**Giải thích từng cột:**
+
+| Cột | Mô tả | Ví dụ |
+|-----|-------|-------|
+| `sport_id` | ID môn thể thao (lấy từ tab `sports`) | football, badminton, pickleball |
+| `team_id` | ID đội/tổ (lấy từ tab `teams`) | dieu_khien, han_ndt |
+| `name` | Tên VĐV (hoặc "Tên A – Tên B" cho cặp đôi) | Phạm Minh Tuấn |
+| `category` | Nội dung thi đấu | Nam, Nữ, Đơn, Đôi |
+| `jersey` | Số áo (để trống nếu không có) | 10 |
+
+**Lưu ý:**
+- Tên tab phải là **`participants`** (chính xác, không dấu cách thừa)
+- Cặp đôi (pickleball/badminton đôi): điền `name` dạng `"Tên A – Tên B"` (dùng dấu `–` en-dash)
+- `jersey` có thể để trống — chỉ hiện badge số áo khi có giá trị
+
+---
+
 ## Checklist trước khi dùng
 
 - [ ] Sheet đã **chia sẻ công khai** (Bất kỳ ai có đường liên kết → Người xem)
-- [ ] Tên các tab đúng chính xác: `event`, `sports`, `teams`, `matches`, `medals`, `individual_medals`, `gallery`
-- [ ] `GOOGLE_SHEET_ID` đã điền trong Netlify → Environment variables
-- [ ] Trigger deploy trên Netlify sau khi thêm env var
+- [ ] Tên các tab đúng chính xác: `event`, `sports`, `teams`, `matches`, `medals`, `individual_medals`, `gallery`, `athletes`, `participants`
+- [ ] `GOOGLE_SHEET_ID` đã điền trong Render → Environment variables
+- [ ] Tab `event` có dòng `teams_count` = số đội thực tế nếu muốn override
