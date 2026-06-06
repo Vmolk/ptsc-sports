@@ -18,10 +18,11 @@ export async function handler(event) {
   }
 
   let data = rows.map(r => ({
-    id:      r.id,
-    caption: r.caption || r.title || '',
-    url:     r.url || '',          // Google Drive / direct link
-    day:     toInt(r.day, 1),
+    id:        r.id,
+    caption:   r.caption || r.title || '',
+    url:       r.url || '',           // Google Drive album link (click to open)
+    thumbnail: r.thumbnail || '',     // Direct image URL for preview
+    day:       toInt(r.day, 1),
   }));
   if (day) data = data.filter(g => String(g.day) === String(day));
   return ok(data);

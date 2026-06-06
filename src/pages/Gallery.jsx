@@ -62,7 +62,10 @@ export default function Gallery() {
                   className="gallery-item reveal"
                   key={g.id ?? i}
                   style={{
-                    background: `linear-gradient(135deg, ${PALETTE[i % PALETTE.length]}, var(--bg-900))`,
+                    /* Show thumbnail if available, else fallback to gradient */
+                    background: g.thumbnail
+                      ? `url(${g.thumbnail}) center/cover no-repeat`
+                      : `linear-gradient(135deg, ${PALETTE[i % PALETTE.length]}, var(--bg-900))`,
                     animationDelay: `${i * 50}ms`,
                     cursor: g.url ? 'pointer' : 'default',
                   }}
