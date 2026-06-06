@@ -128,17 +128,19 @@ function ParticipantsFlatList({ participants }) {
   );
 }
 
+/* Sports that group by category (Đơn/Đôi) instead of by team */
+const CATEGORY_SPORTS = ['badminton', 'pickleball'];
+
 /* ── Team-grouped grid (for football / tugofwar) ── */
-function ParticipantsGrid({ participants, teams }) {
+function ParticipantsGrid({ participants, teams, sportId }) {
   if (!participants?.length) return (
     <p style={{ color: 'var(--text-muted)', fontSize: '.88rem', padding: '12px 0' }}>
       Chưa có danh sách VĐV.
     </p>
   );
 
-  /* If most participants have no team_id → use flat list by category */
-  const noTeam = participants.filter(p => !p.teamId || p.teamId === '').length;
-  if (noTeam > participants.length / 2) {
+  /* Badminton & pickleball always use flat category-tab layout */
+  if (CATEGORY_SPORTS.includes(sportId)) {
     return <ParticipantsFlatList participants={participants} />;
   }
 
@@ -329,7 +331,7 @@ export default function Sports() {
 
                     {lPart
                       ? <p style={{ color: 'var(--text-muted)', marginTop: 16, fontSize: '.9rem' }}>Đang tải...</p>
-                      : <ParticipantsGrid participants={sportParticipants} teams={teams} />
+                      : <ParticipantsGrid participants={sportParticipants} teams={teams} sportId={currentSport.id} />
                     }
                   </div>
                 </>
