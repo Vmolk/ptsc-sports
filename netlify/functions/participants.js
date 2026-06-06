@@ -24,6 +24,11 @@ export async function handler(event) {
     fetchSheet('sports'),
   ]);
 
+  /* ── Debug logging (xem trong Render Logs) ── */
+  console.log('[participants] GOOGLE_SHEET_ID set:', !!process.env.GOOGLE_SHEET_ID);
+  console.log('[participants] pRows:', pRows === null ? 'NULL (sheet not found / no ID)' : `${pRows.length} rows`);
+  if (pRows?.length) console.log('[participants] columns:', Object.keys(pRows[0]).join(', '));
+
   const teamById  = Object.fromEntries(
     (teamRows?.length ? teamRows : staticTeams).map(t => [t.id, t])
   );
