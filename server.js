@@ -14,6 +14,7 @@ import { handler as scorersHandler }     from './netlify/functions/scorers.js';
 import { handler as scheduleHandler }    from './netlify/functions/schedule.js';
 import { handler as galleryHandler }      from './netlify/functions/gallery.js';
 import { handler as participantsHandler } from './netlify/functions/participants.js';
+import { handler as debugHandler }        from './netlify/functions/debug.js';
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -48,6 +49,7 @@ app.all('/api/scorers',     adapt(scorersHandler));
 app.all('/api/schedule',    adapt(scheduleHandler));
 app.all('/api/gallery',       adapt(galleryHandler));
 app.all('/api/participants', adapt(participantsHandler));
+app.all('/api/debug',       adapt(debugHandler));
 
 app.use(express.static(path.join(__dirname, 'dist')));
 app.get('*', (_req, res) =>
