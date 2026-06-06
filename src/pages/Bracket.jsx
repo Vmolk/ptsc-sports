@@ -185,6 +185,15 @@ function GroupTable({ groupName, standings, matches, sportId }) {
     <div className="group-block">
       <h4 className="group-title">Bảng {groupName}</h4>
       <table className="group-table">
+        <colgroup>
+          <col style={{ width: '40%' }} />
+          <col style={{ width: '8%' }} />
+          <col style={{ width: '8%' }} />
+          {!isCompact && <col style={{ width: '8%' }} />}
+          <col style={{ width: '8%' }} />
+          <col style={{ width: '14%' }} />
+          <col style={{ width: '14%' }} />
+        </colgroup>
         <thead>
           <tr>
             <th style={{ textAlign: 'left' }}>{isPairs ? 'Cặp / VĐV' : 'Đội'}</th>

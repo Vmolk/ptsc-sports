@@ -25,23 +25,23 @@
 .sport-tab.active { background: var(--blue); border-color: var(--blue); color: #fff; }
 
 /* ── Group standings ── */
-.groups-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 20px; }
-.group-block { background: var(--bg-700); border-radius: 10px; padding: 16px; border: 1px solid var(--line); }
+.groups-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.group-block { background: var(--bg-700); border-radius: 10px; padding: 12px; border: 1px solid var(--line); }
 .group-title {
-  font-family: var(--font-display); font-size: 1rem; font-weight: 800;
+  font-family: var(--font-display); font-size: .95rem; font-weight: 800;
   letter-spacing: .08em; text-transform: uppercase;
-  color: var(--blue-dark); margin-bottom: 12px;
+  color: var(--blue-dark); margin-bottom: 10px;
 }
 
-.group-table { width: 100%; border-collapse: collapse; font-size: .84rem; margin-bottom: 14px; }
+.group-table { width: 100%; border-collapse: collapse; font-size: .8rem; margin-bottom: 10px; table-layout: fixed; }
 .group-table th {
-  color: var(--text-muted); font-size: .7rem; font-weight: 700;
-  letter-spacing: .06em; text-transform: uppercase;
-  padding: 6px 6px; text-align: center; border-bottom: 1px solid var(--line);
+  color: var(--text-muted); font-size: .65rem; font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase;
+  padding: 5px 4px; text-align: center; border-bottom: 1px solid var(--line);
   white-space: nowrap;
 }
-.group-table td { padding: 7px 6px; text-align: center; border-bottom: 1px solid var(--line); color: var(--text); white-space: nowrap; }
-.group-table td:first-child { text-align: left; min-width: 140px; white-space: normal; word-break: break-word; }
+.group-table td { padding: 6px 4px; text-align: center; border-bottom: 1px solid var(--line); color: var(--text); white-space: nowrap; }
+.group-table td:first-child { text-align: left; white-space: normal; word-break: break-word; overflow: hidden; }
 .group-table tr.qualify td { background: rgba(21,101,192,.06); }
 .group-table tr.qualify td:first-child { border-left: 2px solid var(--blue); padding-left: 10px; }
 .group-table .pts { font-weight: 700; color: var(--blue); }
