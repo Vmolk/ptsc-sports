@@ -24,9 +24,13 @@ function parseRow(row) {
 
 /** Convert CSV text → array of objects keyed by header row. */
 function parseCSV(text) {
-  const lines = text.trim().split('\n').filter((l) => l.trim());
+  /* Strip BOM (﻿) that Google Sheets sometimes prepends to CSV exports.
+     Without this, the first column header becomes "﻿sport_id" instead of
+     "sport_id", so r.sport_id is always undefined → sportId = '' → 0 results. */
+  const cleaned = text.replace(/^﻿/, '');
+  const lines = cleaned.trim().split('\n').filter((l) => l.trim());
   if (lines.length < 2) return [];
-  const headers = parseRow(lines[0]);
+  const headers = parseRow(lines[0]).map(h => h.replace(/^﻿/, '').trim());
   return lines.slice(1).map((line) => {
     const vals = parseRow(line);
     return Object.fromEntries(headers.map((h, i) => [h, vals[i] ?? '']));
