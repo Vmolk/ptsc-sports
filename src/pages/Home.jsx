@@ -25,8 +25,14 @@ export default function Home() {
         <img src="/hero-bg.png" alt="Hội Thao Phòng Quản Lý Chất Lượng 2026"
           className="hero-bg-img" />
 
-        {/* Overlay: countdown + CTA anchored to bottom */}
+        {/* Overlay: title + countdown + CTA */}
         <div className="hero-overlay">
+          {/* ── Big title text ── */}
+          <div className="hero-title reveal">
+            <span className="hero-title-main">HỘI THAO</span>
+            <span className="hero-title-sub">PHÒNG QUẢN LÝ CHẤT LƯỢNG 2026</span>
+          </div>
+
           <div className="container hero-content reveal">
             <Countdown date={eventDate} />
             <Link to="/schedule" className="btn btn-primary hero-btn">

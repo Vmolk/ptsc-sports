@@ -19,6 +19,45 @@
   background: none;
   pointer-events: none;
 }
+/* ── Hero title overlay ── */
+.hero-title {
+  position: absolute;
+  top: 8%; left: 0; right: 0;
+  z-index: 1;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  pointer-events: none;
+}
+.hero-title-main {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 10vw, 8rem);
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  line-height: 1;
+  /* Blue gradient matching the image style */
+  background: linear-gradient(180deg, #4fc3f7 0%, #1565c0 50%, #0d47a1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* White outline */
+  filter: drop-shadow(0 2px 0 rgba(255,255,255,.9))
+          drop-shadow(0 0 20px rgba(21,101,192,.4));
+}
+.hero-title-sub {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3.5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: #0d2137;
+  text-shadow:
+    -1px -1px 0 #fff,  1px -1px 0 #fff,
+    -1px  1px 0 #fff,  1px  1px 0 #fff,
+    0 3px 12px rgba(13,33,55,.25);
+}
+
 .hero-content {
   position: absolute;
   left: 0; right: 0;
