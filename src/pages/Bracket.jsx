@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import SportIcon from '../components/SportIcon.jsx';
+import { useLanguage } from '../context/LanguageContext.jsx';
 import { api } from '../utils/api.js';
 import { useFetch } from '../hooks/useFetch.js';
 import { Loading, ErrorState, Empty } from '../components/States.jsx';
@@ -427,14 +428,15 @@ function SportSection({ sport }) {
 
 /* ─── Main page ─── */
 export default function Bracket() {
+  const { t } = useLanguage();
   const { data, loading, error } = useFetch(() => api.getBracket(), []);
 
   return (
     <div className="page">
       <header className="page-header">
         <div className="container">
-          <h1>Bảng thi đấu</h1>
-          <p>Hội Thao Phòng Quản Lý Chất Lượng 2026</p>
+          <h1>{t('page_bracket_title')}</h1>
+          <p>{t('page_bracket_sub')}</p>
         </div>
       </header>
 

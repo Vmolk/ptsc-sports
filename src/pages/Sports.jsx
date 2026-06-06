@@ -136,7 +136,7 @@ const CATEGORY_SPORTS = ['badminton', 'pickleball'];
 function ParticipantsGrid({ participants, teams, sportId }) {
   if (!participants?.length) return (
     <p style={{ color: 'var(--text-muted)', fontSize: '.88rem', padding: '12px 0' }}>
-      Chưa có danh sách VĐV.
+      {t('no_athletes')}
     </p>
   );
 
@@ -250,8 +250,8 @@ export default function Sports() {
     <div className="page">
       <header className="page-header">
         <div className="container">
-          <h1>{t('sports_title')}</h1>
-          <p>{t('organized_by')}</p>
+          <h1>{t('page_sports_title')}</h1>
+          <p>{t('page_sports_sub')}</p>
         </div>
       </header>
 
@@ -324,7 +324,7 @@ export default function Sports() {
                       fontWeight: 800, textTransform: 'uppercase', letterSpacing: '.06em',
                       color: 'var(--blue-dark)', marginBottom: 4,
                     }}>
-                      Danh sách VĐV tham dự
+                      {t('athletes_list')}
                     </h3>
                     <p style={{ color: 'var(--text-muted)', fontSize: '.82rem', marginBottom: 0 }}>
                       <SportIcon icon={currentSport.icon} size="1em" /> {currentSport.name} ·{' '}

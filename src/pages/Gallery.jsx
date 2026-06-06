@@ -35,8 +35,8 @@ export default function Gallery() {
     <div className="page">
       <header className="page-header">
         <div className="container">
-          <h1>{t('nav_gallery')}</h1>
-          <p>Khoảnh khắc đáng nhớ · Nhấn vào ảnh để xem album Drive</p>
+          <h1>{t('page_gallery_title')}</h1>
+          <p>{t('page_gallery_sub')}</p>
         </div>
       </header>
 
@@ -53,7 +53,7 @@ export default function Gallery() {
 
           {loading && <Loading />}
           {error && <ErrorState message={error} />}
-          {data && data.length === 0 && <Empty label="Chưa có ảnh." />}
+          {data && data.length === 0 && <Empty label={t('no_photos')} />}
 
           {data && data.length > 0 && (
             <div className="gallery-grid">

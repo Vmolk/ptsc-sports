@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import SportIcon from '../components/SportIcon.jsx';
 import { api } from '../utils/api.js';
 import { useFetch } from '../hooks/useFetch.js';
+import { useLanguage } from '../context/LanguageContext.jsx';
 import { Loading, ErrorState, Empty } from '../components/States.jsx';
 
 /* Team avatar: logo image or coloured badge */
@@ -17,11 +18,7 @@ function TeamAvatar({ name, color, logo, size = 36 }) {
   );
 }
 
-const STATUS_LABEL = { live: 'TRỰC TIẾP', upcoming: 'SẮP DIỄN RA', finished: 'KẾT THÚC' };
-const ROUND_LABEL  = {
-  group: 'Vòng bảng', r16: '1/8', qf: 'Tứ kết',
-  sf: 'Bán kết', '3rd': 'Hạng 3', final: 'Chung kết',
-};
+/* STATUS_LABEL and ROUND_LABEL are built dynamically using t() inside the component */
 
 /* "2026-07-05" → "05/07/2026" */
 function formatDate(iso) {
@@ -42,6 +39,14 @@ function groupByDate(matches) {
 }
 
 export default function Schedule() {
+  const { t } = useLanguage();
+
+  const STATUS_LABEL = { live: t('badge_live'), upcoming: t('badge_upcoming'), finished: t('badge_finished') };
+  const ROUND_LABEL  = {
+    group: t('round_group'), r16: t('round_r16'), qf: t('round_qf'),
+    sf: t('round_sf'), '3rd': t('round_3rd'), final: t('round_final'),
+  };
+
   const [selectedDate, setSelectedDate] = useState('');
   const [status,       setStatus]       = useState('');
   const [sport,        setSport]        = useState('');
@@ -74,8 +79,8 @@ export default function Schedule() {
     <div className="page">
       <header className="page-header">
         <div className="container">
-          <h1>Lịch thi đấu</h1>
-          <p>05/07/2026 – 18/07/2026 · Hội Thao Phòng Quản Lý Chất Lượng 2026</p>
+          <h1>{t('page_schedule_title')}</h1>
+          <p>{t('page_schedule_sub')}</p>
         </div>
       </header>
 
@@ -84,11 +89,11 @@ export default function Schedule() {
 
           {/* ── Filter: Ngày (dynamic from data) ── */}
           <div className="filters">
-            <span className="filter-label">Ngày</span>
+            <span className="filter-label">{t('filter_date')}</span>
             <button
               className={`chip ${selectedDate === '' ? 'active' : ''}`}
               onClick={() => setSelectedDate('')}>
-              Tất cả
+              {t('all')}
             </button>
             {availableDates.map(d => (
               <button
@@ -102,8 +107,8 @@ export default function Schedule() {
 
           {/* ── Filter: Môn ── */}
           <div className="filters">
-            <span className="filter-label">Môn</span>
-            <button className={`chip ${sport === '' ? 'active' : ''}`} onClick={() => setSport('')}>Tất cả</button>
+            <span className="filter-label">{t('filter_sport')}</span>
+            <button className={`chip ${sport === '' ? 'active' : ''}`} onClick={() => setSport('')}>{t('all')}</button>
             {(sports || []).map(s => (
               <button
                 key={s.id}
@@ -116,16 +121,16 @@ export default function Schedule() {
 
           {/* ── Filter: Trạng thái ── */}
           <div className="filters">
-            <span className="filter-label">Trạng thái</span>
-            <button className={`chip ${status === ''         ? 'active' : ''}`} onClick={() => setStatus('')}>Tất cả</button>
-            <button className={`chip ${status === 'live'     ? 'active' : ''}`} onClick={() => setStatus('live')}>🔴 Trực tiếp</button>
-            <button className={`chip ${status === 'upcoming' ? 'active' : ''}`} onClick={() => setStatus('upcoming')}>⏳ Sắp diễn ra</button>
-            <button className={`chip ${status === 'finished' ? 'active' : ''}`} onClick={() => setStatus('finished')}>✅ Kết thúc</button>
+            <span className="filter-label">{t('filter_status')}</span>
+            <button className={`chip ${status === ''         ? 'active' : ''}`} onClick={() => setStatus('')}>{t('all')}</button>
+            <button className={`chip ${status === 'live'     ? 'active' : ''}`} onClick={() => setStatus('live')}>{t('status_live')}</button>
+            <button className={`chip ${status === 'upcoming' ? 'active' : ''}`} onClick={() => setStatus('upcoming')}>{t('status_upcoming')}</button>
+            <button className={`chip ${status === 'finished' ? 'active' : ''}`} onClick={() => setStatus('finished')}>{t('status_finished')}</button>
           </div>
 
           {loading && <Loading />}
           {error   && <ErrorState message={error} />}
-          {!loading && !error && filtered.length === 0 && <Empty label="Không có trận đấu phù hợp." />}
+          {!loading && !error && filtered.length === 0 && <Empty label={t('no_matches_filter')} />}
 
           {filtered.length > 0 && (
             <p className="match-summary">
