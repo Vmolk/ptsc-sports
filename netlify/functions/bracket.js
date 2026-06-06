@@ -96,6 +96,11 @@ function buildBracket(enrichedMatches, teamById, sportId) {
   return { hasGroups: groupMatches.length > 0, groups, rounds, roundOrder: roundKeys };
 }
 
+/* Same overrides as sports.js — keep in sync */
+const ICON_OVERRIDES = {
+  pickleball: '/pickleball-icon.png',
+};
+
 export async function handler(event) {
   const pre = handlePreflight(event);
   if (pre) return pre;
@@ -172,7 +177,7 @@ export async function handler(event) {
         .filter(c => c.hasGroups || c.roundOrder.length > 0);
 
       return {
-        id: sp.id, name: sp.name, icon: sp.icon ?? '🏅',
+        id: sp.id, name: sp.name, icon: ICON_OVERRIDES[sp.id] ?? sp.icon ?? '🏅',
         hasCategories: true,
         categories,
       };
@@ -182,7 +187,7 @@ export async function handler(event) {
     const enriched = sportMatches.map(m => enrich(m, teamById));
     const bracket  = buildBracket(enriched, teamById, sp.id);
     return {
-      id: sp.id, name: sp.name, icon: sp.icon ?? '🏅',
+      id: sp.id, name: sp.name, icon: ICON_OVERRIDES[sp.id] ?? sp.icon ?? '🏅',
       hasCategories: false,
       ...bracket,
     };

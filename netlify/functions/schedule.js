@@ -5,6 +5,8 @@ import { schedule, teams, sports } from '../../data/eventData.js';
 const staticTeamById  = Object.fromEntries(teams.map((t) => [t.id, t]));
 const staticSportById = Object.fromEntries(sports.map((s) => [s.id, s]));
 
+const ICON_OVERRIDES = { pickleball: '/pickleball-icon.png' };
+
 // Duration (minutes) per sport — used for auto status calculation.
 // If a sport is not listed here, DEFAULT_DURATION is used.
 const SPORT_DURATION = {
@@ -53,7 +55,7 @@ function enrichStatic(m) {
     ...m,
     status:    resolveStatus(m.status, m.date, m.time, m.sportId),
     sportName: sport.name  ?? m.sportId,
-    sportIcon: sport.icon  ?? '🏅',
+    sportIcon: ICON_OVERRIDES[sport.id] ?? sport.icon  ?? '🏅',
     homeName:  home.name   ?? m.home,
     homeColor: home.color  ?? '#888',
     homeLogo:  home.logo   ?? '',
@@ -107,7 +109,7 @@ export async function handler(event) {
       awayScore: m.away_score !== '' && m.away_score != null ? toInt(m.away_score, null) : null,
       status:    resolveStatus(m.status, m.date, m.time || m.match_time, sportId),
       sportName: sp.name  ?? sportId,
-      sportIcon: sp.icon  ?? '🏅',
+      sportIcon: ICON_OVERRIDES[sp.id] ?? sp.icon  ?? '🏅',
       homeName:  home.name  ?? m.home,
       homeColor: home.color ?? '#888',
       homeLogo:  home.logo  ?? '',
