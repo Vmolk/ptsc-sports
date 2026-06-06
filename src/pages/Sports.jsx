@@ -2,7 +2,7 @@
  * src/pages/Sports.jsx
  * Sport info + danh sách VĐV theo môn và tổ.
  */
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { api } from '../utils/api.js';
 import { useFetch } from '../hooks/useFetch.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
@@ -45,7 +45,7 @@ function CatBadge({ label }) {
   );
 }
 
-/* ── Flat list grouped by category (for badminton / pickleball) ── */
+/* ── Flat list with category tab buttons (for badminton / pickleball) ── */
 function ParticipantsFlatList({ participants }) {
   const byCategory = useMemo(() => {
     const map = {};
@@ -54,61 +54,76 @@ function ParticipantsFlatList({ participants }) {
       if (!map[cat]) map[cat] = [];
       map[cat].push(p);
     });
-    return Object.entries(map);
+    return map;
   }, [participants]);
 
+  const categories = Object.keys(byCategory);
+  const [activecat, setActivecat] = useState(categories[0] || '');
+
+  useEffect(() => {
+    if (!byCategory[activecat] && categories.length) setActivecat(categories[0]);
+  }, [categories.join(',')]);
+
+  const members = byCategory[activecat] || [];
+
   return (
-    <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 20 }}>
-      {byCategory.map(([cat, members]) => (
-        <div key={cat}>
-          {/* Category header */}
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 10,
-            marginBottom: 10, paddingBottom: 6,
-            borderBottom: '2px solid var(--line-blue)',
+    <div style={{ marginTop: 16 }}>
+      {/* Category tab buttons */}
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
+        {categories.map(cat => (
+          <button
+            key={cat}
+            onClick={() => setActivecat(cat)}
+            style={{
+              padding: '7px 20px', borderRadius: 8, cursor: 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.9rem',
+              border: `1px solid ${activecat === cat ? 'var(--blue)' : 'var(--line-blue)'}`,
+              background: activecat === cat ? 'var(--blue)' : '#fff',
+              color: activecat === cat ? '#fff' : 'var(--text-muted)',
+              transition: 'all .15s',
+            }}
+          >
+            {cat}
+            <span style={{
+              marginLeft: 6, fontSize: '.75rem', opacity: .8,
+              fontWeight: activecat === cat ? 700 : 500,
+            }}>
+              ({byCategory[cat].length})
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* Participant rows for active category */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+        gap: 6,
+      }}>
+        {members.map((m, i) => (
+          <div key={i} style={{
+            display: 'flex', alignItems: 'center', gap: 8,
+            padding: '6px 10px', borderRadius: 8,
+            background: '#fff', border: '1px solid var(--line)',
+            boxShadow: '0 1px 4px rgba(21,101,192,.05)',
           }}>
             <span style={{
               fontFamily: 'var(--font-display)', fontWeight: 800,
-              fontSize: '.85rem', letterSpacing: '.06em', textTransform: 'uppercase',
-              color: 'var(--blue-dark)',
-            }}>{cat}</span>
-            <span style={{ fontSize: '.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-              {members.length} người
-            </span>
+              fontSize: '.72rem', color: 'var(--text-muted)', minWidth: 20, textAlign: 'right',
+            }}>{i + 1}</span>
+            <span style={{ fontSize: '.85rem', color: 'var(--text)', flex: 1 }}>{m.name}</span>
+            {m.jersey && (
+              <span style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                minWidth: 26, height: 20, borderRadius: 4,
+                background: 'rgba(21,101,192,.10)', color: 'var(--blue)',
+                fontSize: '.7rem', fontWeight: 800, fontFamily: 'var(--font-display)',
+                flexShrink: 0, padding: '0 4px',
+              }}>#{m.jersey}</span>
+            )}
           </div>
-
-          {/* Participant rows */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-            gap: 6,
-          }}>
-            {members.map((m, i) => (
-              <div key={i} style={{
-                display: 'flex', alignItems: 'center', gap: 8,
-                padding: '6px 10px', borderRadius: 8,
-                background: '#fff', border: '1px solid var(--line)',
-                boxShadow: '0 1px 4px rgba(21,101,192,.05)',
-              }}>
-                <span style={{
-                  fontFamily: 'var(--font-display)', fontWeight: 800,
-                  fontSize: '.72rem', color: 'var(--text-muted)', minWidth: 20, textAlign: 'right',
-                }}>{i + 1}</span>
-                <span style={{ fontSize: '.85rem', color: 'var(--text)', flex: 1 }}>{m.name}</span>
-                {m.jersey && (
-                  <span style={{
-                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                    minWidth: 26, height: 20, borderRadius: 4,
-                    background: 'rgba(21,101,192,.10)', color: 'var(--blue)',
-                    fontSize: '.7rem', fontWeight: 800, fontFamily: 'var(--font-display)',
-                    flexShrink: 0, padding: '0 4px',
-                  }}>#{m.jersey}</span>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
