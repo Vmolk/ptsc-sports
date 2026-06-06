@@ -162,19 +162,36 @@ export default function Schedule() {
                       <span className="match-sub">{ROUND_LABEL[m.round] ?? m.round}</span>
                     </div>
 
-                    <div className="match-teams">
-                      <span className="match-team">
-                        <TeamAvatar name={m.homeName} color={m.homeColor} logo={m.homeLogo} />
-                        {m.homeName}
-                      </span>
-                      <span className={`match-score ${m.homeScore == null ? 'tbd' : ''}`}>
-                        {m.homeScore == null ? 'vs' : `${m.homeScore} – ${m.awayScore}`}
-                      </span>
-                      <span className="match-team away">
-                        <TeamAvatar name={m.awayName} color={m.awayColor} logo={m.awayLogo} />
-                        {m.awayName}
-                      </span>
-                    </div>
+                    {(() => {
+                      const played  = m.homeScore != null && m.awayScore != null;
+                      const homeWin = played && m.homeScore > m.awayScore;
+                      const awayWin = played && m.awayScore > m.homeScore;
+                      /* Pairs have "–" in name (pickleball/badminton doubles) → hide avatar */
+                      const isPair  = name => name?.includes('–') || name?.includes(' - ');
+                      const hideHomeAvatar = isPair(m.homeName);
+                      const hideAwayAvatar = isPair(m.awayName);
+                      return (
+                        <div className="match-teams">
+                          <span className="match-team" style={{
+                            fontWeight: homeWin ? 700 : 400,
+                            color: homeWin ? 'var(--blue-dark)' : awayWin ? 'var(--text-muted)' : 'var(--text)',
+                          }}>
+                            {!hideHomeAvatar && <TeamAvatar name={m.homeName} color={m.homeColor} logo={m.homeLogo} />}
+                            {m.homeName}
+                          </span>
+                          <span className={`match-score ${m.homeScore == null ? 'tbd' : ''}`}>
+                            {m.homeScore == null ? 'vs' : `${m.homeScore} – ${m.awayScore}`}
+                          </span>
+                          <span className="match-team away" style={{
+                            fontWeight: awayWin ? 700 : 400,
+                            color: awayWin ? 'var(--blue-dark)' : homeWin ? 'var(--text-muted)' : 'var(--text)',
+                          }}>
+                            {!hideAwayAvatar && <TeamAvatar name={m.awayName} color={m.awayColor} logo={m.awayLogo} />}
+                            {m.awayName}
+                          </span>
+                        </div>
+                      );
+                    })()}
 
                     <div className="match-info">
                       <span className={`badge badge-${m.status}`}>{STATUS_LABEL[m.status]}</span>
