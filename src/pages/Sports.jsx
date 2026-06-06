@@ -45,7 +45,75 @@ function CatBadge({ label }) {
   );
 }
 
-/* Participants grid for one sport, grouped by team */
+/* ── Flat list grouped by category (for badminton / pickleball) ── */
+function ParticipantsFlatList({ participants }) {
+  const byCategory = useMemo(() => {
+    const map = {};
+    participants.forEach(p => {
+      const cat = p.category || 'Khác';
+      if (!map[cat]) map[cat] = [];
+      map[cat].push(p);
+    });
+    return Object.entries(map);
+  }, [participants]);
+
+  return (
+    <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {byCategory.map(([cat, members]) => (
+        <div key={cat}>
+          {/* Category header */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 10,
+            marginBottom: 10, paddingBottom: 6,
+            borderBottom: '2px solid var(--line-blue)',
+          }}>
+            <span style={{
+              fontFamily: 'var(--font-display)', fontWeight: 800,
+              fontSize: '.85rem', letterSpacing: '.06em', textTransform: 'uppercase',
+              color: 'var(--blue-dark)',
+            }}>{cat}</span>
+            <span style={{ fontSize: '.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+              {members.length} người
+            </span>
+          </div>
+
+          {/* Participant rows */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+            gap: 6,
+          }}>
+            {members.map((m, i) => (
+              <div key={i} style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                padding: '6px 10px', borderRadius: 8,
+                background: '#fff', border: '1px solid var(--line)',
+                boxShadow: '0 1px 4px rgba(21,101,192,.05)',
+              }}>
+                <span style={{
+                  fontFamily: 'var(--font-display)', fontWeight: 800,
+                  fontSize: '.72rem', color: 'var(--text-muted)', minWidth: 20, textAlign: 'right',
+                }}>{i + 1}</span>
+                <span style={{ fontSize: '.85rem', color: 'var(--text)', flex: 1 }}>{m.name}</span>
+                {m.jersey && (
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                    minWidth: 26, height: 20, borderRadius: 4,
+                    background: 'rgba(21,101,192,.10)', color: 'var(--blue)',
+                    fontSize: '.7rem', fontWeight: 800, fontFamily: 'var(--font-display)',
+                    flexShrink: 0, padding: '0 4px',
+                  }}>#{m.jersey}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ── Team-grouped grid (for football / tugofwar) ── */
 function ParticipantsGrid({ participants, teams }) {
   if (!participants?.length) return (
     <p style={{ color: 'var(--text-muted)', fontSize: '.88rem', padding: '12px 0' }}>
@@ -53,14 +121,20 @@ function ParticipantsGrid({ participants, teams }) {
     </p>
   );
 
+  /* If most participants have no team_id → use flat list by category */
+  const noTeam = participants.filter(p => !p.teamId || p.teamId === '').length;
+  if (noTeam > participants.length / 2) {
+    return <ParticipantsFlatList participants={participants} />;
+  }
+
   /* Group by teamId, preserving team order */
   const byTeam = useMemo(() => {
     const map = {};
     participants.forEach(p => {
-      if (!map[p.teamId]) map[p.teamId] = { ...p, members: [] };
-      map[p.teamId].members.push(p);
+      const key = p.teamId || '__none__';
+      if (!map[key]) map[key] = { ...p, members: [] };
+      map[key].members.push(p);
     });
-    /* Sort by teamId order from teams list */
     const orderedIds = (teams || []).map(t => t.id);
     return Object.values(map).sort((a, b) =>
       orderedIds.indexOf(a.teamId) - orderedIds.indexOf(b.teamId)
@@ -83,25 +157,24 @@ function ParticipantsGrid({ participants, teams }) {
         }}>
           {/* Team header */}
           <div style={{
-            background: teamColor + '22',
-            borderBottom: `2px solid ${teamColor}`,
+            background: (teamColor || '#888') + '22',
+            borderBottom: `2px solid ${teamColor || '#888'}`,
             padding: '8px 12px',
             display: 'flex', alignItems: 'flex-start', gap: 8,
             minHeight: 52,
           }}>
-            <TeamDot color={teamColor} size={10} style={{ marginTop: 3, flexShrink: 0 }} />
+            <TeamDot color={teamColor || '#888'} size={10} />
             <span style={{
               fontFamily: 'var(--font-display)', fontWeight: 800,
               fontSize: '.82rem', letterSpacing: '.03em', textTransform: 'uppercase',
-              color: teamColor, flex: 1, lineHeight: 1.3,
+              color: teamColor || '#888', flex: 1, lineHeight: 1.3,
               wordBreak: 'break-word',
             }}>
-              {teamName}
+              {teamName || teamId}
             </span>
             <span style={{
               flexShrink: 0, fontSize: '.72rem',
-              color: 'var(--text-muted)', fontWeight: 600,
-              whiteSpace: 'nowrap',
+              color: 'var(--text-muted)', fontWeight: 600, whiteSpace: 'nowrap',
             }}>
               {members.length} VĐV
             </span>
@@ -110,10 +183,7 @@ function ParticipantsGrid({ participants, teams }) {
           {/* Member list */}
           <div style={{ padding: '8px 12px', display: 'flex', flexDirection: 'column', gap: 5 }}>
             {members.map((m, i) => (
-              <div key={i} style={{
-                display: 'flex', alignItems: 'center', gap: 8,
-              }}>
-                {/* Số áo */}
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 {m.jersey ? (
                   <span style={{
                     display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
@@ -121,9 +191,7 @@ function ParticipantsGrid({ participants, teams }) {
                     background: 'rgba(21,101,192,.10)', color: 'var(--blue)',
                     fontSize: '.7rem', fontWeight: 800, fontFamily: 'var(--font-display)',
                     letterSpacing: '.02em', flexShrink: 0, padding: '0 4px',
-                  }}>
-                    #{m.jersey}
-                  </span>
+                  }}>#{m.jersey}</span>
                 ) : (
                   <span style={{ minWidth: 26 }} />
                 )}
