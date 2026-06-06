@@ -26,11 +26,10 @@
   padding-inline: 16px;
 }
 .hero-title-main {
-  font-family: var(--font-display);
+  font-family: 'Sora', system-ui, sans-serif;  /* Sora supports Vietnamese fully */
   font-size: clamp(5rem, 14vw, 11rem);
   font-weight: 900;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  letter-spacing: .04em;
   line-height: .95;
   background: linear-gradient(170deg, #7dd3fc 0%, #2563eb 35%, #1e3a8a 100%);
   -webkit-background-clip: text;
@@ -42,11 +41,10 @@
     drop-shadow(0 6px 18px rgba(21,101,192,.5));
 }
 .hero-title-sub {
-  font-family: var(--font-display);
+  font-family: 'Sora', system-ui, sans-serif;  /* Sora supports Vietnamese fully */
   font-size: clamp(1.4rem, 4.5vw, 3.8rem);
   font-weight: 900;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  letter-spacing: .04em;
   line-height: 1.1;
   color: #0d2137;
   text-shadow:
