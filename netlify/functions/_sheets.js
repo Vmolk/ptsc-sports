@@ -53,7 +53,10 @@ export async function fetchSheet(sheetName) {
     console.error(`[fetchSheet] GOOGLE_SHEET_ID not set — returning null for "${sheetName}"`);
     return null;
   }
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+  /* headers=1 tells gviz/tq to use exactly the first row as header.
+     Without this, gviz auto-detects and may absorb the first N data rows
+     into the header when the sheet has mixed data types in early rows. */
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(sheetName)}`;
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
     console.log(`[fetchSheet] "${sheetName}" → HTTP ${res.status}`);
