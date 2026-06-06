@@ -9,7 +9,11 @@
   overflow: hidden;
   background: var(--bg-950);
 }
-.hero-bg-img { width: 100%; height: auto; display: block; }
+.hero-bg-img {
+  width: 100%; height: auto; display: block;
+  /* Crop bottom ~12% to hide the date banner embedded in the image */
+  margin-bottom: -12%;
+}
 .hero-overlay {
   position: absolute; inset: 0;
   background: none;
