@@ -326,7 +326,20 @@ export default function Sports() {
                       Danh sách VĐV tham dự
                     </h3>
                     <p style={{ color: 'var(--text-muted)', fontSize: '.82rem', marginBottom: 0 }}>
-                      {currentSport.icon} {currentSport.name} · {sportParticipants.length} VĐV đăng ký
+                      {currentSport.icon} {currentSport.name} ·{' '}
+                      {CATEGORY_SPORTS.includes(currentSport.id)
+                        ? (() => {
+                            const byCat = {};
+                            sportParticipants.forEach(p => {
+                              const c = p.category || 'Khác';
+                              byCat[c] = (byCat[c] || 0) + 1;
+                            });
+                            return Object.entries(byCat)
+                              .map(([cat, n]) => `${cat}: ${n}`)
+                              .join(' · ');
+                          })()
+                        : `${sportParticipants.length} VĐV đăng ký`
+                      }
                     </p>
 
                     {lPart
