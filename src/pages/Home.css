@@ -58,12 +58,39 @@
 .hero-content {
   position: absolute;
   left: 0; right: 0;
-  bottom: 16%;
+  bottom: 14%;
   z-index: 1;
   pointer-events: auto;
   text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 0;
 }
-.hero-btn { margin-top: 12px; }
+.hero-btn { margin-top: 14px; }
+
+/* ── Date banner pill ── */
+.hero-date-banner {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  border-radius: 999px;
+  padding: 10px 24px;
+  margin-top: 18px;
+  box-shadow: 0 4px 24px rgba(13,33,55,.18), 0 1px 0 rgba(255,255,255,.6) inset;
+  border: 1.5px solid rgba(255,255,255,.7);
+}
+.hero-date-icon { font-size: 1.8rem; line-height: 1; flex-shrink: 0; }
+.hero-date-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 3.5vw, 2rem);
+  font-weight: 900;
+  letter-spacing: .03em;
+  color: #0d2137;
+  white-space: nowrap;
+}
+.hero-date-logo {
+  height: 36px; width: auto;
+  object-fit: contain; flex-shrink: 0;
+  border-radius: 50%;
+}
 
 /* ── STATS BAR ── */
 .stats-section {

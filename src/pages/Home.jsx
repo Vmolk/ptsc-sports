@@ -35,6 +35,16 @@ export default function Home() {
 
           <div className="container hero-content reveal">
             <Countdown date={eventDate} />
+
+            {/* ── Date banner pill ── */}
+            <div className="hero-date-banner">
+              <span className="hero-date-icon">🏟️</span>
+              <span className="hero-date-text">05/07/2026 – 18/07/2026</span>
+              <img src="/ptsc-logo.JPG" alt="PTSC"
+                className="hero-date-logo"
+                onError={e => { e.currentTarget.style.display = 'none'; }} />
+            </div>
+
             <Link to="/schedule" className="btn btn-primary hero-btn">
               {t('hero_cta')} →
             </Link>
