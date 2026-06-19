@@ -33,7 +33,7 @@ export default function Home() {
             {/* ── Date banner pill ── */}
             <div className="hero-date-banner">
               <span className="hero-date-icon">🏟️</span>
-              <span className="hero-date-text">05/07/2026 – 18/07/2026</span>
+              <span className="hero-date-text">05/07/2026 – 19/07/2026</span>
             </div>
 
             <Link to="/schedule" className="btn btn-primary hero-btn">

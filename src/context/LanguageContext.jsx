@@ -65,7 +65,7 @@ const STRINGS = {
 
     /* ── Schedule page ── */
     page_schedule_title: 'Lịch Thi Đấu',
-    page_schedule_sub:   '05/07/2026 – 18/07/2026 · Hội Thao Phòng Quản Lý Chất Lượng 2026',
+    page_schedule_sub:   '05/07/2026 – 19/07/2026 · Hội Thao Phòng Quản Lý Chất Lượng 2026',
     filter_date:         'Ngày',
     filter_sport:        'Môn',
     filter_status:       'Trạng thái',
@@ -144,7 +144,7 @@ const STRINGS = {
 
     /* ── Schedule page ── */
     page_schedule_title: 'Schedule',
-    page_schedule_sub:   '05/07/2026 – 18/07/2026 · PTSC M&C Sports Tournament 2026',
+    page_schedule_sub:   '05/07/2026 – 19/07/2026 · PTSC M&C Sports Tournament 2026',
     filter_date:         'Date',
     filter_sport:        'Sport',
     filter_status:       'Status',
