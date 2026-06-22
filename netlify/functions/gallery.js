@@ -22,8 +22,8 @@ export async function handler(event) {
     caption:   r.caption || r.title || '',
     url:       r.url || '',           // Google Drive album link (click to open)
     thumbnail: r.thumbnail || '',     // Direct image URL for preview
-    day:       toInt(r.day, 1),
+    day:       r.day || '',           // Actual date string e.g. "05/07/2026"
   }));
-  if (day) data = data.filter(g => String(g.day) === String(day));
+  if (day) data = data.filter(g => g.day === day);
   return ok(data);
 }

@@ -401,9 +401,9 @@ function TopScorers() {
     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '.9rem' }}>
       <thead>
         <tr>
-          {['#', 'Cầu thủ', 'Đội / Tổ', '⚽ Bàn', '🎯 Kiến tạo'].map(h => (
+          {['#', 'Cầu thủ', 'Đội / Tổ', '⚽ Bàn'].map(h => (
             <th key={h} style={{
-              padding: '8px 12px', textAlign: h === '#' || h.includes('⚽') || h.includes('🎯') ? 'center' : 'left',
+              padding: '8px 12px', textAlign: h === '#' || h.includes('⚽') ? 'center' : 'left',
               fontSize: '.72rem', fontWeight: 700, letterSpacing: '.06em',
               textTransform: 'uppercase', color: 'var(--text-muted)',
               borderBottom: '1px solid var(--line)',
@@ -425,7 +425,6 @@ function TopScorers() {
             <td style={{ padding: '10px 12px', fontWeight: 600 }}>{p.player}</td>
             <td style={{ padding: '10px 12px', color: 'var(--text-muted)', fontSize: '.85rem' }}>{p.team}</td>
             <td style={{ padding: '10px 12px', textAlign: 'center', fontWeight: 800, color: 'var(--gold)', fontFamily: 'var(--font-display)', fontSize: '1rem' }}>{p.goals}</td>
-            <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-muted)' }}>{p.assists || '—'}</td>
           </tr>
         ))}
       </tbody>
@@ -470,9 +469,31 @@ function BracketContent({ data, sportId }) {
           ))}
         </div>
       )}
-      {tab === 'bracket' && hasKnockout && (
-        <VisualBracket rounds={data.rounds} roundOrder={data.roundOrder} showAvatar={showAvatar} />
-      )}
+      {tab === 'bracket' && hasKnockout && (() => {
+        /* Separate 3rd-place match from the main bracket flow */
+        const mainOrder = data.roundOrder.filter(r => r !== '3rd');
+        const third     = data.rounds['3rd']?.matches?.[0];
+        return (
+          <>
+            <VisualBracket rounds={data.rounds} roundOrder={mainOrder} showAvatar={showAvatar} />
+            {third && (
+              <div style={{
+                marginTop: 28, paddingTop: 20,
+                borderTop: '2px dashed var(--line-blue)',
+              }}>
+                <p style={{
+                  fontFamily: 'var(--font-display)', fontSize: '.78rem',
+                  fontWeight: 800, letterSpacing: '.1em', textTransform: 'uppercase',
+                  color: '#b45309', marginBottom: 12,
+                }}>🥉 Tranh hạng 3</p>
+                <div style={{ maxWidth: 280 }}>
+                  <VBMatch m={third} showAvatar={showAvatar} />
+                </div>
+              </div>
+            )}
+          </>
+        );
+      })()}
       {tab === 'medals'  && <MedalsPanel data={data} />}
       {tab === 'scorers' && <TopScorers />}
 

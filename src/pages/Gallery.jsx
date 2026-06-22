@@ -2,7 +2,7 @@
  * src/pages/Gallery.jsx
  * Photo gallery grouped by day. Each item links out to a Google Drive album.
  */
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { api } from '../utils/api.js';
 import { useFetch } from '../hooks/useFetch.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
@@ -11,20 +11,24 @@ import { Loading, ErrorState, Empty } from '../components/States.jsx';
 /* Colour palette used as tile backgrounds when no real photo is available */
 const PALETTE = ['#1e3a5f','#2d1b69','#1a4731','#5c1a1a','#1a3c5c','#4a2c1a','#1f3a2e'];
 
-function dayLabel(d) {
-  if (d === 1 || d === '1') return '01/07/2026';
-  if (d === 2 || d === '2') return '02/07/2026';
-  return `Ngày ${d}`;
-}
-
 export default function Gallery() {
   const { t } = useLanguage();
   const [day, setDay] = useState('');
 
-  const { data, loading, error } = useFetch(
-    () => api.getGallery(day || undefined),
-    [day]
-  );
+  /* Fetch all items once, filter client-side so day chips are always visible */
+  const { data: allData, loading, error } = useFetch(() => api.getGallery(), []);
+
+  /* Unique sorted days from actual data */
+  const availableDays = useMemo(() => {
+    if (!allData) return [];
+    return [...new Set(allData.map(g => g.day).filter(Boolean))].sort();
+  }, [allData]);
+
+  /* Client-side filter */
+  const data = useMemo(() => {
+    if (!allData) return [];
+    return day ? allData.filter(g => g.day === day) : allData;
+  }, [allData, day]);
 
   const handleOpen = (url) => {
     if (!url) return;
@@ -43,17 +47,26 @@ export default function Gallery() {
       <section className="section">
         <div className="container">
 
-          {/* ---- Day filter ---- */}
+          {/* ---- Day filter (dynamic from data) ---- */}
           <div className="filters">
-            <span className="filter-label">Ngày</span>
-            <button className={`chip ${day === ''  ? 'active' : ''}`} onClick={() => setDay('')}>Tất cả</button>
-            <button className={`chip ${day === '1' ? 'active' : ''}`} onClick={() => setDay('1')}>01/07/2026</button>
-            <button className={`chip ${day === '2' ? 'active' : ''}`} onClick={() => setDay('2')}>02/07/2026</button>
+            <span className="filter-label">{t('filter_date')}</span>
+            <button className={`chip ${day === '' ? 'active' : ''}`} onClick={() => setDay('')}>
+              {t('all')}
+            </button>
+            {availableDays.map(d => (
+              <button
+                key={d}
+                className={`chip ${day === d ? 'active' : ''}`}
+                onClick={() => setDay(day === d ? '' : d)}
+              >
+                {d}
+              </button>
+            ))}
           </div>
 
           {loading && <Loading />}
           {error && <ErrorState message={error} />}
-          {data && data.length === 0 && <Empty label={t('no_photos')} />}
+          {!loading && !error && data.length === 0 && <Empty label={t('no_photos')} />}
 
           {data && data.length > 0 && (
             <div className="gallery-grid">
@@ -62,7 +75,6 @@ export default function Gallery() {
                   className="gallery-item reveal"
                   key={g.id ?? i}
                   style={{
-                    /* Show thumbnail if available, else fallback to gradient */
                     background: g.thumbnail
                       ? `url(${g.thumbnail}) center/cover no-repeat`
                       : `linear-gradient(135deg, ${PALETTE[i % PALETTE.length]}, var(--bg-900))`,
@@ -72,7 +84,6 @@ export default function Gallery() {
                   onClick={() => handleOpen(g.url)}
                   title={g.url ? 'Nhấn để mở album Google Drive' : ''}
                 >
-                  {/* Drive link badge */}
                   {g.url && (
                     <span style={{
                       position: 'absolute', top: 10, right: 10,
@@ -85,7 +96,7 @@ export default function Gallery() {
                     </span>
                   )}
 
-                  <span className="gallery-day">{dayLabel(g.day)}</span>
+                  <span className="gallery-day">{g.day}</span>
                   <figcaption className="gallery-caption">{g.caption}</figcaption>
                 </figure>
               ))}
