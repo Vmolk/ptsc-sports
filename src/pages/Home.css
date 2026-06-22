@@ -106,8 +106,20 @@
 /* ── Responsive ── */
 @media (max-width: 900px) { .sports-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) {
-  .stat-cell  { padding: 10px 16px; }
-  .stat-num   { font-size: 1.5rem; }
-  .sports-section { padding-block: 48px; }
-  .sport-card { padding: 20px 14px 16px; }
+  .stats-grid { justify-content: flex-start; }
+  .stat-cell  { padding: 10px 14px; flex: 0 0 auto; }
+  .stat-num   { font-size: 1.4rem; }
+  .stats-section { padding-block: 24px; }
+  .sports-section { padding-block: 40px; }
+  .sport-card { padding: 18px 12px 14px; }
+  .hero-content { bottom: 8%; gap: 0; }
+  .hero-date-banner { padding: 8px 16px; margin-top: 12px; }
+  .hero-date-text { font-size: clamp(.85rem, 4vw, 1.3rem) !important; }
+  .hero-btn { margin-top: 10px; padding: 10px 20px; font-size: .9rem; }
+}
+@media (max-width: 420px) {
+  .sports-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-cell { padding: 8px 10px; }
+  .stat-num  { font-size: 1.2rem; }
+  .hero-date-icon { font-size: 1.3rem; }
 }

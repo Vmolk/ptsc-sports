@@ -91,7 +91,6 @@ function StatsRow({ stats, t }) {
     { num: stats.teamsCount,             label: t('stat_teams')    },
     { num: a.total,                      label: t('stat_athletes') },
     { num: `${a.male}/${a.female}`,      label: t('stat_gender')   },
-    { num: stats.matchesCount,           label: t('stat_matches')  },
   ];
   return (
     <div className="stats-grid">

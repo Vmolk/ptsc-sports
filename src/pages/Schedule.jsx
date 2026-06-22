@@ -35,7 +35,12 @@ function groupByDate(matches) {
     if (!map[key]) map[key] = [];
     map[key].push(m);
   });
-  return Object.entries(map).sort(([a], [b]) => a.localeCompare(b));
+  return Object.entries(map)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([date, list]) => [
+      date,
+      [...list].sort((a, b) => (a.time || '').localeCompare(b.time || '')),
+    ]);
 }
 
 export default function Schedule() {

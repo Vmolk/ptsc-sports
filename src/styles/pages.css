@@ -145,12 +145,38 @@
   .gallery-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 720px) {
-  .match-card { grid-template-columns: 1fr; gap: 10px; text-align: center; }
-  .match-info { align-items: center; }
+  .match-card {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    text-align: center;
+    padding: 14px 14px;
+  }
+  .match-when { flex-direction: row; align-items: baseline; gap: 8px; justify-content: center; }
+  .match-teams { gap: 6px; }
+  .match-team, .match-team.away {
+    flex-direction: row;
+    justify-content: center;
+    flex: none;
+    width: 100%;
+  }
+  .match-score { font-size: 1.2rem; min-width: 48px; }
+  .match-info { align-items: center; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 6px; }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .page-header { padding-block: 36px; }
 }
 @media (max-width: 560px) {
   .sports-full { grid-template-columns: 1fr; }
   .hide-sm { display: none; }
   .filter-label { display: none; }
+  .container { padding-inline: 14px; }
+  .filters { gap: 6px; margin-bottom: 10px; }
+  .chip { padding: 5px 11px; font-size: .82rem; }
+  .page-header h1 { font-size: clamp(1.4rem, 6vw, 2rem); }
+  .gallery-grid { gap: 8px; }
+  .section { padding-block: 48px; }
+}
+@media (max-width: 420px) {
+  .match-card { padding: 12px 10px; }
+  .match-time { font-size: 1.1rem; }
+  .gallery-grid { grid-template-columns: 1fr; }
 }

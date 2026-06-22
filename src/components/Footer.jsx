@@ -33,7 +33,7 @@ export default function Footer() {
         {/* Event info */}
         <div className="footer-meta">
           <p>📍 Vũng Tàu, Việt Nam</p>
-          <p>📅 05 / 07 / 2026 – 18 / 07 / 2026</p>
+          <p>📅 05 / 07 / 2026 – 19 / 07 / 2026</p>
         </div>
       </div>
 
