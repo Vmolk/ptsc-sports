@@ -23,28 +23,46 @@ function computeStandings(matches, teamById, sportId) {
   /* 1pt/win, no draws: pickleball + badminton */
   const isPkl = sportId === 'pickleball' || sportId === 'badminton';
   const tbl = {};
+  /* h2h[idA][idB] = { pts, gd } — points/goal-diff A earned in matches *against* B */
+  const h2h = {};
+
   const ensure = (id) => {
     if (!tbl[id]) tbl[id] = { id, w: 0, d: 0, l: 0, gf: 0, ga: 0, pts: 0 };
   };
+  const ensureH2H = (a, b) => {
+    if (!h2h[a])    h2h[a]    = {};
+    if (!h2h[b])    h2h[b]    = {};
+    if (!h2h[a][b]) h2h[a][b] = { pts: 0, gd: 0 };
+    if (!h2h[b][a]) h2h[b][a] = { pts: 0, gd: 0 };
+  };
+
   matches.forEach(({ home, away, homeScore, awayScore }) => {
     ensure(home); ensure(away);
+    ensureH2H(home, away);
     if (homeScore == null || awayScore == null) return;
     const hs = toInt(homeScore, 0), as = toInt(awayScore, 0);
     tbl[home].gf += hs; tbl[home].ga += as;
     tbl[away].gf += as; tbl[away].ga += hs;
+    h2h[home][away].gd += hs - as;
+    h2h[away][home].gd += as - hs;
     if (hs > as) {
       tbl[home].w++;
       tbl[home].pts += isPkl ? 1 : 3;
       tbl[away].l++;
+      h2h[home][away].pts += isPkl ? 1 : 3;
     } else if (hs < as) {
       tbl[away].w++;
       tbl[away].pts += isPkl ? 1 : 3;
       tbl[home].l++;
+      h2h[away][home].pts += isPkl ? 1 : 3;
     } else if (!isPkl) {
       tbl[home].d++; tbl[home].pts++;
       tbl[away].d++; tbl[away].pts++;
+      h2h[home][away].pts++;
+      h2h[away][home].pts++;
     }
   });
+
   return Object.values(tbl)
     .map(t => ({
       ...t, gd: t.gf - t.ga,
@@ -53,7 +71,19 @@ function computeStandings(matches, teamById, sportId) {
       color: teamById[t.id]?.color ?? '#888',
       logo:  teamById[t.id]?.logo  ?? '',
     }))
-    .sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
+    .sort((a, b) => {
+      if (b.pts !== a.pts) return b.pts - a.pts;
+      if (b.gd  !== a.gd)  return b.gd  - a.gd;
+      if (b.gf  !== a.gf)  return b.gf  - a.gf;
+      /* Head-to-head tiebreaker: who won the direct match? */
+      const aH = h2h[a.id]?.[b.id]; /* a's record against b */
+      const bH = h2h[b.id]?.[a.id]; /* b's record against a */
+      if (aH && bH) {
+        if (aH.pts !== bH.pts) return bH.pts - aH.pts; /* higher aH.pts → a first */
+        if (aH.gd  !== bH.gd)  return bH.gd  - aH.gd;  /* higher aH.gd  → a first */
+      }
+      return 0;
+    });
 }
 
 /* Enrich a raw match with team display info */
