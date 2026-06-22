@@ -182,10 +182,9 @@ function PairName({ name, bold }) {
   if (parts.length === 1) return <span style={{ fontWeight: bold ? 600 : 400 }}>{name}</span>;
   return (
     <span style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-      {parts.flatMap((p, i) => [
-        i > 0 && <span key={`sep-${i}`} style={{ fontSize: '.6rem', color: 'var(--text-dim)', fontWeight: 700, lineHeight: 1 }}>/</span>,
-        <span key={i} style={{ fontWeight: bold ? 600 : 400, lineHeight: 1.35 }}>{p.trim()}</span>,
-      ])}
+      {parts.map((p, i) => (
+        <span key={i} style={{ fontWeight: bold ? 600 : 400, lineHeight: 1.35 }}>{p.trim()}</span>
+      ))}
     </span>
   );
 }
