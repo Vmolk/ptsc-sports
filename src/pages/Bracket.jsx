@@ -326,15 +326,6 @@ function computeMedals(data) {
     }
   }
 
-  /* No knockout yet → use top 3 from combined group standings */
-  if (!result.gold && hasGroups && groups) {
-    const all = Object.values(groups).flatMap(g => g.standings);
-    const sorted = [...all].sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
-    if (sorted[0]) result.gold   = sorted[0].name;
-    if (sorted[1]) result.silver = sorted[1].name;
-    if (sorted[2]) result.bronze = sorted[2].name;
-  }
-
   return result;
 }
 
