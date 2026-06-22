@@ -64,11 +64,11 @@
   background: var(--bg-800);
   box-shadow: 0 2px 8px rgba(21,101,192,.1);
 }
-.vb-match.vb-empty { background: transparent; border-color: transparent; height: 104px; }
+.vb-match.vb-empty { background: transparent; border-color: transparent; height: 140px; }
 
 .vb-team {
   display: flex; align-items: center; gap: 8px;
-  padding: 6px 10px; height: 52px; font-size: .82rem;
+  padding: 6px 10px; min-height: 70px; font-size: .82rem;
   transition: background .12s;
 }
 .vb-team + .vb-team { border-top: 1px solid var(--line); }
@@ -76,7 +76,22 @@
 .vb-team.winner .vb-name  { color: var(--blue-dark); font-weight: 700; }
 .vb-team.winner .vb-score { color: var(--blue); }
 
-.vb-name  { flex: 1; color: var(--text-muted); font-size: .8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Single-line name */
+.vb-name {
+  flex: 1; color: var(--text-muted); font-size: .8rem;
+  white-space: normal; word-break: break-word; line-height: 1.35;
+}
+
+/* Pair name: two player names separated by "/" on its own line */
+.vb-name-pair {
+  display: flex; flex-direction: column; gap: 1px;
+}
+.vb-name-pair span { display: block; }
+.vb-name-sep {
+  font-size: .65rem; color: var(--text-dim);
+  font-weight: 700; line-height: 1;
+}
+
 .vb-score { font-family: var(--font-display); font-size: .95rem; font-weight: 800; min-width: 20px; text-align: right; color: var(--text); }
 
 /* ── Responsive ── */

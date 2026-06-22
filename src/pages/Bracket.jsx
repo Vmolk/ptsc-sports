@@ -13,16 +13,16 @@ const ROUND_LABEL = {
 
 /* ─── Layout constants ─── */
 const LABEL_H = 34;   // round-label row height (px)
-const MATCH_H = 104;  // rendered match card height (px) — 2 × 52px rows
-const MATCH_W = 214;  // match card width (px)
+const MATCH_H = 140;  // rendered match card height (px) — 2 × 70px rows
+const MATCH_W = 230;  // match card width (px)
 const GUTTER  = 44;   // connector gutter between rounds (px)
 
-/* Slot height must always exceed MATCH_H (104px) to prevent card overlap */
+/* Slot height must always exceed MATCH_H to prevent card overlap */
 function slotSize(baseCount) {
-  if (baseCount <= 2)  return 140;
-  if (baseCount <= 4)  return 124;
-  if (baseCount <= 8)  return 116;
-  return 112;   // minimum: MATCH_H(104) + 8px gap
+  if (baseCount <= 2)  return 188;
+  if (baseCount <= 4)  return 170;
+  if (baseCount <= 8)  return 158;
+  return 150;   // minimum: MATCH_H(140) + 10px gap
 }
 
 /* ─── Team avatar ─── */
@@ -43,6 +43,21 @@ function TeamAvatar({ name, short, color, logo, size = 22 }) {
   );
 }
 
+/* ─── Pair-aware name for the bracket card ─── */
+function VBName({ name }) {
+  if (!name) return <span className="vb-name">—</span>;
+  /* Split on em-dash (–) or regular dash used as pair separator */
+  const parts = name.split(/\s*[–—]\s*/);
+  if (parts.length < 2) return <span className="vb-name">{name}</span>;
+  return (
+    <span className="vb-name vb-name-pair">
+      <span>{parts[0].trim()}</span>
+      <span className="vb-name-sep">/</span>
+      <span>{parts[1].trim()}</span>
+    </span>
+  );
+}
+
 /* ─── Match card used inside visual bracket ─── */
 function VBMatch({ m, showAvatar = false }) {
   if (!m) return <div className="vb-match vb-empty" />;
@@ -54,13 +69,13 @@ function VBMatch({ m, showAvatar = false }) {
       <div className={`vb-team ${homeWin ? 'winner' : ''}`}>
         {showAvatar && <TeamAvatar name={m.homeName} short={m.homeColor?.slice(1,4)}
                     color={m.homeColor} logo={m.homeLogo} size={40} />}
-        <span className="vb-name">{m.homeName || '—'}</span>
+        <VBName name={m.homeName} />
         {played && <span className="vb-score">{m.homeScore}</span>}
       </div>
       <div className={`vb-team ${awayWin ? 'winner' : ''}`}>
         {showAvatar && <TeamAvatar name={m.awayName} short={m.awayColor?.slice(1,4)}
                     color={m.awayColor} logo={m.awayLogo} size={40} />}
-        <span className="vb-name">{m.awayName || '—'}</span>
+        <VBName name={m.awayName} />
         {played && <span className="vb-score">{m.awayScore}</span>}
       </div>
     </div>
