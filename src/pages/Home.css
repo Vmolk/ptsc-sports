@@ -106,7 +106,38 @@
 /* ── Responsive ── */
 @media (max-width: 900px) { .sports-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) {
-  /* 3-column grid so 5 stats render as 3+2 rows, aligned */
+  /* ── Hero: image on top, content below (no more absolute overlap) ── */
+  .hero { flex-direction: column; }
+  .hero-bg-img {
+    max-height: 52vw;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .hero-overlay {
+    position: static;
+    background: linear-gradient(160deg, var(--blue-dark) 0%, var(--blue) 100%);
+    padding: 24px 16px 28px;
+  }
+  .hero-content {
+    position: static;
+    gap: 12px;
+  }
+  /* Date banner adapts to dark background */
+  .hero-date-banner {
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.28);
+    box-shadow: none;
+    padding: 8px 18px;
+    margin-top: 0;
+  }
+  .hero-date-text {
+    color: #fff !important;
+    font-size: clamp(.9rem, 5vw, 1.2rem) !important;
+  }
+  .hero-date-icon { font-size: 1.3rem; }
+  .hero-btn { margin-top: 4px; }
+
+  /* ── Stats bar ── */
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -120,12 +151,10 @@
   }
   .stat-num   { font-size: 1.35rem; }
   .stats-section { padding-block: 20px; }
+
+  /* ── Sports grid ── */
   .sports-section { padding-block: 40px; }
   .sport-card { padding: 18px 12px 14px; }
-  .hero-content { bottom: 8%; gap: 0; }
-  .hero-date-banner { padding: 8px 16px; margin-top: 12px; }
-  .hero-date-text { font-size: clamp(.85rem, 4vw, 1.3rem) !important; }
-  .hero-btn { margin-top: 10px; padding: 10px 20px; font-size: .9rem; }
 }
 @media (max-width: 420px) {
   .sports-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
