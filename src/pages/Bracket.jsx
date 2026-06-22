@@ -176,15 +176,16 @@ function VisualBracket({ rounds, roundOrder, showAvatar = false }) {
   );
 }
 
-/* Render a name that may contain " – " (pair) as stacked lines */
+/* Render a name that may contain " – " or "/" (pair) as stacked lines */
 function PairName({ name, bold }) {
-  const parts = name ? name.split(/\s*[–-]\s*/) : [name];
+  const parts = name ? name.split(/\s*[–\/]\s*/) : [name];
   if (parts.length === 1) return <span style={{ fontWeight: bold ? 600 : 400 }}>{name}</span>;
   return (
     <span style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-      {parts.map((p, i) => (
-        <span key={i} style={{ fontWeight: bold ? 600 : 400, lineHeight: 1.35, whiteSpace: 'nowrap' }}>{p.trim()}</span>
-      ))}
+      {parts.flatMap((p, i) => [
+        i > 0 && <span key={`sep-${i}`} style={{ fontSize: '.6rem', color: 'var(--text-dim)', fontWeight: 700, lineHeight: 1 }}>/</span>,
+        <span key={i} style={{ fontWeight: bold ? 600 : 400, lineHeight: 1.35 }}>{p.trim()}</span>,
+      ])}
     </span>
   );
 }

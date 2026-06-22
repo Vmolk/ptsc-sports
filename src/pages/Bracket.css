@@ -25,7 +25,7 @@
 .sport-tab.active { background: var(--blue); border-color: var(--blue); color: #fff; }
 
 /* ── Group standings ── */
-.groups-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.groups-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; align-items: start; }
 .group-block { background: var(--bg-700); border-radius: 10px; padding: 12px; border: 1px solid var(--line); }
 .group-title {
   font-family: var(--font-display); font-size: .95rem; font-weight: 800;
@@ -42,6 +42,7 @@
 }
 .group-table td { padding: 6px 4px; text-align: center; border-bottom: 1px solid var(--line); color: var(--text); white-space: nowrap; }
 .group-table td:first-child { text-align: left; white-space: normal; word-break: break-word; }
+.group-table tbody tr { height: 52px; }
 .group-table tr.qualify td { background: rgba(21,101,192,.06); }
 .group-table tr.qualify td:first-child { border-left: 2px solid var(--blue); padding-left: 10px; }
 .group-table .pts { font-weight: 700; color: var(--blue); }
