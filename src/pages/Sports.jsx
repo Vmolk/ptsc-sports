@@ -120,7 +120,7 @@ function ParticipantsFlatList({ participants }) {
                 background: 'rgba(21,101,192,.10)', color: 'var(--blue)',
                 fontSize: '.7rem', fontWeight: 800, fontFamily: 'var(--font-display)',
                 flexShrink: 0, padding: '0 4px',
-              }}>#{m.jersey}</span>
+              }}>{m.jersey}</span>
             )}
           </div>
         ))}
@@ -209,7 +209,7 @@ function ParticipantsGrid({ participants, teams, sportId }) {
                     background: 'rgba(21,101,192,.10)', color: 'var(--blue)',
                     fontSize: '.7rem', fontWeight: 800, fontFamily: 'var(--font-display)',
                     letterSpacing: '.02em', flexShrink: 0, padding: '0 4px',
-                  }}>#{m.jersey}</span>
+                  }}>{m.jersey}</span>
                 ) : (
                   <span style={{ minWidth: 26 }} />
                 )}

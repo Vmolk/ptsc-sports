@@ -44,7 +44,7 @@ function TeamAvatar({ name, short, color, logo, size = 22 }) {
 }
 
 /* ─── Match card used inside visual bracket ─── */
-function VBMatch({ m }) {
+function VBMatch({ m, showAvatar = false }) {
   if (!m) return <div className="vb-match vb-empty" />;
   const played  = m.homeScore != null && m.awayScore != null;
   const homeWin = played && m.homeScore > m.awayScore;
@@ -52,14 +52,14 @@ function VBMatch({ m }) {
   return (
     <div className="vb-match">
       <div className={`vb-team ${homeWin ? 'winner' : ''}`}>
-        <TeamAvatar name={m.homeName} short={m.homeColor?.slice(1,4)}
-                    color={m.homeColor} logo={m.homeLogo} size={40} />
+        {showAvatar && <TeamAvatar name={m.homeName} short={m.homeColor?.slice(1,4)}
+                    color={m.homeColor} logo={m.homeLogo} size={40} />}
         <span className="vb-name">{m.homeName || '—'}</span>
         {played && <span className="vb-score">{m.homeScore}</span>}
       </div>
       <div className={`vb-team ${awayWin ? 'winner' : ''}`}>
-        <TeamAvatar name={m.awayName} short={m.awayColor?.slice(1,4)}
-                    color={m.awayColor} logo={m.awayLogo} size={40} />
+        {showAvatar && <TeamAvatar name={m.awayName} short={m.awayColor?.slice(1,4)}
+                    color={m.awayColor} logo={m.awayLogo} size={40} />}
         <span className="vb-name">{m.awayName || '—'}</span>
         {played && <span className="vb-score">{m.awayScore}</span>}
       </div>
@@ -91,7 +91,7 @@ function BkConnector({ cx, cy, mi, matchCount, sh, half }) {
 }
 
 /* ─── Visual bracket (absolute-positioned cards + connector lines) ─── */
-function VisualBracket({ rounds, roundOrder }) {
+function VisualBracket({ rounds, roundOrder, showAvatar = false }) {
   if (!roundOrder?.length) return null;
 
   const baseCount = rounds[roundOrder[0]].matches.length;
@@ -130,7 +130,7 @@ function VisualBracket({ rounds, roundOrder }) {
               <div key={m.id}>
                 {/* Match card */}
                 <div style={{ position: 'absolute', left: colX, top, width: MATCH_W }}>
-                  <VBMatch m={m} />
+                  <VBMatch m={m} showAvatar={showAvatar} />
                 </div>
 
                 {/* Connectors (not after the last round) */}
@@ -346,6 +346,7 @@ function TopScorers() {
 /* ─── Content of one bracket (groups + knockout) ─── */
 function BracketContent({ data, sportId }) {
   const isFootball  = sportId === 'football';
+  const showAvatar  = isFootball;
   const hasGroups   = data.hasGroups;
   const hasKnockout = data.roundOrder?.length > 0;
 
@@ -379,7 +380,7 @@ function BracketContent({ data, sportId }) {
         </div>
       )}
       {tab === 'bracket' && hasKnockout && (
-        <VisualBracket rounds={data.rounds} roundOrder={data.roundOrder} />
+        <VisualBracket rounds={data.rounds} roundOrder={data.roundOrder} showAvatar={showAvatar} />
       )}
       {tab === 'scorers' && <TopScorers />}
 
