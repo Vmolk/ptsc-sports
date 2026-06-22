@@ -301,6 +301,90 @@ function GroupMatchRow({ m }) {
   );
 }
 
+/* ─── Compute gold / silver / bronze from bracket data ─── */
+function computeMedals(data) {
+  const { rounds, groups, hasGroups } = data;
+  const result = { gold: null, silver: null, bronze: null };
+
+  if (rounds) {
+    const finalM = rounds['final']?.matches?.[0];
+    if (finalM?.homeScore != null && finalM?.awayScore != null) {
+      const hw = finalM.homeScore > finalM.awayScore;
+      result.gold   = hw ? finalM.homeName : finalM.awayName;
+      result.silver = hw ? finalM.awayName : finalM.homeName;
+    }
+
+    const thirdM = rounds['3rd']?.matches?.[0];
+    if (thirdM?.homeScore != null && thirdM?.awayScore != null) {
+      result.bronze = thirdM.homeScore > thirdM.awayScore ? thirdM.homeName : thirdM.awayName;
+    } else if (!result.bronze) {
+      /* Fallback: SF losers = joint bronze */
+      const sfLosers = (rounds['sf']?.matches || [])
+        .filter(m => m.homeScore != null && m.awayScore != null)
+        .map(m => m.homeScore < m.awayScore ? m.homeName : m.awayName);
+      if (sfLosers.length > 0) result.bronze = sfLosers.join(' / ');
+    }
+  }
+
+  /* No knockout yet → use top 3 from combined group standings */
+  if (!result.gold && hasGroups && groups) {
+    const all = Object.values(groups).flatMap(g => g.standings);
+    const sorted = [...all].sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
+    if (sorted[0]) result.gold   = sorted[0].name;
+    if (sorted[1]) result.silver = sorted[1].name;
+    if (sorted[2]) result.bronze = sorted[2].name;
+  }
+
+  return result;
+}
+
+const MEDAL_CFG = [
+  { key: 'gold',   emoji: '🥇', label: 'HUY CHƯƠNG VÀNG', color: '#d97706', bg: 'rgba(245,158,11,.08)', border: 'rgba(245,158,11,.35)' },
+  { key: 'silver', emoji: '🥈', label: 'HUY CHƯƠNG BẠC',  color: '#64748b', bg: 'rgba(148,163,184,.08)', border: 'rgba(148,163,184,.35)' },
+  { key: 'bronze', emoji: '🥉', label: 'HUY CHƯƠNG ĐỒNG', color: '#b45309', bg: 'rgba(180,83,9,.07)',   border: 'rgba(180,83,9,.28)'   },
+];
+
+/* ─── Medals panel ─── */
+function MedalsPanel({ data }) {
+  const medals = computeMedals(data);
+  const hasAny = medals.gold || medals.silver || medals.bronze;
+
+  if (!hasAny) return (
+    <p style={{ color: 'var(--text-muted)', padding: '24px 0', fontSize: '.9rem' }}>
+      Chưa có kết quả để xếp huy chương.
+    </p>
+  );
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '16px 0' }}>
+      {MEDAL_CFG.map(({ key, emoji, label, color, bg, border }) => {
+        const name = medals[key];
+        if (!name) return null;
+        return (
+          <div key={key} style={{
+            display: 'flex', alignItems: 'center', gap: 16,
+            background: bg, border: `1.5px solid ${border}`,
+            borderRadius: 14, padding: '14px 20px',
+          }}>
+            <span style={{ fontSize: '2rem', flexShrink: 0, lineHeight: 1 }}>{emoji}</span>
+            <div>
+              <div style={{
+                fontFamily: 'var(--font-display)', fontSize: '.68rem',
+                fontWeight: 800, letterSpacing: '.1em',
+                color, textTransform: 'uppercase', marginBottom: 3,
+              }}>{label}</div>
+              <div style={{
+                fontFamily: 'var(--font-display)', fontSize: '1.1rem',
+                fontWeight: 800, color: 'var(--text)', letterSpacing: '.02em',
+              }}>{name}</div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 /* ─── Top scorers (football only) ─── */
 function TopScorers() {
   const { data, loading } = useFetch(() => api.getScorers(), []);
@@ -353,6 +437,7 @@ function BracketContent({ data, sportId }) {
   const tabs = [
     hasGroups   && { id: 'groups',  label: '📊 Bảng đấu'      },
     hasKnockout && { id: 'bracket', label: '🏆 Sơ đồ thi đấu' },
+    (hasGroups || hasKnockout) && { id: 'medals',  label: '🏅 Huy chương'     },
     isFootball  && { id: 'scorers', label: '⚽ Vua phá lưới'  },
   ].filter(Boolean);
 
@@ -382,9 +467,10 @@ function BracketContent({ data, sportId }) {
       {tab === 'bracket' && hasKnockout && (
         <VisualBracket rounds={data.rounds} roundOrder={data.roundOrder} showAvatar={showAvatar} />
       )}
+      {tab === 'medals'  && <MedalsPanel data={data} />}
       {tab === 'scorers' && <TopScorers />}
 
-      {!hasKnockout && !hasGroups && tab !== 'scorers' && (
+      {!hasKnockout && !hasGroups && tab !== 'scorers' && tab !== 'medals' && (
         <p style={{ color: 'var(--text-muted)', padding: '20px 0' }}>Chưa có trận đấu.</p>
       )}
     </div>
