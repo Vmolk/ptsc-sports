@@ -79,7 +79,7 @@
 
 /* Single-line name */
 .vb-name {
-  flex: 1; color: var(--text-muted); font-size: .8rem;
+  flex: 1; color: var(--text-muted); font-size: .8rem; font-weight: 600;
   white-space: normal; word-break: break-word; line-height: 1.35;
 }
 
