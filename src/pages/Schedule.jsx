@@ -176,10 +176,10 @@ export default function Schedule() {
                       const played  = m.homeScore != null && m.awayScore != null;
                       const homeWin = played && m.homeScore > m.awayScore;
                       const awayWin = played && m.awayScore > m.homeScore;
-                      /* Pairs have "–" in name (pickleball/badminton doubles) → hide avatar */
+                      /* Hide avatar for pairs and when no real logo (only football has logos) */
                       const isPair  = name => name?.includes('–') || name?.includes(' - ');
-                      const hideHomeAvatar = isPair(m.homeName);
-                      const hideAwayAvatar = isPair(m.awayName);
+                      const hideHomeAvatar = isPair(m.homeName) || !m.homeLogo;
+                      const hideAwayAvatar = isPair(m.awayName) || !m.awayLogo;
                       return (
                         <div className="match-teams">
                           <span className="match-team" style={{

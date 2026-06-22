@@ -106,10 +106,20 @@
 /* ── Responsive ── */
 @media (max-width: 900px) { .sports-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) {
-  .stats-grid { justify-content: flex-start; }
-  .stat-cell  { padding: 10px 14px; flex: 0 0 auto; }
-  .stat-num   { font-size: 1.4rem; }
-  .stats-section { padding-block: 24px; }
+  /* 3-column grid so 5 stats render as 3+2 rows, aligned */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+  }
+  .stat-cell  {
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    padding: 12px 6px;
+    width: 100%;
+  }
+  .stat-num   { font-size: 1.35rem; }
+  .stats-section { padding-block: 20px; }
   .sports-section { padding-block: 40px; }
   .sport-card { padding: 18px 12px 14px; }
   .hero-content { bottom: 8%; gap: 0; }

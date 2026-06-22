@@ -149,18 +149,36 @@
     grid-template-columns: 1fr;
     gap: 10px;
     text-align: center;
-    padding: 14px 14px;
+    padding: 14px 12px;
   }
-  .match-when { flex-direction: row; align-items: baseline; gap: 8px; justify-content: center; }
-  .match-teams { gap: 6px; }
-  .match-team, .match-team.away {
+  .match-when {
     flex-direction: row;
+    align-items: baseline;
+    gap: 8px;
     justify-content: center;
+  }
+  /* Stack home / score / away vertically — prevents horizontal overflow */
+  .match-teams {
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+  }
+  .match-team, .match-team.away {
     flex: none;
     width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    gap: 6px;
   }
   .match-score { font-size: 1.2rem; min-width: 48px; }
-  .match-info { align-items: center; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 6px; }
+  .match-info {
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   .page-header { padding-block: 36px; }
 }
