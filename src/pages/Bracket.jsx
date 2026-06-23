@@ -432,64 +432,9 @@ function TopScorers() {
   );
 }
 
-/* ─── Badminton Results Panel ─── */
-const BRS_ROUND_ORDER = ['final', '3rd', 'sf', 'qf', 'r16'];
-const BRS_ROUND_VI    = { final: 'Chung kết', '3rd': 'Tranh hạng 3', sf: 'Bán kết', qf: 'Tứ kết', r16: 'Vòng 1/8' };
-
-function BadmintonResultMatch({ m }) {
-  const hasScore = m.homeScore != null && m.awayScore != null;
-  const homeWin  = hasScore && m.homeScore > m.awayScore;
-  const awayWin  = hasScore && m.awayScore > m.homeScore;
-
-  /* Parse "21-15, 13-21, 21-18" → [['21','15'], ['13','21'], ['21','18']] */
-  const gamePairs = m.detail
-    ? m.detail.split(/[,\/]/).map(s => { const p = s.trim().split('-'); return [p[0]?.trim() ?? '', p[1]?.trim() ?? '']; })
-    : [];
-
-  return (
-    <div className="brs-match">
-      {m.date && <div className="brs-date">{m.date}{m.time ? ` · ${m.time}` : ''}</div>}
-      <div className={`brs-player${homeWin ? ' winner' : ''}`}>
-        <span className="brs-name">{m.homeName}</span>
-        <div className="brs-scores">
-          {hasScore && <span className="brs-sets">{m.homeScore}</span>}
-          {gamePairs.map((g, i) => <span key={i} className="brs-game">{g[0]}</span>)}
-        </div>
-      </div>
-      <div className={`brs-player${awayWin ? ' winner' : ''}`}>
-        <span className="brs-name">{m.awayName}</span>
-        <div className="brs-scores">
-          {hasScore && <span className="brs-sets">{m.awayScore}</span>}
-          {gamePairs.map((g, i) => <span key={i} className="brs-game">{g[1]}</span>)}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function BadmintonResultsPanel({ rounds, roundOrder }) {
-  const ordered = BRS_ROUND_ORDER.filter(r => roundOrder.includes(r));
-  if (!ordered.length) return <p style={{ color: 'var(--text-muted)', padding: '20px 0' }}>Chưa có kết quả.</p>;
-  return (
-    <div className="brs-panel">
-      {ordered.map(rk => {
-        const round = rounds[rk];
-        if (!round?.matches?.length) return null;
-        return (
-          <div key={rk} className="brs-round">
-            <div className="brs-round-label">{BRS_ROUND_VI[rk] || round.label}</div>
-            {round.matches.map((m, i) => <BadmintonResultMatch key={m.id || i} m={m} />)}
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
 /* ─── Content of one bracket (groups + knockout) ─── */
 function BracketContent({ data, sportId }) {
   const isFootball  = sportId === 'football';
-  const isBadminton = sportId === 'badminton';
   const showAvatar  = isFootball;
   const hasGroups   = data.hasGroups;
   const hasKnockout = data.roundOrder?.length > 0;
@@ -497,7 +442,6 @@ function BracketContent({ data, sportId }) {
   const tabs = [
     hasGroups   && { id: 'groups',  label: '📊 Bảng đấu'      },
     hasKnockout && { id: 'bracket', label: '🏆 Sơ đồ thi đấu' },
-    isBadminton && hasKnockout && { id: 'results', label: '📋 Kết quả'        },
     (hasGroups || hasKnockout) && { id: 'medals',  label: '🏅 Huy chương'     },
     isFootball  && { id: 'scorers', label: '⚽ Vua phá lưới'  },
   ].filter(Boolean);
@@ -550,7 +494,6 @@ function BracketContent({ data, sportId }) {
           </>
         );
       })()}
-      {tab === 'results' && isBadminton && <BadmintonResultsPanel rounds={data.rounds} roundOrder={data.roundOrder} />}
       {tab === 'medals'  && <MedalsPanel data={data} />}
       {tab === 'scorers' && <TopScorers />}
 
