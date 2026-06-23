@@ -95,6 +95,49 @@
 
 .vb-score { font-family: var(--font-display); font-size: .95rem; font-weight: 800; min-width: 20px; text-align: right; color: var(--text); }
 
+/* ── Badminton Results Panel ── */
+.brs-panel { display: flex; flex-direction: column; gap: 20px; }
+
+.brs-round-label {
+  font-family: var(--font-display); font-size: .72rem; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--text-muted); background: var(--bg-700);
+  padding: 7px 14px; border-radius: 6px; margin-bottom: 8px;
+  display: inline-block;
+}
+
+.brs-match {
+  background: var(--bg-800); border: 1px solid var(--line-blue);
+  border-radius: 8px; overflow: hidden; margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(21,101,192,.07);
+}
+
+.brs-date {
+  font-size: .7rem; color: var(--text-dim); letter-spacing: .02em;
+  padding: 5px 14px; border-bottom: 1px solid var(--line); background: var(--bg-700);
+}
+
+.brs-player {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px; border-bottom: 1px solid var(--line);
+}
+.brs-player:last-child { border-bottom: none; }
+.brs-player.winner { background: rgba(21,101,192,.08); }
+.brs-player.winner .brs-name { color: var(--blue-dark); font-weight: 700; }
+.brs-player.winner .brs-sets { color: var(--blue); }
+
+.brs-name { flex: 1; font-size: .85rem; color: var(--text); font-weight: 500; }
+.brs-scores { display: flex; align-items: center; gap: 4px; }
+.brs-sets {
+  font-family: var(--font-display); font-size: 1rem; font-weight: 800;
+  min-width: 18px; text-align: center; color: var(--text);
+}
+.brs-game {
+  font-size: .78rem; color: var(--text-muted); font-weight: 500;
+  min-width: 26px; text-align: center;
+  background: var(--bg-700); border-radius: 4px; padding: 2px 4px;
+}
+
 /* ── Responsive ── */
 @media (max-width: 640px) {
   .groups-wrap { grid-template-columns: 1fr; }

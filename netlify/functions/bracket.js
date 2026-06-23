@@ -98,6 +98,7 @@ function enrich(m, teamById) {
     homeName:  home.name  ?? m.home,  homeColor: home.color ?? '#888', homeLogo: home.logo ?? '',
     awayName:  away.name  ?? m.away,  awayColor: away.color ?? '#888', awayLogo: away.logo ?? '',
     date: m.date ?? '', time: m.time ?? '', status: m.status ?? '',
+    detail: m.detail ?? '',
   };
 }
 
@@ -157,6 +158,7 @@ export async function handler(event) {
         homeScore: (m.home_score !== '' && m.home_score != null) ? toInt(m.home_score, null) : null,
         awayScore: (m.away_score !== '' && m.away_score != null) ? toInt(m.away_score, null) : null,
         date: m.date || '', time: m.time || m.match_time || '', status: m.status || '',
+        detail: m.detail || '',
       }))
     : schedule.map(m => ({
         id: m.id, sportId: m.sportId, round: m.round,
@@ -165,6 +167,7 @@ export async function handler(event) {
         home: m.home, away: m.away,
         homeScore: m.homeScore ?? null, awayScore: m.awayScore ?? null,
         date: m.date || '', time: m.time || '', status: m.status || '',
+        detail: m.detail || '',
       }));
 
   /* Group by sport */
