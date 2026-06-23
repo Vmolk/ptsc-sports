@@ -193,7 +193,7 @@ function PairName({ name, bold }) {
 function GroupTable({ groupName, standings, matches, sportId }) {
   /* Compact table (no D/HS/HB): pickleball AND badminton doubles/pairs */
   const isCompact = sportId === 'pickleball' || sportId === 'badminton';
-  const isPairs   = isCompact;   /* show stacked pair names, no team avatar */
+  const isPairs   = isCompact || sportId === 'tugofwar';  /* hide team avatar */
   const [showMatches, setShowMatches] = useState(false);
   const toggle = useCallback(() => setShowMatches(v => !v), []);
 
