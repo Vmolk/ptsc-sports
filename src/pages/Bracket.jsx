@@ -540,10 +540,117 @@ function SportSection({ sport }) {
   );
 }
 
+/* ─── Overall medal standings across all sports ─── */
+function OverallMedals({ data }) {
+  /* Build flat list: one row per sport (or per category for multi-cat sports) */
+  const rows = [];
+  data.forEach(sp => {
+    if (sp.hasCategories) {
+      sp.categories.forEach(cat => {
+        const m = computeMedals(cat);
+        if (m.gold || m.silver || m.bronze)
+          rows.push({ sportName: sp.name, sportIcon: sp.icon, catName: cat.name, ...m });
+      });
+    } else {
+      const m = computeMedals(sp);
+      if (m.gold || m.silver || m.bronze)
+        rows.push({ sportName: sp.name, sportIcon: sp.icon, catName: '', ...m });
+    }
+  });
+
+  /* Tally medals per team/pair name */
+  const tally = {};
+  const add = (name, type) => {
+    if (!name) return;
+    /* bronze can be "A / B" for joint bronze — split and count each */
+    name.split(/\s*\/\s*/).forEach(n => {
+      const key = n.trim();
+      if (!key) return;
+      if (!tally[key]) tally[key] = { gold: 0, silver: 0, bronze: 0 };
+      tally[key][type]++;
+    });
+  };
+  rows.forEach(r => { add(r.gold, 'gold'); add(r.silver, 'silver'); add(r.bronze, 'bronze'); });
+
+  const ranked = Object.entries(tally)
+    .map(([name, c]) => ({ name, ...c, total: c.gold + c.silver + c.bronze }))
+    .sort((a, b) => b.gold - a.gold || b.silver - a.silver || b.bronze - a.bronze || b.total - a.total);
+
+  if (!rows.length) return (
+    <p style={{ color: 'var(--text-muted)', padding: '20px 0' }}>Chưa có kết quả huy chương.</p>
+  );
+
+  return (
+    <div className="om-wrap">
+      {/* ── Per-sport medal summary ── */}
+      <div className="om-card">
+        <div className="om-card-title">🏅 Kết quả huy chương theo môn</div>
+        <table className="om-table">
+          <thead>
+            <tr>
+              <th style={{ textAlign: 'left' }}>Môn thi đấu</th>
+              <th>🥇 Vàng</th>
+              <th>🥈 Bạc</th>
+              <th>🥉 Đồng</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r, i) => (
+              <tr key={i}>
+                <td className="om-sport-name">
+                  {r.sportIcon} {r.sportName}
+                  {r.catName && <span className="om-cat">{r.catName}</span>}
+                </td>
+                <td className="om-gold">{r.gold   || <span className="om-empty">—</span>}</td>
+                <td className="om-silver">{r.silver || <span className="om-empty">—</span>}</td>
+                <td className="om-bronze">{r.bronze || <span className="om-empty">—</span>}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* ── Medal tally ranking ── */}
+      {ranked.length > 0 && (
+        <div className="om-card">
+          <div className="om-card-title">🏆 Bảng tổng sắp</div>
+          <table className="om-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th style={{ textAlign: 'left' }}>Đội / TỔ</th>
+                <th>🥇</th>
+                <th>🥈</th>
+                <th>🥉</th>
+                <th>Tổng</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ranked.map((r, i) => (
+                <tr key={r.name} className={i === 0 ? 'om-rank-1' : ''}>
+                  <td className="om-rank-pos">
+                    <span className={`om-rank-badge rank-${i + 1}`}>{i + 1}</span>
+                  </td>
+                  <td className="om-team-name">{r.name}</td>
+                  <td className="om-cnt om-gold-cnt">{r.gold   || ''}</td>
+                  <td className="om-cnt om-silver-cnt">{r.silver || ''}</td>
+                  <td className="om-cnt om-bronze-cnt">{r.bronze || ''}</td>
+                  <td className="om-cnt om-total-cnt">{r.total}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ─── Main page ─── */
 export default function Bracket() {
   const { t } = useLanguage();
   const { data, loading, error } = useFetch(() => api.getBracket(), []);
+  const [showOverall, setShowOverall] = useState(true);
 
   return (
     <div className="page">
@@ -559,6 +666,18 @@ export default function Bracket() {
           {loading && <Loading />}
           {error   && <ErrorState message={error} />}
           {data && data.length === 0 && <Empty label="Chưa có dữ liệu thi đấu." />}
+
+          {/* ── Overall medal standings ── */}
+          {data && data.length > 0 && (
+            <div className="om-section">
+              <button className="om-toggle" onClick={() => setShowOverall(v => !v)}>
+                <span>🏅 Tổng sắp huy chương</span>
+                <span className="om-toggle-arrow">{showOverall ? '▲' : '▼'}</span>
+              </button>
+              {showOverall && <OverallMedals data={data} />}
+            </div>
+          )}
+
           {data && data.map(sp => <SportSection key={sp.id} sport={sp} />)}
         </div>
       </section>

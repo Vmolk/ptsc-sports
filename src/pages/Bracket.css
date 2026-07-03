@@ -95,9 +95,84 @@
 
 .vb-score { font-family: var(--font-display); font-size: .95rem; font-weight: 800; min-width: 20px; text-align: right; color: var(--text); }
 
+/* ── Overall Medal Standings ── */
+.om-section {
+  margin-bottom: 36px;
+  border: 2px solid var(--line-blue);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.om-toggle {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px;
+  background: var(--blue-dark); border: none; cursor: pointer;
+  font-family: var(--font-display); font-size: 1rem; font-weight: 800;
+  letter-spacing: .04em; text-transform: uppercase; color: #fff;
+}
+.om-toggle-arrow { font-size: .8rem; opacity: .7; }
+
+.om-wrap {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  background: var(--bg-900);
+}
+.om-card {
+  padding: 20px; border-right: 1px solid var(--line);
+}
+.om-card:last-child { border-right: none; }
+.om-card-title {
+  font-family: var(--font-display); font-size: .8rem; font-weight: 800;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--blue-dark); margin-bottom: 14px;
+}
+
+.om-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.om-table th {
+  padding: 7px 10px; color: var(--text-dim); font-size: .68rem;
+  font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  text-align: center; border-bottom: 2px solid var(--line-blue);
+}
+.om-table td { padding: 9px 10px; text-align: center; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.om-table tbody tr:last-child td { border-bottom: none; }
+.om-table tbody tr:hover td { background: rgba(21,101,192,.04); }
+
+.om-sport-name { text-align: left !important; font-weight: 600; color: var(--text); }
+.om-cat {
+  display: inline-block; margin-left: 6px;
+  font-size: .68rem; color: var(--text-dim); font-weight: 400;
+  background: var(--bg-700); border-radius: 4px; padding: 1px 5px;
+}
+.om-empty { color: var(--text-dim); }
+.om-gold   { color: #d97706; font-weight: 600; }
+.om-silver { color: #64748b; font-weight: 600; }
+.om-bronze { color: #b45309; font-weight: 600; }
+
+/* Tally table */
+.om-team-name { text-align: left !important; font-weight: 600; color: var(--text); }
+.om-rank-pos  { width: 36px; }
+.om-rank-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 50%;
+  font-family: var(--font-display); font-size: .78rem; font-weight: 800;
+  background: var(--bg-700); color: var(--text-muted);
+}
+.om-rank-badge.rank-1 { background: #d97706; color: #fff; }
+.om-rank-badge.rank-2 { background: #64748b; color: #fff; }
+.om-rank-badge.rank-3 { background: #b45309; color: #fff; }
+.om-rank-1 td { background: rgba(245,158,11,.05); }
+
+.om-cnt { min-width: 32px; }
+.om-gold-cnt   { color: #d97706; font-weight: 800; font-family: var(--font-display); font-size: .95rem; }
+.om-silver-cnt { color: #64748b; font-weight: 800; font-family: var(--font-display); font-size: .95rem; }
+.om-bronze-cnt { color: #b45309; font-weight: 800; font-family: var(--font-display); font-size: .95rem; }
+.om-total-cnt  { font-weight: 700; color: var(--text); }
+
 /* ── Responsive ── */
 @media (max-width: 640px) {
   .groups-wrap { grid-template-columns: 1fr; }
   .sport-section { padding: 16px; }
   .sport-section-name { font-size: 1.3rem; }
+  .om-wrap { grid-template-columns: 1fr; }
+  .om-card { border-right: none; border-bottom: 1px solid var(--line); }
+  .om-card:last-child { border-bottom: none; }
 }
