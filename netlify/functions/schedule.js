@@ -116,6 +116,13 @@ export async function handler(event) {
       awayName:  away.name  ?? m.away,
       awayColor: away.color ?? '#888',
       awayLogo:  away.logo  ?? '',
+      /* Football match events */
+      homeScorers: m.home_scorers || '',
+      awayScorers: m.away_scorers || '',
+      homeYellows: m.home_yellows || '',
+      awayYellows: m.away_yellows || '',
+      homeReds:    m.home_reds    || '',
+      awayReds:    m.away_reds    || '',
     };
   });
 

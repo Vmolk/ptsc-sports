@@ -192,8 +192,11 @@ function PairName({ name, bold }) {
 /* ─── Group standings ─── */
 function GroupTable({ groupName, standings, matches, sportId }) {
   /* Compact table (no D/HS/HB): pickleball AND badminton doubles/pairs */
-  const isCompact = sportId === 'pickleball' || sportId === 'badminton';
-  const isPairs   = isCompact || sportId === 'tugofwar';  /* hide team avatar */
+  /* isCompact: no D column (no draws)  |  isPairSport: header "Cặp / VĐV" + stacked name  |  showAvatar: only for sports with logos */
+  const isCompact   = sportId === 'pickleball' || sportId === 'badminton' || sportId === 'tugofwar';
+  const isPairSport = sportId === 'pickleball' || sportId === 'badminton';
+  const isPairs     = isPairSport;   /* alias used below for labels */
+  const showAvt     = !isCompact;    /* hide avatar for all non-football sports */
   const [showMatches, setShowMatches] = useState(false);
   const toggle = useCallback(() => setShowMatches(v => !v), []);
 
@@ -226,7 +229,7 @@ function GroupTable({ groupName, standings, matches, sportId }) {
             <tr key={t.id} className={i < 2 ? 'qualify' : ''}>
               <td>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  {!isPairs && <TeamAvatar name={t.name} short={t.short} color={t.color} logo={t.logo} size={28} />}
+                  {showAvt && <TeamAvatar name={t.name} short={t.short} color={t.color} logo={t.logo} size={28} />}
                   <PairName name={t.name} bold={i < 2} />
                 </div>
               </td>

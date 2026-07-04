@@ -18,6 +18,50 @@ function TeamAvatar({ name, color, logo, size = 36 }) {
   );
 }
 
+/* Parse "Nguyễn A 23, Trần B 45+2" → [{name, min}] */
+function parseEvents(str) {
+  if (!str?.trim()) return [];
+  return str.split(',').map(s => {
+    const m = s.trim().match(/^(.+?)\s+(\d+(?:\+\d+)?)'?$/);
+    return m ? { name: m[1].trim(), min: m[2] } : { name: s.trim(), min: '' };
+  }).filter(e => e.name);
+}
+
+function EventRow({ homeEvents, awayEvents, icon }) {
+  if (!homeEvents.length && !awayEvents.length) return null;
+  return (
+    <div className="event-row">
+      <div className="event-col event-home">
+        {homeEvents.map((e, i) => (
+          <span key={i} className="event-item">{e.name}{e.min ? ` ${e.min}'` : ''}</span>
+        ))}
+      </div>
+      <span className="event-icon">{icon}</span>
+      <div className="event-col event-away">
+        {awayEvents.map((e, i) => (
+          <span key={i} className="event-item">{e.name}{e.min ? ` ${e.min}'` : ''}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MatchEvents({ m }) {
+  const played = m.homeScore != null && m.awayScore != null;
+  if (!played) return null;
+  const hG = parseEvents(m.homeScorers), aG = parseEvents(m.awayScorers);
+  const hY = parseEvents(m.homeYellows), aY = parseEvents(m.awayYellows);
+  const hR = parseEvents(m.homeReds),    aR = parseEvents(m.awayReds);
+  if (!hG.length && !aG.length && !hY.length && !aY.length && !hR.length && !aR.length) return null;
+  return (
+    <div className="match-events">
+      <EventRow homeEvents={hG} awayEvents={aG} icon="⚽" />
+      <EventRow homeEvents={hY} awayEvents={aY} icon="🟡" />
+      <EventRow homeEvents={hR} awayEvents={aR} icon="🔴" />
+    </div>
+  );
+}
+
 /* STATUS_LABEL and ROUND_LABEL are built dynamically using t() inside the component */
 
 /* "2026-07-05" → "05/07/2026" */
@@ -208,6 +252,7 @@ export default function Schedule() {
                       <span className="match-sport"><SportIcon icon={m.sportIcon} size="1em" /> {m.sportName}</span>
                       {m.venue && <span className="match-venue">📍 {m.venue}</span>}
                     </div>
+                    {m.sportId === 'football' && <MatchEvents m={m} />}
                   </article>
                 ))}
               </div>

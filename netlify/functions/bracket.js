@@ -20,8 +20,8 @@ export const ROUND_LABEL = {
  * other sports: 3 pts/win, 1 pt/draw (football style)
  */
 function computeStandings(matches, teamById, sportId) {
-  /* 1pt/win, no draws: pickleball + badminton */
-  const isPkl = sportId === 'pickleball' || sportId === 'badminton';
+  /* 1pt/win, no draws: pickleball + badminton + tugofwar (Bo3) */
+  const isPkl = sportId === 'pickleball' || sportId === 'badminton' || sportId === 'tugofwar';
   const tbl = {};
   /* h2h[idA][idB] = { pts, gd } — points/goal-diff A earned in matches *against* B */
   const h2h = {};

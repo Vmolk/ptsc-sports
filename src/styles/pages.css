@@ -95,6 +95,23 @@
 .match-sport  { font-size: .82rem; color: var(--text-muted); }
 .match-venue  { font-size: .78rem; color: var(--text-dim); }
 
+/* ---- Football match events (goals / cards) ---- */
+.match-events {
+  grid-column: 1 / -1;
+  border-top: 1px dashed var(--line);
+  padding-top: 10px; margin-top: 4px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.event-row {
+  display: grid; grid-template-columns: 1fr 28px 1fr;
+  align-items: start; gap: 6px;
+}
+.event-col { display: flex; flex-direction: column; gap: 3px; }
+.event-home { align-items: flex-end; text-align: right; }
+.event-away { align-items: flex-start; text-align: left; }
+.event-icon { text-align: center; font-size: .9rem; line-height: 1.6; }
+.event-item { font-size: .78rem; color: var(--text-muted); }
+
 /* ---- Badges ---- */
 .badge {
   display: inline-block; padding: 2px 10px; border-radius: 999px;
