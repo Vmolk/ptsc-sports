@@ -100,16 +100,17 @@
   grid-column: 1 / -1;
   border-top: 1px dashed var(--line);
   padding-top: 10px; margin-top: 4px;
-  display: flex; flex-direction: column; gap: 6px;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
 }
 .event-row {
-  display: grid; grid-template-columns: 1fr 28px 1fr;
-  align-items: start; gap: 6px;
+  display: grid; grid-template-columns: 1fr 32px 1fr;
+  align-items: start; gap: 4px;
+  width: 100%; max-width: 480px;
 }
 .event-col { display: flex; flex-direction: column; gap: 3px; }
 .event-home { align-items: flex-end; text-align: right; }
 .event-away { align-items: flex-start; text-align: left; }
-.event-icon { text-align: center; font-size: .9rem; line-height: 1.6; }
+.event-icon { text-align: center; font-size: .9rem; line-height: 1.7; }
 .event-item { font-size: .78rem; color: var(--text-muted); }
 
 /* ---- Badges ---- */
