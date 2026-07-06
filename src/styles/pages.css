@@ -108,8 +108,8 @@
   width: 100%; max-width: 480px;
 }
 .event-col { display: flex; flex-direction: column; gap: 3px; }
-.event-home { align-items: flex-end; text-align: right; }
-.event-away { align-items: flex-start; text-align: left; }
+.event-home { align-items: flex-start; text-align: left; }
+.event-away { align-items: flex-end;   text-align: right; }
 .event-icon { text-align: center; font-size: .9rem; line-height: 1.7; }
 .event-item { font-size: .78rem; color: var(--text-muted); }
 
