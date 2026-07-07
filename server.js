@@ -14,6 +14,7 @@ import { handler as scorersHandler }     from './netlify/functions/scorers.js';
 import { handler as scheduleHandler }    from './netlify/functions/schedule.js';
 import { handler as galleryHandler }      from './netlify/functions/gallery.js';
 import { handler as participantsHandler } from './netlify/functions/participants.js';
+import { handler as medalsHandler }       from './netlify/functions/medals.js';
 import { handler as debugHandler }        from './netlify/functions/debug.js';
 
 const app  = express();
@@ -49,6 +50,7 @@ app.all('/api/scorers',     adapt(scorersHandler));
 app.all('/api/schedule',    adapt(scheduleHandler));
 app.all('/api/gallery',       adapt(galleryHandler));
 app.all('/api/participants', adapt(participantsHandler));
+app.all('/api/medals',      adapt(medalsHandler));
 app.all('/api/debug',       adapt(debugHandler));
 
 app.use(express.static(path.join(__dirname, 'dist')));
