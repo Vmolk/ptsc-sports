@@ -561,8 +561,18 @@ function OverallMedals({ data }) {
     }
   });
 
-  /* Tally medals per team/pair name */
+  /* Pre-populate tally with ALL teams from group standings (shows all 8 tổ even with 0 medals) */
   const tally = {};
+  const ensureTeam = name => { if (name && !tally[name]) tally[name] = { gold: 0, silver: 0, bronze: 0 }; };
+  data.forEach(sp => {
+    const collectStandings = bd => {
+      if (bd.groups) Object.values(bd.groups).forEach(g => g.standings?.forEach(s => ensureTeam(s.name)));
+    };
+    if (sp.hasCategories) sp.categories?.forEach(c => collectStandings(c));
+    else collectStandings(sp);
+  });
+
+  /* Add medal counts */
   const add = (name, type) => {
     if (!name) return;
     /* bronze can be "A / B" for joint bronze — split and count each */
