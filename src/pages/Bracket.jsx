@@ -572,61 +572,57 @@ function OverallMedals({ data }) {
   );
 
   return (
-    <div className="om-wrap">
-      {/* ── Per-sport medal summary ── */}
-      <div className="om-card">
-        <div className="om-card-title">🏅 Kết quả huy chương theo môn</div>
-        <table className="om-table">
-          <thead>
-            <tr>
-              <th style={{ textAlign: 'left' }}>Môn thi đấu</th>
-              <th>🥇 Vàng</th>
-              <th>🥈 Bạc</th>
-              <th>🥉 Đồng</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r, i) => (
-              <tr key={i}>
-                <td className="om-sport-name">
-                  {r.sportIcon} {r.sportName}
-                  {r.catName && <span className="om-cat">{r.catName}</span>}
-                </td>
-                <td className="om-gold">{r.gold   || <span className="om-empty">—</span>}</td>
-                <td className="om-silver">{r.silver || <span className="om-empty">—</span>}</td>
-                <td className="om-bronze">{r.bronze || <span className="om-empty">—</span>}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="om-layout">
+      {/* ── 8-team medal grid ── */}
+      <div className="om-tally-section">
+        <div className="om-card-title">🏆 Bảng tổng sắp</div>
+        <div className="om-team-grid">
+          {ranked.map((r, i) => (
+            <div key={r.name} className={`om-team-card rank-${i + 1}`}>
+              <span className={`om-rank-badge rank-${i + 1}`}>{i + 1}</span>
+              <div className="om-team-card-name">{r.name}</div>
+              <div className="om-team-card-medals">
+                <span className="om-medal-cell gold">
+                  <span className="om-medal-icon">🥇</span>
+                  <span className="om-medal-val">{r.gold}</span>
+                </span>
+                <span className="om-medal-cell silver">
+                  <span className="om-medal-icon">🥈</span>
+                  <span className="om-medal-val">{r.silver}</span>
+                </span>
+                <span className="om-medal-cell bronze">
+                  <span className="om-medal-icon">🥉</span>
+                  <span className="om-medal-val">{r.bronze}</span>
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* ── Medal tally ranking ── */}
-      {ranked.length > 0 && (
+      {/* ── Per-sport medal summary ── */}
+      {rows.length > 0 && (
         <div className="om-card">
-          <div className="om-card-title">🏆 Bảng tổng sắp</div>
+          <div className="om-card-title">🏅 Kết quả theo môn</div>
           <table className="om-table">
             <thead>
               <tr>
-                <th>#</th>
-                <th style={{ textAlign: 'left' }}>Đội / TỔ</th>
+                <th style={{ textAlign: 'left' }}>Môn thi đấu</th>
                 <th>🥇</th>
                 <th>🥈</th>
                 <th>🥉</th>
-                <th>Tổng</th>
               </tr>
             </thead>
             <tbody>
-              {ranked.map((r, i) => (
-                <tr key={r.name} className={i === 0 ? 'om-rank-1' : ''}>
-                  <td className="om-rank-pos">
-                    <span className={`om-rank-badge rank-${i + 1}`}>{i + 1}</span>
+              {rows.map((r, i) => (
+                <tr key={i}>
+                  <td className="om-sport-name">
+                    {r.sportIcon} {r.sportName}
+                    {r.catName && <span className="om-cat">{r.catName}</span>}
                   </td>
-                  <td className="om-team-name">{r.name}</td>
-                  <td className="om-cnt om-gold-cnt">{r.gold   || ''}</td>
-                  <td className="om-cnt om-silver-cnt">{r.silver || ''}</td>
-                  <td className="om-cnt om-bronze-cnt">{r.bronze || ''}</td>
-                  <td className="om-cnt om-total-cnt">{r.total}</td>
+                  <td className="om-gold">{r.gold   || <span className="om-empty">—</span>}</td>
+                  <td className="om-silver">{r.silver || <span className="om-empty">—</span>}</td>
+                  <td className="om-bronze">{r.bronze || <span className="om-empty">—</span>}</td>
                 </tr>
               ))}
             </tbody>
