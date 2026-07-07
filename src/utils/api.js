@@ -22,4 +22,5 @@ export const api = {
     return request(qs ? `/schedule?${qs}` : '/schedule');
   },
   getParticipants: (sport) => request(sport ? `/participants?sport=${sport}` : '/participants'),
+  getMedals:       ()      => request('/medals'),
 };
