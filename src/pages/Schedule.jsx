@@ -18,10 +18,10 @@ function TeamAvatar({ name, color, logo, size = 36 }) {
   );
 }
 
-/* Parse "Nguyễn A 23, Trần B 45+2" → [{name, min}] */
+/* Parse "Nguyễn A 23, Trần B 45+2" or "Nguyễn A 22; Nguyễn A 45" → [{name, min}] */
 function parseEvents(str) {
   if (!str?.trim()) return [];
-  return str.split(',').map(s => {
+  return str.split(/[,;]/).map(s => {
     const m = s.trim().match(/^(.+?)\s+(\d+(?:\+\d+)?)'?$/);
     return m ? { name: m[1].trim(), min: m[2] } : { name: s.trim(), min: '' };
   }).filter(e => e.name);
