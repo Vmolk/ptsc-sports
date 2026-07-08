@@ -565,7 +565,7 @@ function OverallMedals({ data }) {
   const { data: tallyData } = useFetch(() => api.getMedals(), []);
   const ranked = (tallyData || [])
     .map(t => ({ ...t, total: (t.gold || 0) + (t.silver || 0) + (t.bronze || 0) }))
-    .sort((a, b) => b.gold - a.gold || b.silver - a.silver || b.bronze - a.bronze || b.total - a.total);
+    .sort((a, b) => b.gold - a.gold || b.silver - a.silver || b.bronze - a.bronze || b.total - a.total || a.name.localeCompare(b.name, 'vi'));
 
   if (!rows.length && !ranked.length) return (
     <p style={{ color: 'var(--text-muted)', padding: '20px 0' }}>Chưa có kết quả huy chương.</p>

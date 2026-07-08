@@ -56,8 +56,8 @@ function MatchEvents({ m }) {
   return (
     <div className="match-events">
       <EventRow homeEvents={hG} awayEvents={aG} icon="⚽" />
-      <EventRow homeEvents={hY} awayEvents={aY} icon="🟡" />
-      <EventRow homeEvents={hR} awayEvents={aR} icon="🔴" />
+      <EventRow homeEvents={hY} awayEvents={aY} icon="🟨" />
+      <EventRow homeEvents={hR} awayEvents={aR} icon="🟥" />
     </div>
   );
 }
