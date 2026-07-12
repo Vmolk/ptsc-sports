@@ -619,7 +619,7 @@ function OverallMedals({ data }) {
               {rows.map((r, i) => (
                 <tr key={i}>
                   <td className="om-sport-name">
-                    {r.sportIcon} {r.sportName}
+                    <SportIcon icon={r.sportIcon} size="1.1em" /> {r.sportName}
                     {r.catName && <span className="om-cat">{r.catName}</span>}
                   </td>
                   <td className="om-gold">{r.gold   || <span className="om-empty">—</span>}</td>
