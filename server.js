@@ -60,10 +60,14 @@ app.use('/assets', express.static(path.join(__dirname, 'dist/assets'), {
   immutable: true,
 }));
 
-/* Everything else in dist (index.html, favicon, images) — no cache
-   so users always get the latest HTML shell. */
-app.use(express.static(path.join(__dirname, 'dist'), { maxAge: 0 }));
+/* Other static files (favicon, images, robots.txt…) — short cache, revalidation required.
+   index: false prevents express.static from auto-serving index.html so that the
+   catch-all below can add Cache-Control: no-store to every HTML response. */
+app.use(express.static(path.join(__dirname, 'dist'), { maxAge: 0, index: false }));
 
+/* SPA fallback — serve index.html for ALL paths (including /) with no-store so
+   Cloudflare/CDN never caches the HTML shell. Users always get the freshest
+   index.html, which references the current hashed JS/CSS bundles. */
 app.get('*', (_req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
