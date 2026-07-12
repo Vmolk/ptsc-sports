@@ -12,10 +12,6 @@ import NotFound from './pages/NotFound.jsx';
 class PageErrorBoundary extends Component {
   constructor(props) { super(props); this.state = { crashed: false }; }
   static getDerivedStateFromError() { return { crashed: true }; }
-  componentDidUpdate(prevProps) {
-    /* Reset when the user navigates to a different page */
-    if (prevProps.routeKey !== this.props.routeKey) this.setState({ crashed: false });
-  }
   render() {
     if (this.state.crashed) return (
       <div style={{ padding: '60px 24px', textAlign: 'center', color: 'var(--text-muted)' }}>
@@ -40,7 +36,7 @@ function ScrollToTop() {
 function AppRoutes() {
   const { pathname } = useLocation();
   return (
-    <PageErrorBoundary routeKey={pathname}>
+    <PageErrorBoundary key={pathname}>
       <Routes>
         <Route path="/"         element={<Home />} />
         <Route path="/bracket"  element={<Bracket />} />
