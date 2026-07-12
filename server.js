@@ -53,9 +53,20 @@ app.all('/api/participants', adapt(participantsHandler));
 app.all('/api/medals',      adapt(medalsHandler));
 app.all('/api/debug',       adapt(debugHandler));
 
-app.use(express.static(path.join(__dirname, 'dist')));
-app.get('*', (_req, res) =>
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
-);
+/* Hashed assets (JS/CSS chunks) — cache aggressively for 30 days.
+   Vite generates content-hashed filenames so stale content is never an issue. */
+app.use('/assets', express.static(path.join(__dirname, 'dist/assets'), {
+  maxAge: '30d',
+  immutable: true,
+}));
+
+/* Everything else in dist (index.html, favicon, images) — no cache
+   so users always get the latest HTML shell. */
+app.use(express.static(path.join(__dirname, 'dist'), { maxAge: 0 }));
+
+app.get('*', (_req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
