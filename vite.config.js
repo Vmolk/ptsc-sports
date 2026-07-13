@@ -7,14 +7,6 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
-    // Split vendor code so the main bundle stays small (faster first load)
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'vendors': ['react', 'react-dom', 'react-router-dom'],
-        },
-      },
-    },
   },
   server: {
     port: 5173,
