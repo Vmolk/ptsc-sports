@@ -5,17 +5,17 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import { handler as statsHandler }       from './netlify/functions/stats.js';
-import { handler as sportsHandler }      from './netlify/functions/sports.js';
-import { handler as teamsHandler }       from './netlify/functions/teams.js';
-import { handler as leaderboardHandler } from './netlify/functions/leaderboard.js';
-import { handler as bracketHandler }     from './netlify/functions/bracket.js';
-import { handler as scorersHandler }     from './netlify/functions/scorers.js';
-import { handler as scheduleHandler }    from './netlify/functions/schedule.js';
-import { handler as galleryHandler }      from './netlify/functions/gallery.js';
-import { handler as participantsHandler } from './netlify/functions/participants.js';
-import { handler as medalsHandler }       from './netlify/functions/medals.js';
-import { handler as debugHandler }        from './netlify/functions/debug.js';
+import { handler as statsHandler }       from './functions/stats.js';
+import { handler as sportsHandler }      from './functions/sports.js';
+import { handler as teamsHandler }       from './functions/teams.js';
+import { handler as leaderboardHandler } from './functions/leaderboard.js';
+import { handler as bracketHandler }     from './functions/bracket.js';
+import { handler as scorersHandler }     from './functions/scorers.js';
+import { handler as scheduleHandler }    from './functions/schedule.js';
+import { handler as galleryHandler }      from './functions/gallery.js';
+import { handler as participantsHandler } from './functions/participants.js';
+import { handler as medalsHandler }       from './functions/medals.js';
+import { handler as debugHandler }        from './functions/debug.js';
 
 const app  = express();
 const PORT = process.env.PORT || 3000;

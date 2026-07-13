@@ -134,6 +134,8 @@ const CATEGORY_SPORTS = ['badminton', 'pickleball'];
 
 /* ── Team-grouped grid (for football / tugofwar) ── */
 function ParticipantsGrid({ participants, teams, sportId }) {
+  const { t } = useLanguage();
+
   if (!participants?.length) return (
     <p style={{ color: 'var(--text-muted)', fontSize: '.88rem', padding: '12px 0' }}>
       {t('no_athletes')}

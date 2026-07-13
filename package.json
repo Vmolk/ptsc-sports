@@ -3,13 +3,12 @@
   "private": true,
   "version": "3.0.0",
   "type": "module",
-  "description": "QAQC Sport Tournament — React + Vite frontend, Netlify Functions backend, Google Sheets data source.",
+  "description": "QAQC Sport Tournament — React + Vite frontend, Express backend, Google Sheets data source.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "start": "node server.js",
-    "dev:netlify": "netlify dev",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {

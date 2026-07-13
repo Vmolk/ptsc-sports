@@ -1,6 +1,6 @@
 import { ok, fail, handlePreflight } from './_shared.js';
 import { fetchSheet, toInt } from './_sheets.js';
-import { schedule, teams, sports } from '../../data/eventData.js';
+import { schedule, teams, sports } from '../data/eventData.js';
 
 const staticTeamById  = Object.fromEntries(teams.map((t) => [t.id, t]));
 const staticSportById = Object.fromEntries(sports.map((s) => [s.id, s]));

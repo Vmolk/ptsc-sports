@@ -7,7 +7,7 @@
  */
 import { ok, fail, handlePreflight } from './_shared.js';
 import { fetchSheet, toInt } from './_sheets.js';
-import { schedule, teams as staticTeams, sports as staticSports } from '../../data/eventData.js';
+import { schedule, teams as staticTeams, sports as staticSports } from '../data/eventData.js';
 
 const ROUND_ORDER = { group: 0, r16: 1, qf: 2, sf: 3, '3rd': 4, final: 5 };
 export const ROUND_LABEL = {

@@ -3,8 +3,8 @@
 A complete, production-ready full-stack website for the **PTSC M&C Sports Day 2026** event (celebrating 25 years, 2001–2026). Built as a recreation of the reference site at `ptsc.pikoclub.com`.
 
 - **Frontend:** React 18 + Vite + React Router (responsive, SEO-optimized, VI/EN bilingual)
-- **Backend:** Netlify Functions (serverless) with a clean JSON API
-- **Deploy target:** Netlify (one-click via `netlify.toml`)
+- **Backend:** Express (`server.js`) with a clean JSON API, one handler module per endpoint
+- **Deploy target:** Render (via `render.yaml`)
 
 ---
 
@@ -28,7 +28,8 @@ Plus: responsive mobile menu, language toggle (Vietnamese/English), 404 page, lo
 ```
 ptsc-sports/
 ├── package.json              # Dependencies + scripts
-├── netlify.toml              # Build, functions dir, redirects, headers
+├── server.js                 # Express server (serves API + built frontend) — Render entry point
+├── render.yaml                # Render service config
 ├── vite.config.js            # Vite config + /api dev proxy + vendor splitting
 ├── .env.example              # Environment variable template
 ├── .gitignore
@@ -42,7 +43,7 @@ ptsc-sports/
 ├── data/
 │   └── eventData.js          # ⭐ Single source of truth for all event data
 │
-├── netlify/functions/        # 🔧 Serverless backend (one file per endpoint)
+├── functions/                # 🔧 Backend handlers (one file per endpoint, mounted by server.js)
 │   ├── _shared.js            # Shared response/CORS helpers
 │   ├── stats.js              # GET /api/stats
 │   ├── sports.js             # GET /api/sports
@@ -95,7 +96,7 @@ All endpoints return a JSON envelope: `{ "success": true, "data": ... }` or `{ "
 | GET | `/api/gallery` | `day` | Gallery items |
 | POST | `/api/login` | body: `{ username, password }` | `{ token, user }` on success |
 
-> In production Netlify rewrites `/api/*` → `/.netlify/functions/*` (see `netlify.toml`).
+> In production, `server.js` mounts each handler in `functions/` directly on `/api/*` (see `server.js`).
 
 ---
 
@@ -117,16 +118,13 @@ cp .env.example .env
 
 ### 3. Run the dev server
 
-**Option A — Full stack (recommended):** runs frontend + serverless functions together.
+**Option A — Full stack (recommended):** run the API server and the Vite dev server side by side (two terminals).
 ```bash
-npm install -g netlify-cli   # one-time
-netlify dev                  # serves at http://localhost:8888
+npm start                    # terminal 1 — API on http://localhost:3000
+npm run dev                  # terminal 2 — frontend on http://localhost:5173 (proxies /api → :3000)
 ```
 
-**Option B — Frontend only:** the Vite proxy forwards `/api` to a local functions server on port 9999 if you run one; otherwise use Option A for working API calls.
-```bash
-npm run dev                  # serves at http://localhost:5173
-```
+**Option B — Frontend only:** `npm run dev` alone serves the UI, but `/api` calls will fail (`ECONNREFUSED`) unless the server from Option A is also running.
 
 ### 4. Build for production
 ```bash
@@ -143,25 +141,16 @@ password: ptsc2026
 
 ---
 
-## ☁️ Deploying to Netlify
+## ☁️ Deploying to Render
 
-### Method 1 — Git (recommended)
 1. Push this project to a GitHub/GitLab repository.
-2. In Netlify: **Add new site → Import an existing project** → pick your repo.
-3. Netlify auto-detects `netlify.toml`. Confirm settings:
+2. In Render: **New → Blueprint** → pick your repo. Render auto-detects `render.yaml`:
    - **Build command:** `npm run build`
-   - **Publish directory:** `dist`
-   - **Functions directory:** `netlify/functions`
-4. Add environment variables under **Site settings → Environment variables** (see below).
-5. **Deploy.** Done. ✅
+   - **Start command:** `node server.js`
+3. Add environment variables under **Service → Environment** (see below).
+4. **Deploy.** Done. ✅
 
-### Method 2 — Drag & drop / CLI
-```bash
-npm install && npm run build
-netlify deploy --prod        # or drag the project folder into the Netlify UI
-```
-
-### Required environment variables (set in Netlify dashboard)
+### Required environment variables (set in Render dashboard)
 | Variable | Example | Notes |
 |----------|---------|-------|
 | `VITE_API_BASE_URL` | `/api` | Frontend API base path |
@@ -191,7 +180,7 @@ Every serverless function imports from `data/eventData.js`. To use a database (P
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Vite dev server (frontend only) |
-| `npm run dev:netlify` | Full stack via Netlify CLI |
+| `npm start` | Express server (API + built frontend) — same as production |
 | `npm run build` | Production build → `dist/` |
 | `npm run preview` | Preview the production build |
 | `npm run lint` | Lint source code |

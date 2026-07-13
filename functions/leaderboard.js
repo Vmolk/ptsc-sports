@@ -1,6 +1,6 @@
 import { ok, fail, handlePreflight } from './_shared.js';
 import { fetchSheet, toInt } from './_sheets.js';
-import { teams, medals, individualMedals } from '../../data/eventData.js';
+import { teams, medals, individualMedals } from '../data/eventData.js';
 
 /* ---- Team leaderboard ---- */
 function calcTeamTable(medalRows, teamRows) {

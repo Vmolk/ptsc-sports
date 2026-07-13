@@ -9,7 +9,7 @@ import {
   participants as staticParticipants,
   teams as staticTeams,
   sports as staticSports,
-} from '../../data/eventData.js';
+} from '../data/eventData.js';
 
 export async function handler(event) {
   const pre = handlePreflight(event);

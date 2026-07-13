@@ -10,13 +10,12 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    // During `vite` dev, proxy /api calls to a locally running function server.
-    // When using `netlify dev`, Netlify handles routing instead (port 8888).
+    // During `vite` dev, proxy /api calls to a locally running `node server.js`
+    // (the same Express server used in production on Render).
     proxy: {
       '/api': {
-        target: 'http://localhost:9999',
+        target: 'http://localhost:3000',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '/.netlify/functions'),
       },
     },
   },

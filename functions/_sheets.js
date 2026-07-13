@@ -1,5 +1,5 @@
 /**
- * netlify/functions/_sheets.js
+ * functions/_sheets.js
  * Fetch data from a public Google Sheet published as CSV.
  * No API key needed — sheet must be published via:
  *   File → Share → Publish to web → CSV

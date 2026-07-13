@@ -1,6 +1,6 @@
 import { ok, fail, handlePreflight } from './_shared.js';
 import { fetchSheet, toInt } from './_sheets.js';
-import { event as se, sports as ss, teams as st, athletes as sa, schedule as sch } from '../../data/eventData.js';
+import { event as se, sports as ss, teams as st, athletes as sa, schedule as sch } from '../data/eventData.js';
 
 export async function handler(req) {
   const pre = handlePreflight(req);
