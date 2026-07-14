@@ -36,7 +36,7 @@ export default function Navbar() {
           />
           <div>
             <span className="brand-text">HỘI THAO</span>
-            <span className="brand-sub">Phòng Quản Lý Chất Lượng- XDTD</span>
+            <span className="brand-sub">Phòng Quản Lý Chất Lượng</span>
           </div>
         </Link>
 
