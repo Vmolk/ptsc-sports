@@ -22,7 +22,7 @@ export default function Home() {
       {/* ── HERO — full banner image, countdown overlaid at bottom ── */}
       <section className="hero">
         {/* Full image — never cropped */}
-        <img src="/hero-bg.png" alt="Hội Thao Phòng Quản Lý Chất LượngP 2026"
+        <img src="/hero-bg.png" alt="Hội Thao Phòng Quản Lý Chất Lượng 2026"
           className="hero-bg-img" />
 
         {/* Overlay: title + countdown + CTA */}
