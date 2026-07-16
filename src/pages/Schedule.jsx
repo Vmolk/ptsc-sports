@@ -237,8 +237,11 @@ export default function Schedule() {
                           <span className={`match-score ${m.homeScore == null ? 'tbd' : ''}`}>
                             {m.homeScore == null ? 'vs' : `${m.homeScore} – ${m.awayScore}`}
                             {m.homePens != null && (
-                              <span style={{ display: 'block', fontSize: '.72rem', fontWeight: 500, color: 'var(--text-muted)', letterSpacing: 0 }}>
-                                (P: {m.homePens}–{m.awayPens})
+                              <span style={{
+                                display: 'block', fontSize: '.78rem', fontWeight: 600,
+                                color: 'var(--blue)', letterSpacing: 0, whiteSpace: 'nowrap',
+                              }}>
+                                Phạt luân lưu: {m.homePens} – {m.awayPens}
                               </span>
                             )}
                           </span>
