@@ -107,6 +107,8 @@ export async function handler(event) {
       away:      m.away,
       homeScore: m.home_score !== '' && m.home_score != null ? toInt(m.home_score, null) : null,
       awayScore: m.away_score !== '' && m.away_score != null ? toInt(m.away_score, null) : null,
+      homePens:  m.home_pens  !== '' && m.home_pens  != null ? toInt(m.home_pens,  null) : null,
+      awayPens:  m.away_pens  !== '' && m.away_pens  != null ? toInt(m.away_pens,  null) : null,
       status:    resolveStatus(m.status, m.date, m.time || m.match_time, sportId),
       sportName: sp.name  ?? sportId,
       sportIcon: ICON_OVERRIDES[sp.id] ?? sp.icon  ?? '🏅',

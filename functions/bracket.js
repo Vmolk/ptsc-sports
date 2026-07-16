@@ -95,6 +95,7 @@ function enrich(m, teamById) {
     groupName: m.groupName || '', category: m.category || '',
     home: m.home, away: m.away,
     homeScore: m.homeScore, awayScore: m.awayScore,
+    homePens:  m.homePens  ?? null, awayPens:  m.awayPens  ?? null,
     homeName:  home.name  ?? m.home,  homeColor: home.color ?? '#888', homeLogo: home.logo ?? '',
     awayName:  away.name  ?? m.away,  awayColor: away.color ?? '#888', awayLogo: away.logo ?? '',
     date: m.date ?? '', time: m.time ?? '', status: m.status ?? '',
@@ -156,6 +157,8 @@ export async function handler(event) {
         home: m.home, away: m.away,
         homeScore: (m.home_score !== '' && m.home_score != null) ? toInt(m.home_score, null) : null,
         awayScore: (m.away_score !== '' && m.away_score != null) ? toInt(m.away_score, null) : null,
+        homePens:  (m.home_pens  !== '' && m.home_pens  != null) ? toInt(m.home_pens,  null) : null,
+        awayPens:  (m.away_pens  !== '' && m.away_pens  != null) ? toInt(m.away_pens,  null) : null,
         date: m.date || '', time: m.time || m.match_time || '', status: m.status || '',
       }))
     : schedule.map(m => ({

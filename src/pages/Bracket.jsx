@@ -62,21 +62,32 @@ function VBName({ name }) {
 function VBMatch({ m, showAvatar = false }) {
   if (!m) return <div className="vb-match vb-empty" />;
   const played  = m.homeScore != null && m.awayScore != null;
-  const homeWin = played && m.homeScore > m.awayScore;
-  const awayWin = played && m.awayScore > m.homeScore;
+  const hasPens = played && m.homePens != null && m.awayPens != null;
+  const homeWin = played && (m.homeScore > m.awayScore || (hasPens && m.homePens > m.awayPens));
+  const awayWin = played && (m.awayScore > m.homeScore || (hasPens && m.awayPens > m.homePens));
   return (
     <div className="vb-match">
       <div className={`vb-team ${homeWin ? 'winner' : ''}`}>
         {showAvatar && <TeamAvatar name={m.homeName} short={m.homeColor?.slice(1,4)}
                     color={m.homeColor} logo={m.homeLogo} size={40} />}
         <VBName name={m.homeName} />
-        {played && <span className="vb-score">{m.homeScore}</span>}
+        {played && (
+          <span className="vb-score">
+            {m.homeScore}
+            {hasPens && <span style={{ fontSize: '.7em', fontWeight: 400, opacity: .75 }}> ({m.homePens})</span>}
+          </span>
+        )}
       </div>
       <div className={`vb-team ${awayWin ? 'winner' : ''}`}>
         {showAvatar && <TeamAvatar name={m.awayName} short={m.awayColor?.slice(1,4)}
                     color={m.awayColor} logo={m.awayLogo} size={40} />}
         <VBName name={m.awayName} />
-        {played && <span className="vb-score">{m.awayScore}</span>}
+        {played && (
+          <span className="vb-score">
+            {m.awayScore}
+            {hasPens && <span style={{ fontSize: '.7em', fontWeight: 400, opacity: .75 }}> ({m.awayPens})</span>}
+          </span>
+        )}
       </div>
     </div>
   );
@@ -327,14 +338,16 @@ function computeMedals(data) {
   if (rounds) {
     const finalM = rounds['final']?.matches?.[0];
     if (finalM?.homeScore != null && finalM?.awayScore != null) {
-      const hw = finalM.homeScore > finalM.awayScore;
+      const hasPens = finalM.homePens != null && finalM.awayPens != null;
+      const hw = finalM.homeScore > finalM.awayScore || (hasPens && finalM.homePens > finalM.awayPens);
       result.gold   = hw ? finalM.homeName : finalM.awayName;
       result.silver = hw ? finalM.awayName : finalM.homeName;
     }
 
     const thirdM = rounds['3rd']?.matches?.[0];
     if (thirdM?.homeScore != null && thirdM?.awayScore != null) {
-      result.bronze = thirdM.homeScore > thirdM.awayScore ? thirdM.homeName : thirdM.awayName;
+      const hasPens3 = thirdM.homePens != null && thirdM.awayPens != null;
+      result.bronze = (thirdM.homeScore > thirdM.awayScore || (hasPens3 && thirdM.homePens > thirdM.awayPens)) ? thirdM.homeName : thirdM.awayName;
     } else if (!result.bronze) {
       /* Fallback: SF losers = joint bronze */
       const sfLosers = (rounds['sf']?.matches || [])

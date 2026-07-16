@@ -218,8 +218,9 @@ export default function Schedule() {
 
                     {(() => {
                       const played  = m.homeScore != null && m.awayScore != null;
-                      const homeWin = played && m.homeScore > m.awayScore;
-                      const awayWin = played && m.awayScore > m.homeScore;
+                      const hasPens = played && m.homePens != null && m.awayPens != null;
+                      const homeWin = played && (m.homeScore > m.awayScore || (hasPens && m.homePens > m.awayPens));
+                      const awayWin = played && (m.awayScore > m.homeScore || (hasPens && m.awayPens > m.homePens));
                       /* Hide avatar for pairs and when no real logo (only football has logos) */
                       const isPair  = name => name?.includes('–') || name?.includes(' - ');
                       const hideHomeAvatar = isPair(m.homeName) || !m.homeLogo;
@@ -235,6 +236,11 @@ export default function Schedule() {
                           </span>
                           <span className={`match-score ${m.homeScore == null ? 'tbd' : ''}`}>
                             {m.homeScore == null ? 'vs' : `${m.homeScore} – ${m.awayScore}`}
+                            {m.homePens != null && (
+                              <span style={{ display: 'block', fontSize: '.72rem', fontWeight: 500, color: 'var(--text-muted)', letterSpacing: 0 }}>
+                                (P: {m.homePens}–{m.awayPens})
+                              </span>
+                            )}
                           </span>
                           <span className="match-team away" style={{
                             fontWeight: awayWin ? 700 : 400,
